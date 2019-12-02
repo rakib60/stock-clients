@@ -3,8 +3,9 @@ import { BrowserRouter, Route, Switch} from 'react-router-dom'
 import './App.css';
 
 import {Home} from './components/Home'
-import { Category } from './components/Category'
-import { Product } from './components/Product'
+import { Category } from './components/categories/Category'
+import { Product } from './components/products/Product'
+import { Voucher} from './components/voucher/Voucher'
 import {Navigation } from './components/Navigation'
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route path="/" component={Home} exact/>
               <Route path="/category" component={Category}/>
               <Route path="/product" component={Product} />
+              <Route path="/voucher" component={Voucher} />
 
             </Switch>
         </div>

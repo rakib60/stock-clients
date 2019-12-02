@@ -1,18 +1,16 @@
 import React, {Component} from 'react'
 import { Modal, Button, Row, Col, Form } from  'react-bootstrap'
-import stockApi from '../api/StockApi'
+import stockApi from '../../api/StockApi'
 
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 
-export class AddCategoryModal extends Component {
+export class EditVoucherModal extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = { snackBarOpen: false, snackBarMsg: ''}
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
-   
 
     snackbarClose = (event) => {
         this.setState({snackBarOpen:false});
@@ -21,23 +19,22 @@ export class AddCategoryModal extends Component {
     async handleSubmit(event) {
         event.preventDefault()
         const data = {
-            id:null,
-            name: event.target.CategoryName.value
+            id: event.target.VoucherId.value,
+            name: event.target.VoucherName.value
         }
+
+        const id = data.id;
         
         try {
-            const response = await stockApi.post('/categories', data);
+            const response = await stockApi.patch(`/categories/${id}`, data);
             this.setState({snackBarOpen: true, snackBarMsg: response.data})
             const getData = await stockApi.get('/categories');
             if(this.props.getdata) {
                 this.props.getdata(getData.data)
             }
-            
         } catch(error) {
             this.setState({snackBarOpen: true, snackBarMsg: 'Failed'})
-            alert('Failed')
          }
-        
     }
 
     render() {
@@ -68,7 +65,7 @@ export class AddCategoryModal extends Component {
                     >
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                        Add Category
+                        Edit Voucher
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -76,17 +73,29 @@ export class AddCategoryModal extends Component {
                             <Row>
                                 <Col sm={6}>
                                     <Form onSubmit={this.handleSubmit}>
-                                        <Form.Group controlId="CategoryName">
-                                            <Form.Label>CategoryName</Form.Label>
+                                        <Form.Group controlId="VoucherId">
+                                            <Form.Label>VoucherId</Form.Label>
                                             <Form.Control
                                                 type="text"
-                                                name="CategoryName"
+                                                name="VoucherId"
                                                 required
-                                                placeholder="Category Name"
+                                                disabled
+                                                defaultValue = {this.props.cid}
+                                                placeholder="VoucherId"
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="VoucherName">
+                                            <Form.Label>VoucherName</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="VoucherName"
+                                                required
+                                                defaultValue = {this.props.cname}
+                                                placeholder="Voucher Name"
                                             />
                                         </Form.Group>
                                         <Form.Group>
-                                            <Button variant="primary" type="submit">Add Category</Button>
+                                            <Button variant="primary" type="submit">Update Voucher</Button>
                                         </Form.Group>
                                     </Form>
                                 </Col>
