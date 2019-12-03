@@ -7,8 +7,10 @@ import IconButton from '@material-ui/core/IconButton'
 export class AddVoucherModal extends Component {
     constructor(props) {
         super(props)
-        this.state = { snackBarOpen: false, snackBarMsg: ''}
+        this.state = { snackBarOpen: false, snackBarMsg: '', selectedFile: null}
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onChangeHandler = this.onChangeHandler.bind(this)
+       
     }
 
 
@@ -16,15 +18,26 @@ export class AddVoucherModal extends Component {
         this.setState({snackBarOpen:false});
     }
 
+
+    onChangeHandler(event) {
+        event.preventDefault()
+        this.setState({
+            selectedFile: event.target.files[0],
+            loaded: 0,
+          })
+    }
+
     async handleSubmit(event) {
         event.preventDefault()
-        const data = {
-            id:null,
-            name: event.target.VoucherNumber.value
-        }
-        
+        var data = new FormData()
+
+        data.append('id',null)
+        data.append('file',this.state.selectedFile);
+        data.append('number', event.target.VoucherNumber.value)
+
         try {
             const response = await stockApi.post('/voucher', data);
+            console.log('xxxxxxxxxx',response)
             this.setState({snackBarOpen: true, snackBarMsg: response.data})
             const getData = await stockApi.get('/voucher');
             if(this.props.getdata) {
@@ -93,6 +106,8 @@ export class AddVoucherModal extends Component {
                                                 required
                                                 placeholder="Voucher file"
                                                 autoComplete="off"
+                                                encType="multipart/form-data"
+                                                onChange={this.onChangeHandler}
 
                                             />
                                         </Form.Group>
