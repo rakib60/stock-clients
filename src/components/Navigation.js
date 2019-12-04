@@ -19,6 +19,12 @@ export class Navigation extends Component {
                     to="/product">Product</NavLink>
                     <NavLink className="d-inline p-2 bg-dark text-white"
                     to="/voucher">Voucher</NavLink>
+                    <NavLink className="d-inline p-2 bg-dark text-white"
+                    to="/stockin">StockIn</NavLink>
+                    <NavLink className="d-inline p-2 bg-dark text-white"
+                    to="/requisition">Requisition</NavLink>
+                    <NavLink className="d-inline p-2 bg-dark text-white"
+                    to="/stockout">StockOut</NavLink>
                 </Nav>
                 </Navbar.Collapse>
             </Navbar>

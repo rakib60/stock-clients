@@ -5,41 +5,40 @@ import stockApi from '../../api/StockApi'
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 
-export class EditVoucherModal extends Component {
+export class EditProductModal extends Component {
     constructor(props) {
         super(props);
-        this.state = { snackBarOpen: false, snackBarMsg: '', selectedFile: null}
+        this.state = {categories: [], snackBarOpen: false, snackBarMsg: ''}
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.onChangeHandler = this.onChangeHandler.bind(this)
+    }
+
+
+    async componentDidMount() {
+        const response = await stockApi.get('/categories');
+        this.setState({categories: response.data})
     }
 
     snackbarClose = (event) => {
         this.setState({snackBarOpen:false});
     }
 
-    onChangeHandler(event) {
-        event.preventDefault()
-        this.setState({
-            selectedFile: event.target.files[0],
-            loaded: 0,
-          })
-    }
-
     async handleSubmit(event) {
+        console.log(event.target.CategoryName.value,'ggggggggg')
         event.preventDefault()
-        var data = new FormData()
+        const data = {
+            id: event.target.ProductId.value,
+            name: event.target.ProductName.value,
+            description: event.target.ProductDescription.value,
+            categoryId: event.target.CategoryName.value,
+            
+        }
 
-        data.append('id',event.target.VoucherId.value)
-        data.append('file',this.state.selectedFile);
-        data.append('number', event.target.VoucherNumber.value)
-
-        const id = event.target.VoucherId.value;
-        
+        const id = data.id;
         
         try {
-            const response = await stockApi.patch(`/voucher/${id}`, data);
+            const response = await stockApi.patch(`/products/${id}`, data);
             this.setState({snackBarOpen: true, snackBarMsg: response.data})
-            const getData = await stockApi.get('/voucher');
+            const getData = await stockApi.get('/products');
             if(this.props.getdata) {
                 this.props.getdata(getData.data)
             }
@@ -76,7 +75,7 @@ export class EditVoucherModal extends Component {
                     >
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                        Edit Voucher
+                        Edit Product
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -84,40 +83,49 @@ export class EditVoucherModal extends Component {
                             <Row>
                                 <Col sm={6}>
                                     <Form onSubmit={this.handleSubmit}>
-                                        <Form.Group controlId="VoucherId">
-                                            <Form.Label>VoucherId</Form.Label>
+                                        <Form.Group controlId="ProductId">
+                                            <Form.Label>ProductId</Form.Label>
                                             <Form.Control
-                                                type="number"
-                                                name="VoucherId"
+                                                type="text"
+                                                name="ProductId"
                                                 required
                                                 disabled
-                                                defaultValue = {this.props.vid}
-                                                placeholder="VoucherId"
+                                                defaultValue = {this.props.pid}
+                                                placeholder="ProductId"
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="VoucherNumber">
-                                            <Form.Label>VoucherNumber</Form.Label>
+                                        <Form.Group controlId="ProductName">
+                                            <Form.Label>ProductName</Form.Label>
                                             <Form.Control
-                                                type="number"
-                                                name="VoucherNumber"
+                                                type="text"
+                                                name="ProductName"
                                                 required
-                                                defaultValue = {this.props.vnumber}
-                                                placeholder="Voucher Number"
+                                                defaultValue = {this.props.pname}
+                                                placeholder="Category Name"
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="VoucherFile">
-                                            <Form.Label>VoucherFile</Form.Label>
+                                        <Form.Group controlId="ProductDescription">
+                                            <Form.Label>ProductDescription</Form.Label>
                                             <Form.Control
-                                                type="file"
-                                                name="VoucherFile"
-                                                placeholder="Voucher file"
-                                                encType="multipart/form-data"
-                                                onChange={this.onChangeHandler}
-
+                                                type="text"
+                                                name="ProductDescription"
+                                                required
+                                                defaultValue = {this.props.pdes}
+                                                placeholder="Product Description"
                                             />
+                                        </Form.Group>
+                                        <Form.Group controlId="CategoryName">
+                                            <Form.Label>CategoryName</Form.Label>
+                                            <Form.Control as="select" defaultValue = {this.props.cid}>
+                                              {this.state.categories.map(category => 
+                                                 <option key={category.id}  value={category.id}>
+                                                     {category.name}
+                                                 </option>       
+                                            )}  
+                                            </Form.Control>
                                         </Form.Group>
                                         <Form.Group>
-                                            <Button variant="primary" type="submit">Update Voucher</Button>
+                                            <Button variant="primary" type="submit">Update Product</Button>
                                         </Form.Group>
                                     </Form>
                                 </Col>

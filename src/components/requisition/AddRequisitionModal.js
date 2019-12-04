@@ -4,18 +4,20 @@ import stockApi from '../../api/StockApi'
 
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
-
-export class EditVoucherModal extends Component {
+export class AddRequisitionModal extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = { snackBarOpen: false, snackBarMsg: '', selectedFile: null}
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this)
+       
     }
+
 
     snackbarClose = (event) => {
         this.setState({snackBarOpen:false});
     }
+
 
     onChangeHandler(event) {
         event.preventDefault()
@@ -29,23 +31,24 @@ export class EditVoucherModal extends Component {
         event.preventDefault()
         var data = new FormData()
 
-        data.append('id',event.target.VoucherId.value)
+        data.append('id',null)
         data.append('file',this.state.selectedFile);
-        data.append('number', event.target.VoucherNumber.value)
+        data.append('number', event.target.RequisitionNumber.value)
+        data.append('location', event.target.Location.value)
 
-        const id = event.target.VoucherId.value;
-        
-        
         try {
-            const response = await stockApi.patch(`/voucher/${id}`, data);
+            const response = await stockApi.post('/requisition', data);
             this.setState({snackBarOpen: true, snackBarMsg: response.data})
-            const getData = await stockApi.get('/voucher');
+            const getData = await stockApi.get('/requisition');
             if(this.props.getdata) {
                 this.props.getdata(getData.data)
             }
+            
         } catch(error) {
             this.setState({snackBarOpen: true, snackBarMsg: 'Failed'})
+            alert('Failed')
          }
+        
     }
 
     render() {
@@ -76,7 +79,7 @@ export class EditVoucherModal extends Component {
                     >
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                        Edit Voucher
+                        Add Requisition
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -84,40 +87,43 @@ export class EditVoucherModal extends Component {
                             <Row>
                                 <Col sm={6}>
                                     <Form onSubmit={this.handleSubmit}>
-                                        <Form.Group controlId="VoucherId">
-                                            <Form.Label>VoucherId</Form.Label>
+                                        <Form.Group controlId="RequisitionNumber">
+                                            <Form.Label>RequisitionNumber</Form.Label>
                                             <Form.Control
                                                 type="number"
-                                                name="VoucherId"
+                                                name="RequisitionNumber"
                                                 required
-                                                disabled
-                                                defaultValue = {this.props.vid}
-                                                placeholder="VoucherId"
+                                                placeholder="Requisition Number"
+                                                autoComplete="off"
+
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="VoucherNumber">
-                                            <Form.Label>VoucherNumber</Form.Label>
+                                        <Form.Group controlId="Location">
+                                            <Form.Label>Location</Form.Label>
                                             <Form.Control
-                                                type="number"
-                                                name="VoucherNumber"
+                                                type="text"
+                                                name="Location"
                                                 required
-                                                defaultValue = {this.props.vnumber}
-                                                placeholder="Voucher Number"
+                                                placeholder="Location"
+                                                autoComplete="off"
+
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="VoucherFile">
-                                            <Form.Label>VoucherFile</Form.Label>
+                                        <Form.Group controlId="RequisitionFile">
+                                            <Form.Label>RequisitionFile</Form.Label>
                                             <Form.Control
                                                 type="file"
-                                                name="VoucherFile"
-                                                placeholder="Voucher file"
+                                                name="RequisitionFile"
+                                                required
+                                                placeholder="Requisition file"
+                                                autoComplete="off"
                                                 encType="multipart/form-data"
                                                 onChange={this.onChangeHandler}
 
                                             />
                                         </Form.Group>
                                         <Form.Group>
-                                            <Button variant="primary" type="submit">Update Voucher</Button>
+                                            <Button variant="primary" type="submit">Add Requisition</Button>
                                         </Form.Group>
                                     </Form>
                                 </Col>

@@ -4,48 +4,44 @@ import stockApi from '../../api/StockApi'
 
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
-
-export class EditVoucherModal extends Component {
+export class AddProductModal extends Component {
     constructor(props) {
-        super(props);
-        this.state = { snackBarOpen: false, snackBarMsg: '', selectedFile: null}
+        super(props)
+        this.state = {categories: [], snackBarOpen: false, snackBarMsg: ''}
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.onChangeHandler = this.onChangeHandler.bind(this)
     }
 
+    async componentDidMount() {
+        const response = await stockApi.get('/categories');
+        this.setState({categories: response.data})
+    }
     snackbarClose = (event) => {
         this.setState({snackBarOpen:false});
     }
 
-    onChangeHandler(event) {
-        event.preventDefault()
-        this.setState({
-            selectedFile: event.target.files[0],
-            loaded: 0,
-          })
-    }
-
     async handleSubmit(event) {
         event.preventDefault()
-        var data = new FormData()
-
-        data.append('id',event.target.VoucherId.value)
-        data.append('file',this.state.selectedFile);
-        data.append('number', event.target.VoucherNumber.value)
-
-        const id = event.target.VoucherId.value;
-        
+        const data = {
+            id:null,
+            name: event.target.ProductName.value,
+            categoryId: event.target.CategoryName.value,
+            description: event.target.ProductDescription.value
+            
+        }
         
         try {
-            const response = await stockApi.patch(`/voucher/${id}`, data);
+            const response = await stockApi.post('/products', data);
             this.setState({snackBarOpen: true, snackBarMsg: response.data})
-            const getData = await stockApi.get('/voucher');
+            const getData = await stockApi.get('/products');
             if(this.props.getdata) {
                 this.props.getdata(getData.data)
             }
+            
         } catch(error) {
             this.setState({snackBarOpen: true, snackBarMsg: 'Failed'})
+            alert('Failed')
          }
+        
     }
 
     render() {
@@ -76,7 +72,7 @@ export class EditVoucherModal extends Component {
                     >
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                        Edit Voucher
+                        Add Product
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -84,40 +80,38 @@ export class EditVoucherModal extends Component {
                             <Row>
                                 <Col sm={6}>
                                     <Form onSubmit={this.handleSubmit}>
-                                        <Form.Group controlId="VoucherId">
-                                            <Form.Label>VoucherId</Form.Label>
+                                        <Form.Group controlId="ProductName">
+                                            <Form.Label>ProductName</Form.Label>
                                             <Form.Control
-                                                type="number"
-                                                name="VoucherId"
+                                                type="text"
+                                                name="ProductName"
                                                 required
-                                                disabled
-                                                defaultValue = {this.props.vid}
-                                                placeholder="VoucherId"
+                                                placeholder="Product Name"
+                                                autoComplete="off"
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="VoucherNumber">
-                                            <Form.Label>VoucherNumber</Form.Label>
+                                        <Form.Group controlId="ProductDescription">
+                                            <Form.Label>ProductDescription</Form.Label>
                                             <Form.Control
-                                                type="number"
-                                                name="VoucherNumber"
+                                                type="text"
+                                                name="ProductDescription"
                                                 required
-                                                defaultValue = {this.props.vnumber}
-                                                placeholder="Voucher Number"
+                                                placeholder="Product Description"
+                                                autoComplete="off"
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="VoucherFile">
-                                            <Form.Label>VoucherFile</Form.Label>
-                                            <Form.Control
-                                                type="file"
-                                                name="VoucherFile"
-                                                placeholder="Voucher file"
-                                                encType="multipart/form-data"
-                                                onChange={this.onChangeHandler}
-
-                                            />
+                                        <Form.Group controlId="CategoryName">
+                                            <Form.Label>CategoryName</Form.Label>
+                                            <Form.Control as="select">
+                                              {this.state.categories.map(category => 
+                                                 <option key={category.id} value={category.id}>
+                                                     {category.name}
+                                                 </option>       
+                                            )}  
+                                            </Form.Control>
                                         </Form.Group>
                                         <Form.Group>
-                                            <Button variant="primary" type="submit">Update Voucher</Button>
+                                            <Button variant="primary" type="submit">Add Product</Button>
                                         </Form.Group>
                                     </Form>
                                 </Col>

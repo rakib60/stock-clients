@@ -5,7 +5,7 @@ import stockApi from '../../api/StockApi'
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 
-export class EditVoucherModal extends Component {
+export class EditRequisitionModal extends Component {
     constructor(props) {
         super(props);
         this.state = { snackBarOpen: false, snackBarMsg: '', selectedFile: null}
@@ -29,17 +29,18 @@ export class EditVoucherModal extends Component {
         event.preventDefault()
         var data = new FormData()
 
-        data.append('id',event.target.VoucherId.value)
+        data.append('id',event.target.RequisitionId.value)
         data.append('file',this.state.selectedFile);
-        data.append('number', event.target.VoucherNumber.value)
+        data.append('number', event.target.RequisitionNumber.value)
+        data.append('location', event.target.Location.value)
 
-        const id = event.target.VoucherId.value;
+        const id = event.target.RequisitionId.value;
         
         
         try {
-            const response = await stockApi.patch(`/voucher/${id}`, data);
+            const response = await stockApi.patch(`/requisition/${id}`, data);
             this.setState({snackBarOpen: true, snackBarMsg: response.data})
-            const getData = await stockApi.get('/voucher');
+            const getData = await stockApi.get('/requisition');
             if(this.props.getdata) {
                 this.props.getdata(getData.data)
             }
@@ -76,7 +77,7 @@ export class EditVoucherModal extends Component {
                     >
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                        Edit Voucher
+                        Edit Requisition
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -84,40 +85,50 @@ export class EditVoucherModal extends Component {
                             <Row>
                                 <Col sm={6}>
                                     <Form onSubmit={this.handleSubmit}>
-                                        <Form.Group controlId="VoucherId">
-                                            <Form.Label>VoucherId</Form.Label>
+                                        <Form.Group controlId="RequisitionId">
+                                            <Form.Label>RequisitionId</Form.Label>
                                             <Form.Control
                                                 type="number"
-                                                name="VoucherId"
+                                                name="RequisitionId"
                                                 required
                                                 disabled
-                                                defaultValue = {this.props.vid}
-                                                placeholder="VoucherId"
+                                                defaultValue = {this.props.rid}
+                                                placeholder="RequisitionId"
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="VoucherNumber">
-                                            <Form.Label>VoucherNumber</Form.Label>
+                                        <Form.Group controlId="RequisitionNumber">
+                                            <Form.Label>RequisitionNumber</Form.Label>
                                             <Form.Control
                                                 type="number"
-                                                name="VoucherNumber"
+                                                name="RequisitionNumber"
                                                 required
-                                                defaultValue = {this.props.vnumber}
-                                                placeholder="Voucher Number"
+                                                defaultValue = {this.props.rnumber}
+                                                placeholder="Requisition Number"
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="VoucherFile">
-                                            <Form.Label>VoucherFile</Form.Label>
+                                        <Form.Group controlId="Location">
+                                            <Form.Label>Location</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="Location"
+                                                required
+                                                defaultValue = {this.props.rloc}
+                                                placeholder="Location"
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="RequisitionFile">
+                                            <Form.Label>RequisitionFile</Form.Label>
                                             <Form.Control
                                                 type="file"
-                                                name="VoucherFile"
-                                                placeholder="Voucher file"
+                                                name="RequisitionFile"
+                                                placeholder="Requisition file"
                                                 encType="multipart/form-data"
                                                 onChange={this.onChangeHandler}
 
                                             />
                                         </Form.Group>
                                         <Form.Group>
-                                            <Button variant="primary" type="submit">Update Voucher</Button>
+                                            <Button variant="primary" type="submit">Update Requisition</Button>
                                         </Form.Group>
                                     </Form>
                                 </Col>

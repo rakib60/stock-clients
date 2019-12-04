@@ -6,6 +6,10 @@ import {Home} from './components/Home'
 import { Category } from './components/categories/Category'
 import { Product } from './components/products/Product'
 import { Voucher} from './components/voucher/Voucher'
+import { StockIn } from './components/stockIn/StockIn'
+import { Requisition } from './components/requisition/Requisition'
+import { StockOut } from './components/stockOut/StockOut'
+
 import {Navigation } from './components/Navigation'
 function App() {
   return (
@@ -23,7 +27,9 @@ function App() {
               <Route path="/category" component={Category}/>
               <Route path="/product" component={Product} />
               <Route path="/voucher" component={Voucher} />
-
+              <Route path="/stockin" component={StockIn} />
+              <Route path="/requisition" component={Requisition} />
+              <Route path="/stockout" component={StockOut} />
             </Switch>
         </div>
     </BrowserRouter>

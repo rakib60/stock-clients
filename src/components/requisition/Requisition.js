@@ -2,54 +2,51 @@ import React, {Component} from 'react'
 import stockApi from '../../api/StockApi'
 
 import {Button, ButtonToolbar} from 'react-bootstrap'
-import {AddVoucherModal} from './AddVoucherModal'
-import {EditVoucherModal} from './EditVoucherModal'
-import {DetailsVoucherModal } from './DetailVoucherModal'
+import {AddRequisitionModal} from './AddRequisitionModal'
+import {EditRequisitionModal} from './EditRequisitionModal'
+import {DetailsRequisitionModal } from './DetailRequisitionModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
 
 import MUIDataTable from "mui-datatables";
 
-export class Voucher extends Component {
-
+export class Requisition extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {voucher: [], addModalShow: false, editModalShow: false, voucherDetailShow: false, alert: null}
+        this.state = {requisition: [], addModalShow: false, editModalShow: false, requisitionDetailShow: false, alert: null}
         this.getData = this.getData.bind(this)
         this.columns = []
         this.data = []
     }
+
     componentDidMount() {
         this.refreshList()
     }
 
-
-
     async refreshList () {
-        const response =  await stockApi.get('/voucher');
-        this.setState({voucher: response.data})
+        const response =  await stockApi.get('/requisition');
+        this.setState({requisition: response.data})
 
     }
     
-
     getData(data) {
-        this.setState({voucher: data})
+        this.setState({requisition: data})
     }
 
     async deleteFile(vid) {  
         try {
-                await stockApi.delete(`/voucher/${vid}`) 
+                await stockApi.delete(`/requisition/${vid}`) 
             } catch(error) {
-                alert('This Voucher is assocciated with StockIn')
+                alert('This Requisition is assocciated with StockOut')
             }
         
-        const getData = await stockApi.get('/voucher');
+        const getData = await stockApi.get('/requisition');
 
-        this.setState({ alert: null, voucher: getData.data});
+        this.setState({ alert: null, requisition: getData.data});
     }
 
-    async delVoucher(vId) {
+    async delRequisition(vId) {
 
         const getAlert = () => (
             
@@ -64,7 +61,7 @@ export class Voucher extends Component {
             onCancel={()=> this.hideAlert()}
             focusCancelBtn
             >
-            Are you want to delete Voucher
+            Are you want to delete Requisition
             </SweetAlert>
           );
       
@@ -83,32 +80,37 @@ export class Voucher extends Component {
 
     render() {
 
-        const {voucher, vId, vNumber, vFile} = this.state;
+        const {requisition, rId, rNumber, rFile, rLoc} = this.state;
 
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
-        let detailModalClose =() => this.setState({voucherDetailShow: false})
+        let detailModalClose =() => this.setState({requisitionDetailShow: false})
 
         this.columns = [
             {
-                name: "VoucherID",
+                name: "RequisitionID",
                 options: {
                     filter: true
                 }
             },
             {
-                name: "VoucherNumber",
+                name: "RequisitionNumber",
                 options: {
                     filter: true
                 }
             },
             {
-                name: "VoucherFile",
+                name: "RequisitionFile",
                 options: {
                     filter: true
                 }
             },
-            
+            {
+                name: "Location",
+                options: {
+                    filter: true
+                }
+            },
             {
                 name: "Actions",
                 options: {
@@ -130,9 +132,9 @@ export class Voucher extends Component {
                 <Button 
                 variant="primary" 
                 onClick={()=> this.setState({addModalShow: true})}>
-                    Add Voucher
+                    Add Requisition
                 </Button>
-                <AddVoucherModal
+                <AddRequisitionModal
                     show={this.state.addModalShow}
                     onHide={addModalClose}
                     getdata={this.getData}
@@ -140,44 +142,46 @@ export class Voucher extends Component {
             </ButtonToolbar>
             <br/>
             <MUIDataTable
-                title={"Voucher List"}
+                title={"Requisition List"}
                 data={
-                    voucher.map(voucher => {
+                    requisition.map(requisition => {
                         return [
-                            voucher.id,
-                            voucher.number,
-                            voucher.file,
+                            requisition.id,
+                            requisition.number,
+                            requisition.file,
+                            requisition.location,
                           <ButtonToolbar>
                            <Button className="mr-2" variant="primary"
-                            onClick={()=> this.setState({voucherDetailShow:true, vId:voucher.id,vNumber:voucher.number, vFile: voucher.file})}
+                            onClick={()=> this.setState({requisitionDetailShow:true, rId:requisition.id,rNumber:requisition.number, rFile: requisition.file, rLoc: requisition.location})}
                             > Details
                             </Button>
-                            <DetailsVoucherModal
-                                show = { this.state.voucherDetailShow }
+                            <DetailsRequisitionModal
+                                show = { this.state.requisitionDetailShow }
                                 onHide={ detailModalClose }
                                 getdata={this.getData}
-                                vid={vId}
-                                vnumber={vNumber}
-                                vfile={vFile}
+                                rid={rId}
+                                rnumber={rNumber}
+                                rfile={rFile}
+                                rloc={rLoc}
                             />
                             <Button className="mr-2" variant="info"
-                            onClick={()=> this.setState({editModalShow:true, vId:voucher.id, vNumber:voucher.number, vFile: voucher.file})}
+                            onClick={()=> this.setState({editModalShow:true, rId:requisition.id,rNumber:requisition.number, rFile: requisition.file, rLoc: requisition.location})}
                             >
                                 Edit
                             </Button>
                             <Button className="mr-2" variant="danger"
-                            onClick={()=> this.delVoucher(voucher.id)}
+                            onClick={()=> this.delRequisition(requisition.id)}
                             >{this.state.alert}
                                 Delete
                             </Button>
-                            <EditVoucherModal
+                            <EditRequisitionModal
                                 show= {this.state.editModalShow}
                                 onHide={editModalClose}
                                 getdata={this.getData}
-                                vid={vId}
-                                vnumber={vNumber}
-                                vfile={vFile}
-                                
+                                rid={rId}
+                                rnumber={rNumber}
+                                rloc={rLoc}
+                                rfile={rFile} 
 
                             />
                         </ButtonToolbar>

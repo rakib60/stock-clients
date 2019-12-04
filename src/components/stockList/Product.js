@@ -2,20 +2,19 @@ import React, {Component} from 'react'
 import stockApi from '../../api/StockApi'
 
 import {Button, ButtonToolbar} from 'react-bootstrap'
-import {AddVoucherModal} from './AddVoucherModal'
-import {EditVoucherModal} from './EditVoucherModal'
-import {DetailsVoucherModal } from './DetailVoucherModal'
+import {AddProductModal} from './AddProductModal'
+import {EditProductModal} from './EditProductModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
 
 import MUIDataTable from "mui-datatables";
 
-export class Voucher extends Component {
+export class Product extends Component {
 
 
     constructor(props) {
         super(props);
-        this.state = {voucher: [], addModalShow: false, editModalShow: false, voucherDetailShow: false, alert: null}
+        this.state = {products: [], addModalShow: false, editModalShow: false, alert: null}
         this.getData = this.getData.bind(this)
         this.columns = []
         this.data = []
@@ -27,30 +26,30 @@ export class Voucher extends Component {
 
 
     async refreshList () {
-        const response =  await stockApi.get('/voucher');
-        this.setState({voucher: response.data})
+        const response =  await stockApi.get('/products');
+        this.setState({products: response.data})
 
     }
     
 
     getData(data) {
-        this.setState({voucher: data})
+        this.setState({products: data})
     }
 
-    async deleteFile(vid) {  
+    async deleteFile(pId) {  
         try {
-                await stockApi.delete(`/voucher/${vid}`) 
+                await stockApi.delete(`/products/${pId}`) 
             } catch(error) {
-                alert('This Voucher is assocciated with StockIn')
+                alert('This Product is assocciated with Product')
             }
         
-        const getData = await stockApi.get('/voucher');
+        const getData = await stockApi.get('/products');
 
-        this.setState({ alert: null, voucher: getData.data});
+        this.setState({ alert: null, products: getData.data});
     }
 
-    async delVoucher(vId) {
-
+    async delProduct(pId) {
+        console.log('sdflslfjskflsj')
         const getAlert = () => (
             
             <SweetAlert
@@ -60,11 +59,11 @@ export class Voucher extends Component {
             confirmBtnBsStyle="danger"
             cancelBtnBsStyle="default"
             title="Are you sure?"
-            onConfirm={()=> this.deleteFile(vId)}
+            onConfirm={()=> this.deleteFile(pId)}
             onCancel={()=> this.hideAlert()}
             focusCancelBtn
             >
-            Are you want to delete Voucher
+            Are you want to delete Product
             </SweetAlert>
           );
       
@@ -82,33 +81,37 @@ export class Voucher extends Component {
 
 
     render() {
-
-        const {voucher, vId, vNumber, vFile} = this.state;
+        // console.log(this.state,'sdffffffff')
+        const {products, pId, pName, pDes, cId} = this.state;
 
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
-        let detailModalClose =() => this.setState({voucherDetailShow: false})
 
         this.columns = [
             {
-                name: "VoucherID",
+                name: "ProductID",
                 options: {
                     filter: true
                 }
             },
             {
-                name: "VoucherNumber",
+                name: "ProductName",
                 options: {
                     filter: true
                 }
             },
             {
-                name: "VoucherFile",
+                name: "ProductDesc.",
                 options: {
                     filter: true
                 }
             },
-            
+            {
+                name: "CategoryName",
+                options: {
+                    filter: true
+                }
+            },
             {
                 name: "Actions",
                 options: {
@@ -130,9 +133,9 @@ export class Voucher extends Component {
                 <Button 
                 variant="primary" 
                 onClick={()=> this.setState({addModalShow: true})}>
-                    Add Voucher
+                    Add Product
                 </Button>
-                <AddVoucherModal
+                <AddProductModal
                     show={this.state.addModalShow}
                     onHide={addModalClose}
                     getdata={this.getData}
@@ -140,48 +143,38 @@ export class Voucher extends Component {
             </ButtonToolbar>
             <br/>
             <MUIDataTable
-                title={"Voucher List"}
+                title={"Product List"}
                 data={
-                    voucher.map(voucher => {
+                    products.map(Product => {
                         return [
-                            voucher.id,
-                            voucher.number,
-                            voucher.file,
-                          <ButtonToolbar>
-                           <Button className="mr-2" variant="primary"
-                            onClick={()=> this.setState({voucherDetailShow:true, vId:voucher.id,vNumber:voucher.number, vFile: voucher.file})}
-                            > Details
-                            </Button>
-                            <DetailsVoucherModal
-                                show = { this.state.voucherDetailShow }
-                                onHide={ detailModalClose }
-                                getdata={this.getData}
-                                vid={vId}
-                                vnumber={vNumber}
-                                vfile={vFile}
-                            />
+                            Product.id,
+                            Product.name,
+                            Product.description,
+                            Product.category.name,
+                            <ButtonToolbar>
                             <Button className="mr-2" variant="info"
-                            onClick={()=> this.setState({editModalShow:true, vId:voucher.id, vNumber:voucher.number, vFile: voucher.file})}
+                            onClick={()=> this.setState({editModalShow:true, pId:Product.id, pName: Product.name, pDes:Product.description,  cId:Product.category.id})}
                             >
                                 Edit
                             </Button>
                             <Button className="mr-2" variant="danger"
-                            onClick={()=> this.delVoucher(voucher.id)}
-                            >{this.state.alert}
+                            onClick={()=> this.delProduct(Product.id)}
+                            >
+                                {this.state.alert}
                                 Delete
                             </Button>
-                            <EditVoucherModal
+                            <EditProductModal
                                 show= {this.state.editModalShow}
                                 onHide={editModalClose}
                                 getdata={this.getData}
-                                vid={vId}
-                                vnumber={vNumber}
-                                vfile={vFile}
+                                pid={pId}
+                                pname={pName}
+                                pdes={pDes}
+                                cid={cId}
                                 
 
                             />
-                        </ButtonToolbar>
-                          
+                            </ButtonToolbar>
                         ]
                     }
                 )
