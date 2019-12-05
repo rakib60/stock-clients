@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import { Link ,NavLink } from 'react-router-dom'
+
 import stockApi from '../../api/StockApi'
 
 import {Button, ButtonToolbar} from 'react-bootstrap'
@@ -24,7 +26,10 @@ export class Voucher extends Component {
         this.refreshList()
     }
 
-
+    onDetails = (id) => {
+        this.props.history.push(`/voucher/details/${id}`)
+        // return(<DetailsVoucherModal/>)
+    }
 
     async refreshList () {
         const response =  await stockApi.get('/voucher');
@@ -148,18 +153,19 @@ export class Voucher extends Component {
                             voucher.number,
                             voucher.file,
                           <ButtonToolbar>
-                           <Button className="mr-2" variant="primary"
-                            onClick={()=> this.setState({voucherDetailShow:true, vId:voucher.id,vNumber:voucher.number, vFile: voucher.file})}
-                            > Details
+                           <Button className="mr-2" variant="primary" onClick={()=>this.onDetails(voucher.id)}>
+                            {/* // onClick={()=> this.setState({voucherDetailShow:true, vId:voucher.id,vNumber:voucher.number, vFile: voucher.file})} */}
+
+                            Details
                             </Button>
-                            <DetailsVoucherModal
+                            {/* <DetailsVoucherModal
                                 show = { this.state.voucherDetailShow }
                                 onHide={ detailModalClose }
                                 getdata={this.getData}
                                 vid={vId}
                                 vnumber={vNumber}
                                 vfile={vFile}
-                            />
+                            /> */}
                             <Button className="mr-2" variant="info"
                             onClick={()=> this.setState({editModalShow:true, vId:voucher.id, vNumber:voucher.number, vFile: voucher.file})}
                             >

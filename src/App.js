@@ -9,7 +9,7 @@ import { Voucher} from './components/voucher/Voucher'
 import { StockIn } from './components/stockIn/StockIn'
 import { Requisition } from './components/requisition/Requisition'
 import { StockOut } from './components/stockOut/StockOut'
-
+import { DetailsVoucherModal } from './components/voucher/DetailVoucherModal' 
 import {Navigation } from './components/Navigation'
 function App() {
   return (
@@ -26,7 +26,8 @@ function App() {
               <Route path="/" component={Home} exact/>
               <Route path="/category" component={Category}/>
               <Route path="/product" component={Product} />
-              <Route path="/voucher" component={Voucher} />
+              <Route path="/voucher" exact component={Voucher} />
+              <Route path="/voucher/details/:id" component={DetailsVoucherModal} />
               <Route path="/stockin" component={StockIn} />
               <Route path="/requisition" component={Requisition} />
               <Route path="/stockout" component={StockOut} />

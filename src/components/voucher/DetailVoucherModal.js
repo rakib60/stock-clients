@@ -1,68 +1,120 @@
 import React, {Component} from 'react'
-import { Modal, Button, Row, Col } from  'react-bootstrap'
-import Iframe from 'react-iframe'
-
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import { Row, Button } from  'react-bootstrap'
+// import * as _ from "lodash";
+import stockApi from '../../api/StockApi'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 
 
 export class DetailsVoucherModal extends Component {
     constructor(props) {
         super(props);
-        this.state = {categories: []}
+        this.state = {voucher: []}
+        this.refreshList = this.refreshList.bind(this)
+    }
+
+    componentDidMount() {
+        const { match: { params } } = this.props;
+        this.voucher_subtitle = "Voucher ID: " + params.id;
+        this.refreshList(params.id)
+    }
+
+    async refreshList (id) {
+        const response =  await stockApi.get(`/voucher/${id}`);
+        this.setState({voucher: response.data})
+
+    }
+
+    print = () => {
+        const printableElements = document.getElementById('printme').innerHTML;
+        const orderHtml = '<html><head><title></title><style>#printButton{display:none} #center{text-align:center}</style></head><body>' + printableElements + '</body></html>'
+        const oldPage = document.body.innerHTML;
+        document.body.innerHTML = orderHtml;
+        window.print();
+        window.location.reload();
+        document.body.innerHTML = oldPage;
+       
+
+    }
+
+    goVoucher = () => {
+        this.props.history.push("/voucher/")
     }
 
 
     render() {
-        this.imageUrl = `http://localhost:3001/voucher/${this.props.vid}/${this.props.vfile}` 
-        console.log(this.imageUrl,'dddddddddddimage')
+        // this.imageUrl = `http://localhost:3001/voucher/${this.props.vid}/${this.props.vfile}` 
+        // console.log(this.imageUrl,'dddddddddddimage')
+        const {stockIns}=this.state.voucher
+        // if(stockIns) {
+        //     var data = stockIns;
+        // }
+        console.log(stockIns,'sdfslfjsfl')
         return(
-            <Modal 
-                    {...this.props}
-                    size="xl"
-                    aria-labelledby="contained-modal-title-vcenter"
-                    centered
-                    >
-                    <Modal.Header closeButton>
-                        <Modal.Title id="contained-modal-title-vcenter">
-                        Voucher Details 
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                            
-                            <Row>
-                                <Col sm={3} style={{height: '500px'}}>
-                                    <div>
-                                    <h6>Voucher ID:</h6>  
-                                    <p>{this.props.vid}</p>
-                                    </div>
-                                    <div>
-                                    <h6>Voucher Number:</h6>  
-                                    <p>{this.props.vnumber}</p>
-                                    </div>
-                                    <div>
-                                    <h6>Voucher File name:</h6>  
-                                    <p>{this.props.vfile}</p>
-                                    </div>
+            
+            <div id='printme'>
+            <br/>
+            <Row className="col-md-9" >
+            <br/>
+            <Card className="col-md-12">
+            <CardHeader id="center"
+              title="Voucher Details"
+              subheader={this.voucher_subtitle}
+              
+            />
+            <CardContent>
+                Voucher number:   {this.state.voucher.number}
+              {/* <Typography variant="body2" color="textSecondary" component="p">
+                This impressive paella is a perfect party dish and a fun meal to cook together with your
+                guests. Add 1 cup of frozen peas along with the mussels, if you like.
+              </Typography> */}
+              <Table className="mt-4" >
+                  <TableHead>
+                      <TableRow>
+                          <TableCell>Stock-In-ID</TableCell>
+                          <TableCell>Product ID</TableCell>
+                          <TableCell>Product Name</TableCell>
+                          <TableCell>Product Description</TableCell>
+                          <TableCell>Quantity</TableCell>
+                      </TableRow>
+                 </TableHead> 
 
-                                </Col>
-                                <Col sm={9}>
+                 <TableBody>
+                     {/* {stockIns.map(stock => (
+                        <TableRow key={stock.id}>
+                        <TableCell>{stock.id}</TableCell>
+                            <TableCell>{stock.productId}</TableCell>
+                            <TableCell>{stock.product.name}</TableCell>
+                            <TableCell>{stock.product.description}</TableCell>
+                            <TableCell>{stock.inQuantity}</TableCell>
 
-                                    <Iframe
-                                    url={this.imageUrl}
-                                    width="100%"
-                                    height="100%"
-                                    display="initial"
-                                    position="relative"
-                                    />
+                        </TableRow>
+                    ))} */}
 
-                                </Col>
-                            </Row>
-                        
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="danger" onClick={this.props.onHide}>Close</Button>
-                    </Modal.Footer>
-            </Modal>
+                 </TableBody>
+
+              </Table>
+            </CardContent>
+
+          </Card>
+         
+
+        </Row>
+        <br/>
+        <Row className="col-md-9">
+            <Button  variant="primary" id="printButton" onClick={() => this.print()}>Print</Button>
+            <Button  className="offset-10" variant="secondary" id="printButton" onClick={() => this.goVoucher()}>Back</Button> 
+        </Row>
+        </div>
         )
+        
     }
 }
