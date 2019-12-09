@@ -1,16 +1,22 @@
 import React, {Component} from 'react'
+import Image from 'react-bootstrap/Image'
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { Row, Button } from  'react-bootstrap'
-// import * as _ from "lodash";
+import { Row, Button, Col } from  'react-bootstrap'
+import * as _ from "lodash";
 import stockApi from '../../api/StockApi'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+
+import ModalImage,{Lightbox} from "react-modal-image";
+
+import Img from 'react-image'
 
 
 
@@ -25,8 +31,9 @@ export class DetailsVoucherModal extends Component {
         const { match: { params } } = this.props;
         this.voucher_subtitle = "Voucher ID: " + params.id;
         this.refreshList(params.id)
+        
     }
-
+    
     async refreshList (id) {
         const response =  await stockApi.get(`/voucher/${id}`);
         this.setState({voucher: response.data})
@@ -49,37 +56,75 @@ export class DetailsVoucherModal extends Component {
         this.props.history.push("/voucher/")
     }
 
+    closeLightbox = () => {
+        this.state.open = true;
+      };
+     
+
 
     render() {
-        // this.imageUrl = `http://localhost:3001/voucher/${this.props.vid}/${this.props.vfile}` 
-        // console.log(this.imageUrl,'dddddddddddimage')
+        const { match: { params } } = this.props;
+
+        console.log(params.id,'fskldfjdslf',this.state.voucher.file)
+        this.imageUrl = `http://localhost:3001/voucher/${params.id}/${this.state.voucher.file}` 
+        console.log(this.imageUrl,'dddddddddddimage')
         const {stockIns}=this.state.voucher
-        // if(stockIns) {
-        //     var data = stockIns;
-        // }
-        console.log(stockIns,'sdfslfjsfl')
+        console.log('render')
+        console.log('sfksfljsl',stockIns)
+        // console.log(stockIns,'sdfslfjsfl')
+        var imageStyle = {
+            maxWidth: 250,
+            maxHeight: 250,
+            float: 'right'
+        }
         return(
             
             <div id='printme'>
             <br/>
             <Row className="col-md-9" >
             <br/>
+            
             <Card className="col-md-12">
+            
             <CardHeader id="center"
               title="Voucher Details"
               subheader={this.voucher_subtitle}
               
             />
+            
+            <Col xs={6}  style={imageStyle} id="printButton">
+            <ModalImage
+                small={this.imageUrl}
+                large={this.imageUrl}
+                alt={this.state.voucher.file}
+                hideDownload={true}
+                hideZoom={true}
+                id="printButton"
+            />
+            <br/>
+            <a href={this.imageUrl} target="_blank">Save Image</a>
+            {
+            this.state.open && (
+                <Lightbox
+                medium={this.imageUrl}
+                crossorigin="anonymous"
+                target="_blank"
+                alt="Hello World!"
+                onClose={this.closeLightbox}
+                className={imageStyle}
+                />
+            )
+            }
+            </Col>
+         
+
             <CardContent>
-                Voucher number:   {this.state.voucher.number}
-              {/* <Typography variant="body2" color="textSecondary" component="p">
-                This impressive paella is a perfect party dish and a fun meal to cook together with your
-                guests. Add 1 cup of frozen peas along with the mussels, if you like.
-              </Typography> */}
+            Voucher number:   {this.state.voucher.number}
+
               <Table className="mt-4" >
                   <TableHead>
                       <TableRow>
-                          <TableCell>Stock-In-ID</TableCell>
+                          <TableCell>Stock-IN-ID</TableCell>
                           <TableCell>Product ID</TableCell>
                           <TableCell>Product Name</TableCell>
                           <TableCell>Product Description</TableCell>
@@ -87,8 +132,9 @@ export class DetailsVoucherModal extends Component {
                       </TableRow>
                  </TableHead> 
 
-                 <TableBody>
-                     {/* {stockIns.map(stock => (
+                {!_.isEmpty(stockIns) && stockIns?<TableBody>
+                     
+                     {stockIns.map(stock => (
                         <TableRow key={stock.id}>
                         <TableCell>{stock.id}</TableCell>
                             <TableCell>{stock.productId}</TableCell>
@@ -97,9 +143,8 @@ export class DetailsVoucherModal extends Component {
                             <TableCell>{stock.inQuantity}</TableCell>
 
                         </TableRow>
-                    ))} */}
-
-                 </TableBody>
+                    ))}
+                 </TableBody>: <TableBody><TableRow><TableCell colSpan={5} style={{textAlign: "center"}}>This Voucher does not have any Product in Stock</TableCell></TableRow></TableBody>}
 
               </Table>
             </CardContent>
@@ -115,6 +160,5 @@ export class DetailsVoucherModal extends Component {
         </Row>
         </div>
         )
-        
     }
 }

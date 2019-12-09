@@ -8432,7 +8432,7 @@ prop-types-extra@^1.1.0:
     react-is "^16.3.2"
     warning "^3.0.0"
 
-prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -8692,6 +8692,13 @@ react-iframe@^1.8.0:
   dependencies:
     object-assign "^4.1.1"
 
+react-image@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-image/-/react-image-2.2.1.tgz#2aa7832be93023e918adae66b0d1b37d06eed293"
+  integrity sha512-fUlwjOmEQU8JBe5jsTnFiLbZy0IyiYx6sOUVMlz9os2+rZexiOJoC0WV4vycvnEgFVxsSYnS8YIhEi+X/NqP8g==
+  dependencies:
+    prop-types "15.7.2"
+
 react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.6:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
@@ -8706,6 +8713,11 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-modal-image@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/react-modal-image/-/react-modal-image-2.5.0.tgz#c9f047ae2a1b8ca54c35dbdad3bbca846cf21632"
+  integrity sha512-QucQrgOLmF44CD4EFDLZ9ICrbHEZwztjALgx1GsNmMWZrAtmzDLarG+T1TK2OSE4w1eHfkXtmEhQibjbt0mT2g==
 
 react-overlays@^2.1.0:
   version "2.1.0"

@@ -81,9 +81,9 @@ export class Category extends Component {
 
 
     render() {
-
+        console.log('render')
         const {categories, cId, cName} = this.state;
-
+        console.log(categories,'categories')
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
 

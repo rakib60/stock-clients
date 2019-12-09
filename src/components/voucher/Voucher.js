@@ -183,8 +183,6 @@ export class Voucher extends Component {
                                 vid={vId}
                                 vnumber={vNumber}
                                 vfile={vFile}
-                                
-
                             />
                         </ButtonToolbar>
                           
