@@ -41,7 +41,7 @@ export class AddStockOutModal extends Component {
             
         } catch(error) {
             this.setState({snackBarOpen: true, snackBarMsg: 'Failed'})
-            alert('Failed')
+            alert('Quantity Should not more than StockIn Quantity')
          }
         
     }

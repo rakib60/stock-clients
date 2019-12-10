@@ -4,7 +4,6 @@ import stockApi from '../../api/StockApi'
 import {Button, ButtonToolbar} from 'react-bootstrap'
 import {AddRequisitionModal} from './AddRequisitionModal'
 import {EditRequisitionModal} from './EditRequisitionModal'
-import {DetailsRequisitionModal } from './DetailRequisitionModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
 
@@ -14,7 +13,7 @@ export class Requisition extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {requisition: [], addModalShow: false, editModalShow: false, requisitionDetailShow: false, alert: null}
+        this.state = {requisition: [], addModalShow: false, editModalShow: false,  alert: null}
         this.getData = this.getData.bind(this)
         this.columns = []
         this.data = []
@@ -22,6 +21,10 @@ export class Requisition extends Component {
 
     componentDidMount() {
         this.refreshList()
+    }
+
+    onDetails = (id) => {
+        this.props.history.push(`/requisition/details/${id}`)
     }
 
     async refreshList () {
@@ -84,7 +87,6 @@ export class Requisition extends Component {
 
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
-        let detailModalClose =() => this.setState({requisitionDetailShow: false})
 
         this.columns = [
             {
@@ -151,19 +153,12 @@ export class Requisition extends Component {
                             requisition.file,
                             requisition.location,
                           <ButtonToolbar>
-                           <Button className="mr-2" variant="primary"
-                            onClick={()=> this.setState({requisitionDetailShow:true, rId:requisition.id,rNumber:requisition.number, rFile: requisition.file, rLoc: requisition.location})}
-                            > Details
+                           <Button className="mr-2" variant="primary" onClick={()=>this.onDetails(requisition.id)}>
+                            {/* // onClick={()=> this.setState({voucherDetailShow:true, vId:voucher.id,vNumber:voucher.number, vFile: voucher.file})} */}
+
+                            Details
                             </Button>
-                            <DetailsRequisitionModal
-                                show = { this.state.requisitionDetailShow }
-                                onHide={ detailModalClose }
-                                getdata={this.getData}
-                                rid={rId}
-                                rnumber={rNumber}
-                                rfile={rFile}
-                                rloc={rLoc}
-                            />
+
                             <Button className="mr-2" variant="info"
                             onClick={()=> this.setState({editModalShow:true, rId:requisition.id,rNumber:requisition.number, rFile: requisition.file, rLoc: requisition.location})}
                             >

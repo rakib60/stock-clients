@@ -1,10 +1,7 @@
 import React, {Component} from 'react'
-import Image from 'react-bootstrap/Image'
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
 import { Row, Button, Col } from  'react-bootstrap'
 import * as _ from "lodash";
 import stockApi from '../../api/StockApi'
@@ -14,9 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import ModalImage,{Lightbox} from "react-modal-image";
-
-import Img from 'react-image'
+import ModalImage, { Lightbox } from "react-modal-image";
 
 
 
@@ -57,21 +52,16 @@ export class DetailsVoucherModal extends Component {
     }
 
     closeLightbox = () => {
-        this.state.open = true;
+        // this.state.open = true;
+        this.setState({open: true})
       };
      
 
 
     render() {
         const { match: { params } } = this.props;
-
-        console.log(params.id,'fskldfjdslf',this.state.voucher.file)
         this.imageUrl = `http://localhost:3001/voucher/${params.id}/${this.state.voucher.file}` 
-        console.log(this.imageUrl,'dddddddddddimage')
         const {stockIns}=this.state.voucher
-        console.log('render')
-        console.log('sfksfljsl',stockIns)
-        // console.log(stockIns,'sdfslfjsfl')
         var imageStyle = {
             maxWidth: 250,
             maxHeight: 250,
@@ -102,7 +92,7 @@ export class DetailsVoucherModal extends Component {
                 id="printButton"
             />
             <br/>
-            <a href={this.imageUrl} target="_blank">Save Image</a>
+            <a href={this.imageUrl} target="_blank" rel="noopener noreferrer">Save Image</a>
             {
             this.state.open && (
                 <Lightbox
@@ -110,6 +100,7 @@ export class DetailsVoucherModal extends Component {
                 crossorigin="anonymous"
                 target="_blank"
                 alt="Hello World!"
+                
                 onClose={this.closeLightbox}
                 className={imageStyle}
                 />

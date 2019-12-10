@@ -24,7 +24,6 @@ export class EditStockOutModal extends Component {
     }
 
     async handleSubmit(event) {
-        console.log(event.target.StockOutId.value,'ggggggggg')
         event.preventDefault()
 
         const data = {
@@ -46,6 +45,7 @@ export class EditStockOutModal extends Component {
             }
         } catch(error) {
             this.setState({snackBarOpen: true, snackBarMsg: 'Failed'})
+            alert('Quantity Should not more than StockIn Quantity')
          }
     }
 
@@ -77,7 +77,7 @@ export class EditStockOutModal extends Component {
                     >
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                        Edit StockIn
+                        Edit StockOut
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -128,7 +128,7 @@ export class EditStockOutModal extends Component {
                                             />
                                         </Form.Group>
                                         <Form.Group>
-                                            <Button variant="primary" type="submit">Update StockIn</Button>
+                                            <Button variant="primary" type="submit">Update StockOut</Button>
                                         </Form.Group>
                                     </Form>
                                 </Col>

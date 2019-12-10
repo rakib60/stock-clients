@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
-import { Link ,NavLink } from 'react-router-dom'
 
 import stockApi from '../../api/StockApi'
 
 import {Button, ButtonToolbar} from 'react-bootstrap'
 import {AddVoucherModal} from './AddVoucherModal'
 import {EditVoucherModal} from './EditVoucherModal'
-import {DetailsVoucherModal } from './DetailVoucherModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
 
@@ -17,7 +15,7 @@ export class Voucher extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {voucher: [], addModalShow: false, editModalShow: false, voucherDetailShow: false, alert: null}
+        this.state = {voucher: [], addModalShow: false, editModalShow: false, alert: null}
         this.getData = this.getData.bind(this)
         this.columns = []
         this.data = []
@@ -28,7 +26,6 @@ export class Voucher extends Component {
 
     onDetails = (id) => {
         this.props.history.push(`/voucher/details/${id}`)
-        // return(<DetailsVoucherModal/>)
     }
 
     async refreshList () {
@@ -92,7 +89,6 @@ export class Voucher extends Component {
 
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
-        let detailModalClose =() => this.setState({voucherDetailShow: false})
 
         this.columns = [
             {
@@ -154,18 +150,9 @@ export class Voucher extends Component {
                             voucher.file,
                           <ButtonToolbar>
                            <Button className="mr-2" variant="primary" onClick={()=>this.onDetails(voucher.id)}>
-                            {/* // onClick={()=> this.setState({voucherDetailShow:true, vId:voucher.id,vNumber:voucher.number, vFile: voucher.file})} */}
-
                             Details
                             </Button>
-                            {/* <DetailsVoucherModal
-                                show = { this.state.voucherDetailShow }
-                                onHide={ detailModalClose }
-                                getdata={this.getData}
-                                vid={vId}
-                                vnumber={vNumber}
-                                vfile={vFile}
-                            /> */}
+
                             <Button className="mr-2" variant="info"
                             onClick={()=> this.setState({editModalShow:true, vId:voucher.id, vNumber:voucher.number, vFile: voucher.file})}
                             >

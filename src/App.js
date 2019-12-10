@@ -11,6 +11,7 @@ import { Requisition } from './components/requisition/Requisition'
 import { StockOut } from './components/stockOut/StockOut'
 import { DetailsVoucherModal } from './components/voucher/DetailVoucherModal' 
 import {Navigation } from './components/Navigation'
+import { DetailsRequisitionModal } from './components/requisition/DetailRequisitionModal';
 function App() {
   return (
     <BrowserRouter>
@@ -29,7 +30,8 @@ function App() {
               <Route path="/voucher" exact component={Voucher} />
               <Route path="/voucher/details/:id" component={DetailsVoucherModal} />
               <Route path="/stockin" component={StockIn} />
-              <Route path="/requisition" component={Requisition} />
+              <Route path="/requisition" exact component={Requisition} />
+              <Route path="/requisition/details/:id" component={DetailsRequisitionModal} />
               <Route path="/stockout" component={StockOut} />
             </Switch>
         </div>
