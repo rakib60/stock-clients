@@ -4,7 +4,7 @@ export class Home extends Component {
     render() {
         return (
             <div>
-                <h3 style={{textAlign: "center"}}>Welcome to Stock Management.</h3>
+                {/* <h3 style={{textAlign: "center"}}>Welcome to Stock Management.</h3> */}
                 <Stocks/>
             </div>
             // <div className="mt-5 d-flex justify-content-right">

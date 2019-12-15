@@ -2,19 +2,19 @@ import React, {Component} from 'react'
 import stockApi from '../../api/StockApi'
 
 import {Button, ButtonToolbar} from 'react-bootstrap'
-import {AddCategoryModal} from './AddCategoryModal'
-import {EditCategoryModal} from './EditCategoryModal'
+import {AddUserModal} from './AddUserModal'
+import {EditUserModal} from './EditUserModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
 
 import MUIDataTable from "mui-datatables";
 
-export class Category extends Component {
+export class User extends Component {
 
 
     constructor(props) {
         super(props);
-        this.state = {categories: [], addModalShow: false, editModalShow: false, alert: null}
+        this.state = {users: [], addModalShow: false, editModalShow: false, alert: null}
         this.getData = this.getData.bind(this)
         this.columns = []
         this.data = []
@@ -22,6 +22,7 @@ export class Category extends Component {
         //     var main = document.querySelector('.MUIDataTableToolbar-actions-46');
         //     console.log(main,'dskflsdf')
         // }
+
 
     }
     componentDidMount() {
@@ -31,29 +32,29 @@ export class Category extends Component {
 
 
     async refreshList () {
-        const response =  await stockApi.get('/categories');
-        this.setState({categories: response.data})
+        const response =  await stockApi.get('/users');
+        this.setState({users: response.data})
 
     }
     
 
     getData(data) {
-        this.setState({categories: data})
+        this.setState({users: data})
     }
 
     async deleteFile(cid) {  
         try {
-                await stockApi.delete(`/categories/${cid}`) 
+                await stockApi.delete(`/users/${cid}`) 
             } catch(error) {
-                alert('This Category is assocciated with Product')
+                alert('This User can not be deleted')
             }
         
-        const getData = await stockApi.get('/categories');
+        const getData = await stockApi.get('/users');
 
-        this.setState({ alert: null, categories: getData.data});
+        this.setState({ alert: null, users: getData.data});
     }
 
-    async delCategory(CId) {
+    async delUser(CId) {
 
         const getAlert = () => (
             
@@ -68,7 +69,7 @@ export class Category extends Component {
             onCancel={()=> this.hideAlert()}
             focusCancelBtn
             >
-            Are you want to delete Category
+            Are you want to delete User
             </SweetAlert>
           );
       
@@ -86,45 +87,39 @@ export class Category extends Component {
 
     // $('button[aria-label="Print"]').on('click', function(){});
     render() {
-        const {categories, cId, cName} = this.state;
+        const {users, cId, cName} = this.state;
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
 
-        document.addEventListener('DOMContentLoaded', function() {
-            var el = document.querySelector('button[aria-label="Print"]')
-
-            el.onclick = function(event) {
-                var main = document.querySelector('.MUIDataTableToolbar-actions-46');
-                main.style.display="none"
-                // window.print();
-                onafterprint()
-            };
-            onafterprint = () =>{
-                console.log('llllllllllllllllllllllll')
-                var main = document.querySelector('.MUIDataTableToolbar-actions-46');
-                main.style.display= "visible"
-            }
-            onafterprint()
-            // els.onclick = function(event) {
-            //     console.log('llllllllllllllllllllllll')
-            //     var main = document.querySelector('.MUIDataTableToolbar-actions-46');
-            //     main.style.display="visibile"
-            //     // window.location.reload();
-            // };
-
-        })
-
-
+    
 
         this.columns = [
             {
-                name: "CategoryID",
+                name: "UserID",
                 options: {
                     filter: true
                 }
             },
             {
-                name: "DepartmentName",
+                name: "FirstName",
+                options: {
+                    filter: true
+                }
+            },
+            {
+                name: "LastName",
+                options: {
+                    filter: true
+                }
+            },
+            {
+                name: "email",
+                options: {
+                    filter: true
+                }
+            },
+            {
+                name: "User Status",
                 options: {
                     filter: true
                 }
@@ -139,6 +134,7 @@ export class Category extends Component {
         const options ={
             selectableRows: 'none',
             download: false,
+            print: false,
             responsive: 'scrollMaxHeight'
 
         }
@@ -150,9 +146,9 @@ export class Category extends Component {
                 <Button 
                 variant="primary" 
                 onClick={()=> this.setState({addModalShow: true})}>
-                    Add Category
+                    Add User
                 </Button>
-                <AddCategoryModal
+                <AddUserModal
                     show={this.state.addModalShow}
                     onHide={addModalClose}
                     getdata={this.getData}
@@ -160,24 +156,22 @@ export class Category extends Component {
             </ButtonToolbar>
             <br/>
             <MUIDataTable
-                title={"Category List"}
+                title={"User List"}
                 data={
-                    categories.map(category => {
+                    users.map(User => {
                         return [
-                            category.id,
-                            category.name,
+                            User.id,
+                            User.firstName,
+                            User.lastName,
+                            User.email,
+                            User.isAdmin && User.isAdmin === 1 ? 'User' : "Admin",
                           <ButtonToolbar>
                             <Button className="mr-2" variant="info"
-                            onClick={()=> this.setState({editModalShow:true, cId:category.id, cName:category.name})}
+                            onClick={()=> this.setState({editModalShow:true, cId:User.id, cName:User.name})}
                             >
                                 Edit
                             </Button>
-                            <Button className="mr-2" variant="danger"
-                            onClick={()=> this.delCategory(category.id)}
-                            >{this.state.alert}
-                                Delete
-                            </Button>
-                            <EditCategoryModal
+                            <EditUserModal
                                 show= {this.state.editModalShow}
                                 onHide={editModalClose}
                                 getdata={this.getData}
@@ -186,7 +180,7 @@ export class Category extends Component {
                                 
 
                             />
-                        </ButtonToolbar>
+                         </ButtonToolbar>
                         ]
                     }
                 )

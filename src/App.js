@@ -12,15 +12,13 @@ import { StockOut } from './components/stockOut/StockOut'
 import { DetailsVoucherModal } from './components/voucher/DetailVoucherModal' 
 import {Navigation } from './components/Navigation'
 import { DetailsRequisitionModal } from './components/requisition/DetailRequisitionModal';
+import { User } from './components/users/User';
 function App() {
   return (
     <BrowserRouter>
         <div className="container">
-          <h3 className="m-3 d-flex justify-content-center">
-            React js with nest js 
-          </h3>
           <h5 className="m-3 d-flex justify-content-center">
-            Stock Management Portal
+          Welcome to Stock Management.
           </h5>
           <Navigation/>
             <Switch>
@@ -33,6 +31,7 @@ function App() {
               <Route path="/requisition" exact component={Requisition} />
               <Route path="/requisition/details/:id" component={DetailsRequisitionModal} />
               <Route path="/stockout" component={StockOut} />
+              <Route path="/user" component={User}/>
             </Switch>
         </div>
     </BrowserRouter>

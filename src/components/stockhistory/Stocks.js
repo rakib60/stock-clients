@@ -90,6 +90,7 @@ export class Stocks extends Component {
         return (
            <Row>
             <Col>
+            <br/>
             <h5>Stocks History</h5>
             <br/>
             <MUIDataTable
