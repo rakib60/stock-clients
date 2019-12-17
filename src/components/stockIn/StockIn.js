@@ -9,19 +9,43 @@ import {Col, Row } from  'react-bootstrap'
 
 import MUIDataTable from "mui-datatables";
 
+
+import SignOutIcon from '@material-ui/icons/ExitToApp'
+import styled from 'styled-components';
+import { IconButton } from '@material-ui/core';
+import AuthService from '../../api/auth.service'
+
+
+
+const SignOutIconContainer = styled.div`
+  margin-left: 10px;
+  
+  .signOutIcon {
+    fill: #edf4ff;
+  }
+`;
+
 export class StockIn extends Component {
 
 
     constructor(props) {
         super(props);
-        this.state = {stockIns: [], addModalShow: false, editModalShow: false, alert: null}
+        this.state = {stockIns: [], addModalShow: false, editModalShow: false, alert: null, showNavigation: true}
         this.getData = this.getData.bind(this)
         this.columns = []
         this.data = []
+        this.authservice = new AuthService()
     }
     componentDidMount() {
         this.refreshList()
     }
+
+
+    handleSignOut = () => {
+        this.authservice.signout();
+        this.props.history.push('/signin');
+    };
+
 
 
 
@@ -49,7 +73,6 @@ export class StockIn extends Component {
     }
 
     async delStockIn(pId) {
-        console.log('sdflslfjskflsj')
         const getAlert = () => (
             
             <SweetAlert
@@ -185,6 +208,11 @@ export class StockIn extends Component {
                 />
                 <br/>
             </Col>
+            <SignOutIconContainer>
+              <IconButton onClick={this.handleSignOut}>
+                <SignOutIcon className="signOutIcon" />
+              </IconButton>
+            </SignOutIconContainer>
             </Row>
         )
     }

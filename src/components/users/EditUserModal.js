@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 export class EditUserModal extends Component {
     constructor(props) {
         super(props);
-        this.state = { snackBarOpen: false, snackBarMsg: '', selectedOption: this.props.isAdmin}
+        this.state = { snackBarOpen: false, snackBarMsg: '', selectedOption: ''}
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -43,9 +43,9 @@ export class EditUserModal extends Component {
                 password: password
             }
         }
-        const id = data.id;
         
         try {
+            const id = data.id;
             const response = await stockApi.patch(`/users/${id}`, data);
             this.setState({snackBarOpen: true, snackBarMsg: response.data})
             const getData = await stockApi.get('/users');
@@ -137,9 +137,9 @@ export class EditUserModal extends Component {
 
                                             />
                                         </Form.Group>
-                                        <div className="mb-3">
+                                        <div className="mb-3" style={{display: 'flex'}}>
                                             User type:
-                                        <div className="form-check">
+                                        <div className="form-check" style={{paddingLeft: '30px'}}>
                                         <label>
                                         <input
                                             type="radio"
@@ -152,7 +152,7 @@ export class EditUserModal extends Component {
                                         User
                                         </label>
                                     </div>
-                                    <div className="form-check">
+                                    <div className="form-check" style={{paddingLeft: '30px'}}>
                                     <label>
                                     <input
                                         type="radio"
@@ -173,7 +173,6 @@ export class EditUserModal extends Component {
                                             name="Password"
                                             required
                                             placeholder="xxxxxxxxxx"
-                                            defaultValue = {this.props.password}
 
                                         />
                                     </Form.Group>
@@ -184,7 +183,6 @@ export class EditUserModal extends Component {
                                             name="confrimPassword"
                                             required
                                             placeholder="xxxxxxxxxx"
-                                            defaultValue = {this.props.password}
 
                                         />
                                     

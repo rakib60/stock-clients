@@ -11,8 +11,8 @@ export class Navigation extends Component {
                 <Navbar.Toggle area-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav>
-                    <NavLink className="d-inline p-2 bg-dark text-white"
-                    to="/">Home</NavLink>
+                    {/* <NavLink className="d-inline p-2 bg-dark text-white"
+                    to="/">Home</NavLink> */}
                     <NavLink className="d-inline p-2 bg-dark text-white"
                     to="/category">Category</NavLink>
                     <NavLink className="d-inline p-2 bg-dark text-white"
@@ -21,12 +21,14 @@ export class Navigation extends Component {
                     to="/voucher">Voucher</NavLink>
                     <NavLink className="d-inline p-2 bg-dark text-white"
                     to="/stockin">StockIn</NavLink>
-                    <NavLink className="d-inline p-2 bg-dark text-white"
+                    <NavLink className="d-inline p-2 bg-dark text-white" 
                     to="/requisition">Requisition</NavLink>
                     <NavLink className="d-inline p-2 bg-dark text-white"
                     to="/stockout">StockOut</NavLink>
                     <NavLink className="d-inline p-2 bg-dark text-white"
-                    to="/user">Users</NavLink>
+                    to="/stocks">Stocks</NavLink>
+                    {localStorage.getItem('isAdmin')==="2" ? <NavLink className="d-inline p-2 bg-dark text-white"
+                    to="/user">Users</NavLink> : null}
                 </Nav>
                 </Navbar.Collapse>
             </Navbar>

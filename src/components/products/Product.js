@@ -49,7 +49,6 @@ export class Product extends Component {
     }
 
     async delProduct(pId) {
-        console.log('sdflslfjskflsj')
         const getAlert = () => (
             
             <SweetAlert

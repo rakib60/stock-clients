@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch} from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
 import './App.css';
 
 import {Home} from './components/Home'
@@ -13,29 +13,49 @@ import { DetailsVoucherModal } from './components/voucher/DetailVoucherModal'
 import {Navigation } from './components/Navigation'
 import { DetailsRequisitionModal } from './components/requisition/DetailRequisitionModal';
 import { User } from './components/users/User';
+// import SignUpPage from './components/signup/signuppage';
+import SignInPage from './components/signin/signInPage';
 function App() {
-  return (
-    <BrowserRouter>
-        <div className="container">
-          <h5 className="m-3 d-flex justify-content-center">
+  const LoginContainer = () => (
+    <div className="container">
+      <Route path="/" render={() => <Redirect to="/signin" />} />
+    </div>
+  )
+
+  const DefaultContainer = () => (
+    <div className="container">
+        <h5 className="m-3 d-flex justify-content-center">
           Welcome to Stock Management.
-          </h5>
-          <Navigation/>
-            <Switch>
-              <Route path="/" component={Home} exact/>
-              <Route path="/category" component={Category}/>
-              <Route path="/product" component={Product} />
-              <Route path="/voucher" exact component={Voucher} />
-              <Route path="/voucher/details/:id" component={DetailsVoucherModal} />
-              <Route path="/stockin" component={StockIn} />
-              <Route path="/requisition" exact component={Requisition} />
-              <Route path="/requisition/details/:id" component={DetailsRequisitionModal} />
-              <Route path="/stockout" component={StockOut} />
-              <Route path="/user" component={User}/>
-            </Switch>
-        </div>
+        </h5>
+       <Navigation/>
+        <Route path="/stocks" component={Home} exact/>
+        <Route path="/category" component={Category}/>
+        <Route path="/product" component={Product} />
+        <Route path="/voucher" exact component={Voucher} />
+        <Route path="/voucher/details/:id" component={DetailsVoucherModal} />
+        <Route path="/stockin" component={StockIn} />
+        <Route path="/requisition" exact component={Requisition} />
+        <Route path="/requisition/details/:id" component={DetailsRequisitionModal} />
+        <Route path="/stockout" component={StockOut} />
+        {/* <Route path="/user" component={User}/> */}
+        {localStorage.getItem('isAdmin')==="2" ? <Route path="/user" component={User}/> : null}
+
+    </div>
+ )
+
+  return (
+
+    <BrowserRouter>
+      <div className="container">
+      <Switch>
+        <Route exact path="/" component={LoginContainer}/>
+        <Route  path="/signin" component={SignInPage} />
+        <Route  component={DefaultContainer}/>
+        
+      </Switch>
+      </div>
     </BrowserRouter>
-    
+
   );
 }
 

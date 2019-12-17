@@ -125,9 +125,9 @@ export class AddUserModal extends Component {
                                             />
                                         </Form.Group>
 
-                                        <div className="mb-3">
+                                        <div className="mb-3" style={{display: 'flex'}}>
                                             User type:
-                                        <div className="form-check">
+                                        <div className="form-check" style={{paddingLeft: '30px'}}>
                                         <label>
                                         <input
                                             type="radio"
@@ -140,7 +140,7 @@ export class AddUserModal extends Component {
                                         User
                                         </label>
                                     </div>
-                                    <div className="form-check">
+                                    <div className="form-check" style={{paddingLeft: '30px'}}>
                                     <label>
                                     <input
                                         type="radio"

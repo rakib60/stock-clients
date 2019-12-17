@@ -42,9 +42,9 @@ export class User extends Component {
         this.setState({users: data})
     }
 
-    async deleteFile(cid) {  
+    async deleteFile(uid) {  
         try {
-                await stockApi.delete(`/users/${cid}`) 
+                await stockApi.delete(`/users/${uid}`) 
             } catch(error) {
                 alert('This User can not be deleted')
             }
@@ -54,7 +54,7 @@ export class User extends Component {
         this.setState({ alert: null, users: getData.data});
     }
 
-    async delUser(CId) {
+    async delUser(uId) {
 
         const getAlert = () => (
             
@@ -65,7 +65,7 @@ export class User extends Component {
             confirmBtnBsStyle="danger"
             cancelBtnBsStyle="default"
             title="Are you sure?"
-            onConfirm={()=> this.deleteFile(CId)}
+            onConfirm={()=> this.deleteFile(uId)}
             onCancel={()=> this.hideAlert()}
             focusCancelBtn
             >
@@ -85,9 +85,8 @@ export class User extends Component {
         });
       }
 
-    // $('button[aria-label="Print"]').on('click', function(){});
     render() {
-        const {users, cId, cName} = this.state;
+        const {users, uId, fName, lName, email, isAdmin, password} = this.state;
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
 
@@ -167,18 +166,27 @@ export class User extends Component {
                             User.isAdmin && User.isAdmin === 1 ? 'User' : "Admin",
                           <ButtonToolbar>
                             <Button className="mr-2" variant="info"
-                            onClick={()=> this.setState({editModalShow:true, cId:User.id, cName:User.name})}
+                            onClick={()=> this.setState({editModalShow:true, uId: User.id, fName: User.firstName, lName: User.lastName,email: User.email, isAdmin: User.isAdmin, password: User.password})}
                             >
                                 Edit
+                            </Button>
+                            <Button className="mr-2" variant="danger"  
+                            disabled={User.isAdmin=== 2}
+                            onClick={()=> this.delUser(User.id)}
+                            >
+                                {this.state.alert}
+                                Delete
                             </Button>
                             <EditUserModal
                                 show= {this.state.editModalShow}
                                 onHide={editModalClose}
                                 getdata={this.getData}
-                                cid={cId}
-                                cname={cName}
-                                
-
+                                uid={uId}
+                                fname={fName}
+                                lname={lName}
+                                email={email}
+                                isadmin={isAdmin}
+                                password={password}
                             />
                          </ButtonToolbar>
                         ]
