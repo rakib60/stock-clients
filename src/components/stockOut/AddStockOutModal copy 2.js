@@ -10,10 +10,10 @@ import * as _ from "lodash";
 
 
 
-export class AddStockOutModal extends Component {
+export class AddStockInModal extends Component {
     constructor(props) {
         super(props)
-        this.state = {products: [], requisition: [], snackBarOpen: false, snackBarMsg: '', productQuantity: [], categories: [], selectValue: "", initialCategoryId: "", productId: "", quantity: "", productName: "", rnumber: "", location: "", totalOutQuantity: 0, totalInQuantity: 0}
+        this.state = {products: [], requisition: [], snackBarOpen: false, snackBarMsg: '', productQuantity: [], categories: [], selectValue: "", initialCategoryId: "", productId: "", quantity: "", productName: "", rnumber: "", location: ""}
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getProduct = this.getProduct.bind(this);
 
@@ -21,8 +21,8 @@ export class AddStockOutModal extends Component {
         this.handleInputValueChanged = this.handleInputValueChanged.bind(this)
         this.handleProductValueChanged = this.handleProductValueChanged.bind(this)
         this.handleProductQuantityRemove =  this.handleProductQuantityRemove.bind(this)
+        // this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this)
-        this.inputId = ''
     }
 
     async componentDidMount() {
@@ -34,9 +34,6 @@ export class AddStockOutModal extends Component {
         this.setState({categories: categories.data, initialCategoryId: categories.data[0] ? categories.data[0].id : ''})
 
         const response = await stockApi.get(`/products?categoryId=${this.state.initialCategoryId}`);
-        let initialProductIdForShownQuantity = response.data && response.data.length > 0 ? response.data[0].id : ''
-        console.log(initialProductIdForShownQuantity,'componentdidmount')
-        this.productQuantiyDetails(initialProductIdForShownQuantity)
 
         this.setState({products: response.data})
     }
@@ -89,6 +86,12 @@ export class AddStockOutModal extends Component {
     }
 
 
+    // handleDropdownChange(e) {
+    //     console.log('sdfsfdsf')
+    //     this.setState({ selectValue: Number(e.target.value) });
+    //     console.log(this.state.selectValue,'ddd')
+    // }
+
 
     onChangeHandler(event) {
         event.preventDefault()
@@ -103,9 +106,6 @@ export class AddStockOutModal extends Component {
     }
     async getProduct(cid) {
         const getProduct = await stockApi.get(`/products?categoryId=${cid}`);
-
-        let initialProductIdForShownQuantity = getProduct.data && getProduct.data.length > 0 ? getProduct.data[0].id : ''
-        this.productQuantiyDetails(initialProductIdForShownQuantity)
         this.setState({products: getProduct.data})
     }
 
@@ -126,6 +126,7 @@ export class AddStockOutModal extends Component {
 
     async handleSubmit(event) {
         event.preventDefault()
+        console.log('sdlfjlsf', this.state.selectedFile)
         let file = this.state.selectedFile ? this.state.selectedFile : ''
         var formData = new FormData()
         formData.append('id', null)
@@ -159,8 +160,8 @@ export class AddStockOutModal extends Component {
                 let submittedData = {
                     id: null,
                     productId: productQuantity.productId,
-                    requisitionId: requisitionId,
-                    outQuantity: productQuantity.quantity
+                    outQuantity: productQuantity.quantity,
+                    requisitionId: requisitionId
                 }
     
                 try {
@@ -169,7 +170,6 @@ export class AddStockOutModal extends Component {
                 
                 } catch(error) {
                     this.setState({snackBarOpen: true, snackBarMsg: 'Failed'})
-                    alert('Quantity Should not more than StockIn Quantity')
                 }
             });
             console.log('Done');
@@ -179,58 +179,14 @@ export class AddStockOutModal extends Component {
           
     }
 
-
-    async productQuantiyDetails(id) {
-        try {
-            // let productId = !this.state.productId ? this.refs.defaultProduct.value : this.state.productId
-            const response = await stockApi.get(`/products/${id}`)
-            let product = response.data;
-            
-            console.log(product,'productsss')
-            if ( !_.isEmpty(product.stockOuts)) {
-                var totalOutQuantity = 0;
-                var iterator = product.stockOuts.values()
-                    for(let key of iterator ) {
-                        totalOutQuantity += key.outQuantity
-                    }
-                    this.setState({totalOutQuantity: totalOutQuantity})
-            } else {
-                this.setState({totalOutQuantity: 0})
-            }
-
-            if ( !_.isEmpty(product.stockIns)) {
-                var totalInQuantity = 0;
-                var data = product.stockIns.values()
-                    for(let key of data ) {
-                        totalInQuantity += key.inQuantity
-                    }
-                this.setState({totalInQuantity: totalInQuantity})
-            } else {
-                this.setState({totalInQuantity: 0})
-            }
-        } catch (error) {
-            alert('This Product does not exist yet')
-        }
-    }
-
     render() {
         let handleDropdownChange =(e) => (
-            console.log('jibon', e.target.value),
             this.getProduct(e.target.value)
-
         )
 
         let handleProductChange = (e) => (
-            // console.log(e.target.value, 'id'),
-            
-            this.inputId = e.target.value ? e.target.value : this.refs.defaultProduct.value ,
-            this.productQuantiyDetails(this.inputId),
             this.setState({productId: e.target.value})
-            
         )
-        
-        
-
         return(
             
             <div className="container"  style={{backgroundColor: 'beige'}}>
@@ -291,16 +247,7 @@ export class AddStockOutModal extends Component {
                                 
                                 }
                                     </div>
-
-                                    {this.state.totalInQuantity > this.state.totalOutQuantity ? 
-
                                     <div className="col-md-6">
-                                    {this.state.totalInQuantity > this.state.totalOutQuantity + Number(this.state.quantity) ? '':
-                                    
-                                    <span style={{color:'red'}}>
-                                        stockout quantity must be less than stockin.
-                                    </span>
-                                    }
                                     <Form.Group controlId="OutQuantity">
                                             <Form.Label>OutQuantity</Form.Label>
                                             <Form.Control
@@ -318,34 +265,7 @@ export class AddStockOutModal extends Component {
                                                   }}
                                             />
                                     </Form.Group>
-
-                                    </div> :     
-                                                  
-                                            <div className="col-md-6">
-                                                <span style={{color: 'red'}}>This product has no Stock In Quantity </span>
-                                                <Form.Group controlId="OutQuantity">
-                                                        <Form.Label>OutQuantity</Form.Label>
-                                                        <Form.Control
-                                                            type="number"
-                                                            name="OutQuantity"
-                                                            disabled
-                                                            placeholder="OutQuantity"
-                                                        />
-                                                </Form.Group>
-
-                                            </div> 
-                                
-                                
-                                
-                                
-                                
-                                }
-
-                                        <div className="col-md-6">
-                                             <h4>Product Quantity Summary:</h4>
-                                             <p>InQuantity: {this.state.totalInQuantity}<br/>
-                                             OutQuantity: {this.state.totalOutQuantity}</p>
-                                             </div>
+                                    </div>
                                     </div>
                                     {/* <Form.Group>
                                         <Button variant="primary" type="submit">Add StockIn</Button>
@@ -356,7 +276,8 @@ export class AddStockOutModal extends Component {
                                 </div>
                                 <div className="col-md-12">
                                 {
-                                this.state.products.length > 0 && !_.isEmpty(this.state.quantity) && this.state.totalInQuantity > this.state.totalOutQuantity + Number(this.state.quantity) ? 
+                                this.state.products.length > 0 && !_.isEmpty(this.state.quantity) ? 
+                            
                                 <button
                                 className="newFlyerButton btn mb-4"
                                 type="button"
@@ -366,11 +287,11 @@ export class AddStockOutModal extends Component {
                                     <span className="buttonText">ADD NEW</span>
                                 </span>
                                 </button>   : 
-
                                                 <button
                                                 className="newFlyerButton btn mb-4"
                                                 type="button"
                                                 disabled
+                                                onClick={this.handleProductQuantityAdd}
                                                 >
                                                 <span>
                                                     <span className="buttonText">ADD NEW</span>
@@ -477,7 +398,7 @@ export class AddStockOutModal extends Component {
                                             />
                                         </Form.Group>
                                         {
-                                            this.state.productQuantity.length > 0 && this.state.rnumber ? <button
+                                            this.state.productQuantity.length > 0 && this.state.rnumber? <button
                                                                                     className="newFlyerButton btn mb-4 btn-success"
                                                                                     type="button"
                                                                                     

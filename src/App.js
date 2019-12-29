@@ -10,18 +10,27 @@ import { StockIn } from './components/stockIn/StockIn'
 import { Requisition } from './components/requisition/Requisition'
 import { StockOut } from './components/stockOut/StockOut'
 import { DetailsVoucherModal } from './components/voucher/DetailVoucherModal' 
+import { UpdateVoucher } from './components/voucher/UpdateVoucher'
 import {Navigation } from './components/Navigation'
 import { DetailsRequisitionModal } from './components/requisition/DetailRequisitionModal';
 import { User } from './components/users/User';
 // import SignUpPage from './components/signup/signuppage';
 import SignInPage from './components/signin/signInPage';
-function App() {
+
+import AuthService from './api/auth.service'
+
+function App(props) {
   const LoginContainer = () => (
     <div className="container">
       <Route path="/" render={() => <Redirect to="/signin" />} />
     </div>
   )
 
+  const Logout = (props) => {
+      let authservice = new AuthService()
+      authservice.signout();
+      props.history.push('/signin');
+  }
   const DefaultContainer = () => (
     <div className="container">
         <h5 className="m-3 d-flex justify-content-center">
@@ -33,11 +42,13 @@ function App() {
         <Route path="/product" component={Product} />
         <Route path="/voucher" exact component={Voucher} />
         <Route path="/voucher/details/:id" component={DetailsVoucherModal} />
+        <Route path="/voucher/edit/:id" component={UpdateVoucher} />
         <Route path="/stockin" component={StockIn} />
         <Route path="/requisition" exact component={Requisition} />
         <Route path="/requisition/details/:id" component={DetailsRequisitionModal} />
         <Route path="/stockout" component={StockOut} />
         {/* <Route path="/user" component={User}/> */}
+        <Route path="/signout" render={Logout}/>
         {localStorage.getItem('isAdmin')==="2" ? <Route path="/user" component={User}/> : null}
 
     </div>

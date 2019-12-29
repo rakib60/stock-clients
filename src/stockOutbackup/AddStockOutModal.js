@@ -4,16 +4,18 @@ import stockApi from '../../api/StockApi'
 
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
-export class AddProductModal extends Component {
+export class AddStockOutModal extends Component {
     constructor(props) {
         super(props)
-        this.state = {categories: [], snackBarOpen: false, snackBarMsg: ''}
+        this.state = {products: [], requisition: [], snackBarOpen: false, snackBarMsg: ''}
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     async componentDidMount() {
-        const response = await stockApi.get('/categories');
-        this.setState({categories: response.data})
+        const response = await stockApi.get('/products');
+        this.setState({products: response.data})
+        const data = await stockApi.get('/requisition');
+        this.setState({requisition: data.data})
     }
     snackbarClose = (event) => {
         this.setState({snackBarOpen:false});
@@ -23,24 +25,23 @@ export class AddProductModal extends Component {
         event.preventDefault()
         const data = {
             id:null,
-            name: event.target.ProductName.value,
-            categoryId: event.target.CategoryName.value,
-            description: event.target.ProductDescription.value
+            productId: event.target.ProductName.value,
+            requisitionId: event.target.RequisitionNumber.value,
+            outQuantity: event.target.OutQuantity.value
             
         }
-        console.log(data,'dssfsfsfsfsfdsf')
         
         try {
-            const response = await stockApi.post('/products', data);
+            const response = await stockApi.post('/stock-out', data);
             this.setState({snackBarOpen: true, snackBarMsg: response.data})
-            const getData = await stockApi.get('/products');
+            const getData = await stockApi.get('/stock-out');
             if(this.props.getdata) {
                 this.props.getdata(getData.data)
             }
             
         } catch(error) {
             this.setState({snackBarOpen: true, snackBarMsg: 'Failed'})
-            alert('Failed')
+            alert('Quantity Should not more than StockIn Quantity')
          }
         
     }
@@ -73,7 +74,7 @@ export class AddProductModal extends Component {
                     >
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                        Add Product
+                        Add StockOut
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -83,36 +84,36 @@ export class AddProductModal extends Component {
                                     <Form onSubmit={this.handleSubmit}>
                                         <Form.Group controlId="ProductName">
                                             <Form.Label>ProductName</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="ProductName"
-                                                required
-                                                placeholder="Product Name"
-                                                autoComplete="off"
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="ProductDescription">
-                                            <Form.Label>ProductDescription</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="ProductDescription"
-                                                required
-                                                placeholder="Product Description"
-                                                autoComplete="off"
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="CategoryName">
-                                            <Form.Label>CategoryName</Form.Label>
                                             <Form.Control as="select">
-                                              {this.state.categories.map(category => 
-                                                 <option key={category.id} value={category.id}>
-                                                     {category.name}
+                                              {this.state.products.map(product => 
+                                                 <option key={product.id} value={product.id}>
+                                                     {product.name}
                                                  </option>       
                                             )}  
                                             </Form.Control>
                                         </Form.Group>
+                                        <Form.Group controlId="RequisitionNumber">
+                                            <Form.Label>RequisitionNumber</Form.Label>
+                                            <Form.Control as="select">
+                                              {this.state.requisition.map(requisition => 
+                                                 <option key={requisition.id} value={requisition.id}>
+                                                     {requisition.number}
+                                                 </option>       
+                                            )}  
+                                            </Form.Control>
+                                        </Form.Group>
+                                        <Form.Group controlId="OutQuantity">
+                                            <Form.Label>OutQuantity</Form.Label>
+                                            <Form.Control
+                                                type="number"
+                                                name="OutQuantity"
+                                                required
+                                                placeholder="OutQuantity"
+                                                autoComplete="off"
+                                            />
+                                        </Form.Group>
                                         <Form.Group>
-                                            <Button variant="primary" type="submit">Add Product</Button>
+                                            <Button variant="primary" type="submit">Add StockOut</Button>
                                         </Form.Group>
                                     </Form>
                                 </Col>

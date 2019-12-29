@@ -28,6 +28,9 @@ export class Voucher extends Component {
         this.props.history.push(`/voucher/details/${id}`)
     }
 
+    onEdit = (id) => {
+        this.props.history.push(`/voucher/edit/${id}`)
+    }
     async refreshList () {
         const response =  await stockApi.get('/voucher');
         this.setState({voucher: response.data})
@@ -152,25 +155,27 @@ export class Voucher extends Component {
                            <Button className="mr-2" variant="primary" onClick={()=>this.onDetails(voucher.id)}>
                             Details
                             </Button>
-
-                            <Button className="mr-2" variant="info"
+                            <Button className="mr-2" variant="primary" onClick={()=>this.onEdit(voucher.id)}>
+                            Edit
+                            </Button>
+                            {/* <Button className="mr-2" variant="info"
                             onClick={()=> this.setState({editModalShow:true, vId:voucher.id, vNumber:voucher.number, vFile: voucher.file})}
                             >
                                 Edit
-                            </Button>
+                            </Button> */}
                             <Button className="mr-2" variant="danger"
                             onClick={()=> this.delVoucher(voucher.id)}
                             >{this.state.alert}
                                 Delete
                             </Button>
-                            <EditVoucherModal
+                            {/* <EditVoucherModal
                                 show= {this.state.editModalShow}
                                 onHide={editModalClose}
                                 getdata={this.getData}
                                 vid={vId}
                                 vnumber={vNumber}
                                 vfile={vFile}
-                            />
+                            /> */}
                         </ButtonToolbar>
                           
                         ]

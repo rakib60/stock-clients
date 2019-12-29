@@ -39,6 +39,7 @@ export class AddVoucherModal extends Component {
             const response = await stockApi.post('/voucher', data);
             this.setState({snackBarOpen: true, snackBarMsg: response.data})
             const getData = await stockApi.get('/voucher');
+            console.log(getData,'oslfksklfjsfljlsfsf')
             if(this.props.getdata) {
                 this.props.getdata(getData.data)
             }

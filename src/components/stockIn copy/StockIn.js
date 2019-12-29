@@ -2,54 +2,77 @@ import React, {Component} from 'react'
 import stockApi from '../../api/StockApi'
 
 import {Button, ButtonToolbar} from 'react-bootstrap'
-import {AddStockOutModal} from './AddStockOutModal'
-import {EditStockOutModal} from './EditStockOutModal'
+import {AddStockInModal} from './AddStockInModal'
+import {EditStockInModal} from './EditStockInModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
 
 import MUIDataTable from "mui-datatables";
 
-export class StockOut extends Component {
+
+import SignOutIcon from '@material-ui/icons/ExitToApp'
+import styled from 'styled-components';
+import { IconButton } from '@material-ui/core';
+import AuthService from '../../api/auth.service'
+
+
+
+const SignOutIconContainer = styled.div`
+  margin-left: 10px;
+  
+  .signOutIcon {
+    fill: #edf4ff;
+  }
+`;
+
+export class StockIn extends Component {
 
 
     constructor(props) {
         super(props);
-        this.state = {stockOuts: [], addModalShow: false, editModalShow: false, alert: null}
+        this.state = {stockIns: [], addModalShow: false, editModalShow: false, alert: null, showNavigation: true}
         this.getData = this.getData.bind(this)
         this.columns = []
         this.data = []
+        this.authservice = new AuthService()
     }
     componentDidMount() {
         this.refreshList()
     }
 
 
+    handleSignOut = () => {
+        this.authservice.signout();
+        this.props.history.push('/signin');
+    };
+
+
+
 
     async refreshList () {
-        const response =  await stockApi.get('/stock-out');
-        this.setState({stockOuts: response.data})
+        const response =  await stockApi.get('/stock-in');
+        this.setState({stockIns: response.data})
 
     }
     
 
     getData(data) {
-        this.setState({stockOuts: data})
+        this.setState({stockIns: data})
     }
 
     async deleteFile(pId) {  
         try {
-                await stockApi.delete(`/stock-out/${pId}`) 
+                await stockApi.delete(`/stock-in/${pId}`) 
             } catch(error) {
                 alert('TO Do Test')
             }
         
-        const getData = await stockApi.get('/stock-out');
+        const getData = await stockApi.get('/stock-in');
 
-        this.setState({ alert: null, stockOuts: getData.data});
+        this.setState({ alert: null, stockIns: getData.data});
     }
 
-    async delStockOut(pId) {
-        console.log('sdflslfjskflsj')
+    async delStockIn(pId) {
         const getAlert = () => (
             
             <SweetAlert
@@ -63,7 +86,7 @@ export class StockOut extends Component {
             onCancel={()=> this.hideAlert()}
             focusCancelBtn
             >
-            Are you want to delete StockOut
+            Are you want to delete StockIn
             </SweetAlert>
           );
       
@@ -82,14 +105,14 @@ export class StockOut extends Component {
 
     render() {
         // console.log(this.state,'sdffffffff')
-        const {stockOuts, sOutId, pId, rId, outQ} = this.state;
+        const {stockIns, sInId, pId, vId, inQ} = this.state;
 
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
 
         this.columns = [
             {
-                name: "StockOutID",
+                name: "StockInID",
                 options: {
                     filter: true
                 }
@@ -101,13 +124,13 @@ export class StockOut extends Component {
                 }
             },
             {
-                name: "Requistion no.",
+                name: "Voucher no.",
                 options: {
                     filter: true
                 }
             },
             {
-                name: "OutQuantity",
+                name: "inQuantity",
                 options: {
                     filter: true
                 }
@@ -129,45 +152,48 @@ export class StockOut extends Component {
            <Row>
             <Col>
             <br/>
-            {/* <ButtonToolbar>
+            <ButtonToolbar>
                 <Button 
                 variant="primary" 
                 onClick={()=> this.setState({addModalShow: true})}>
-                    Add StockOut
+                    Add StockIn
                 </Button>
-                
-            </ButtonToolbar> */}
-            <AddStockOutModal/>
+                <AddStockInModal
+                    show={this.state.addModalShow}
+                    onHide={addModalClose}
+                    getdata={this.getData}
+                />
+            </ButtonToolbar>
             <br/>
-            {/* <MUIDataTable
-                title={"StockOut List"}
+            <MUIDataTable
+                title={"StockIn List"}
                 data={
-                    stockOuts.map(StockOut => {
+                    stockIns.map(StockIn => {
                         return [
-                            StockOut.id,
-                            StockOut.product.name,
-                            StockOut.requisition.number,
-                            StockOut.outQuantity,
+                            StockIn.id,
+                            StockIn.product.name,
+                            StockIn.voucher.number,
+                            StockIn.inQuantity,
                             <ButtonToolbar>
                             <Button className="mr-2" variant="info"
-                            onClick={()=> this.setState({editModalShow:true, sOutId:StockOut.id, pId: StockOut.product.id, rId:StockOut.requisition.id,  outQ:StockOut.outQuantity})}
+                            onClick={()=> this.setState({editModalShow:true, sInId:StockIn.id, pId: StockIn.product.id, vId:StockIn.voucher.id,  inQ:StockIn.inQuantity})}
                             >
                                 Edit
                             </Button>
                             <Button className="mr-2" variant="danger"
-                            onClick={()=> this.delStockOut(StockOut.id)}
+                            onClick={()=> this.delStockIn(StockIn.id)}
                             >
                                 {this.state.alert}
                                 Delete
                             </Button>
-                            <EditStockOutModal
+                            <EditStockInModal
                                 show= {this.state.editModalShow}
                                 onHide={editModalClose}
                                 getdata={this.getData}
-                                sid={sOutId}
+                                sid={sInId}
                                 pid={pId}
-                                rid={rId}
-                                outq={outQ}
+                                vid={vId}
+                                inq={inQ}
                                 
 
                             />
@@ -179,9 +205,14 @@ export class StockOut extends Component {
                 columns={this.columns}
                 options={options}
                 
-                /> */}
+                />
                 <br/>
             </Col>
+            <SignOutIconContainer>
+              <IconButton onClick={this.handleSignOut}>
+                <SignOutIcon className="signOutIcon" />
+              </IconButton>
+            </SignOutIconContainer>
             </Row>
         )
     }

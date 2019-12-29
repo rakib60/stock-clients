@@ -129,17 +129,20 @@ export class StockOut extends Component {
            <Row>
             <Col>
             <br/>
-            {/* <ButtonToolbar>
+            <ButtonToolbar>
                 <Button 
                 variant="primary" 
                 onClick={()=> this.setState({addModalShow: true})}>
                     Add StockOut
                 </Button>
-                
-            </ButtonToolbar> */}
-            <AddStockOutModal/>
+                <AddStockOutModal
+                    show={this.state.addModalShow}
+                    onHide={addModalClose}
+                    getdata={this.getData}
+                />
+            </ButtonToolbar>
             <br/>
-            {/* <MUIDataTable
+            <MUIDataTable
                 title={"StockOut List"}
                 data={
                     stockOuts.map(StockOut => {
@@ -179,7 +182,7 @@ export class StockOut extends Component {
                 columns={this.columns}
                 options={options}
                 
-                /> */}
+                />
                 <br/>
             </Col>
             </Row>

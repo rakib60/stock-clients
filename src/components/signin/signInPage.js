@@ -35,8 +35,7 @@ class SignInPage extends Component {
         const { email, password, } = this.state;
 
         try {
-            const result  = await this.authservice.signin(email, password)
-            console.log(result,'InSide sign in page')
+            await this.authservice.signin(email, password)
             this.props.history.push('/stockin')
         } catch(error) {
             alert('Incorrect email or password.')

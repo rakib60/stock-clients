@@ -29,6 +29,8 @@ export class Navigation extends Component {
                     to="/stocks">Stocks</NavLink>
                     {localStorage.getItem('isAdmin')==="2" ? <NavLink className="d-inline p-2 bg-dark text-white"
                     to="/user">Users</NavLink> : null}
+                    <NavLink className="d-inline p-2 bg-dark text-white offset-4" style={{whiteSpace: 'nowrap'}}
+                    to="/signout">Log Out</NavLink>
                 </Nav>
                 </Navbar.Collapse>
             </Navbar>

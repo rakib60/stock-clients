@@ -9,21 +9,21 @@ import {Col, Row } from  'react-bootstrap'
 
 import MUIDataTable from "mui-datatables";
 
-
 import SignOutIcon from '@material-ui/icons/ExitToApp'
 import styled from 'styled-components';
 import { IconButton } from '@material-ui/core';
 import AuthService from '../../api/auth.service'
+// import { ProductQuantity } from './ProductQuantityComponent'
 
 
 
-const SignOutIconContainer = styled.div`
-  margin-left: 10px;
+// const SignOutIconContainer = styled.div`
+//   margin-left: 10px;
   
-  .signOutIcon {
-    fill: #edf4ff;
-  }
-`;
+//   .signOutIcon {
+//     fill: #edf4ff;
+//   }
+// `;
 
 export class StockIn extends Component {
 
@@ -32,7 +32,6 @@ export class StockIn extends Component {
         super(props);
         this.state = {stockIns: [], addModalShow: false, editModalShow: false, alert: null, showNavigation: true}
         this.getData = this.getData.bind(this)
-        this.columns = []
         this.data = []
         this.authservice = new AuthService()
     }
@@ -55,6 +54,10 @@ export class StockIn extends Component {
 
     }
     
+
+    goVoucher = () => {
+        this.props.history.push("/voucher/")
+    }
 
     getData(data) {
         this.setState({stockIns: data})
@@ -104,116 +107,21 @@ export class StockIn extends Component {
 
 
     render() {
-        // console.log(this.state,'sdffffffff')
-        const {stockIns, sInId, pId, vId, inQ} = this.state;
 
-        let addModalClose =() => this.setState({addModalShow: false})
-        let editModalClose =() => this.setState({editModalShow: false})
-
-        this.columns = [
-            {
-                name: "StockInID",
-                options: {
-                    filter: true
-                }
-            },
-            {
-                name: "Product Name",
-                options: {
-                    filter: true
-                }
-            },
-            {
-                name: "Voucher no.",
-                options: {
-                    filter: true
-                }
-            },
-            {
-                name: "inQuantity",
-                options: {
-                    filter: true
-                }
-            },
-            {
-                name: "Actions",
-                options: {
-                    filter: false
-                }
-            }
-        ]
-        const options ={
-            selectableRows: 'none',
-            download: false,
-            responsive: 'scrollMaxHeight'
-
-        }
         return (
            <Row>
             <Col>
-            <br/>
-            <ButtonToolbar>
-                <Button 
-                variant="primary" 
-                onClick={()=> this.setState({addModalShow: true})}>
-                    Add StockIn
-                </Button>
-                <AddStockInModal
-                    show={this.state.addModalShow}
-                    onHide={addModalClose}
-                    getdata={this.getData}
-                />
-            </ButtonToolbar>
-            <br/>
-            <MUIDataTable
-                title={"StockIn List"}
-                data={
-                    stockIns.map(StockIn => {
-                        return [
-                            StockIn.id,
-                            StockIn.product.name,
-                            StockIn.voucher.number,
-                            StockIn.inQuantity,
-                            <ButtonToolbar>
-                            <Button className="mr-2" variant="info"
-                            onClick={()=> this.setState({editModalShow:true, sInId:StockIn.id, pId: StockIn.product.id, vId:StockIn.voucher.id,  inQ:StockIn.inQuantity})}
-                            >
-                                Edit
-                            </Button>
-                            <Button className="mr-2" variant="danger"
-                            onClick={()=> this.delStockIn(StockIn.id)}
-                            >
-                                {this.state.alert}
-                                Delete
-                            </Button>
-                            <EditStockInModal
-                                show= {this.state.editModalShow}
-                                onHide={editModalClose}
-                                getdata={this.getData}
-                                sid={sInId}
-                                pid={pId}
-                                vid={vId}
-                                inq={inQ}
-                                
-
-                            />
-                            </ButtonToolbar>
-                        ]
-                    }
-                )
-                }
-                columns={this.columns}
-                options={options}
-                
-                />
+            <AddStockInModal/>
                 <br/>
+                <button  className="offset-10 btn btn-dark"  onClick={() => this.goVoucher()}>Back To Voucher</button>
             </Col>
-            <SignOutIconContainer>
+            {/* <SignOutIconContainer>
               <IconButton onClick={this.handleSignOut}>
                 <SignOutIcon className="signOutIcon" />
               </IconButton>
-            </SignOutIconContainer>
+            </SignOutIconContainer> */}
             </Row>
+
         )
     }
 }
