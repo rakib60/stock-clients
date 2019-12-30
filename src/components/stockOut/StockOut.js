@@ -1,13 +1,9 @@
 import React, {Component} from 'react'
 import stockApi from '../../api/StockApi'
 
-import {Button, ButtonToolbar} from 'react-bootstrap'
 import {AddStockOutModal} from './AddStockOutModal'
-import {EditStockOutModal} from './EditStockOutModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
-
-import MUIDataTable from "mui-datatables";
 
 export class StockOut extends Component {
 
@@ -31,6 +27,9 @@ export class StockOut extends Component {
 
     }
     
+    goRequisition = () => {
+        this.props.history.push("/requisition/")
+    }
 
     getData(data) {
         this.setState({stockOuts: data})
@@ -49,7 +48,6 @@ export class StockOut extends Component {
     }
 
     async delStockOut(pId) {
-        console.log('sdflslfjskflsj')
         const getAlert = () => (
             
             <SweetAlert
@@ -81,106 +79,14 @@ export class StockOut extends Component {
 
 
     render() {
-        // console.log(this.state,'sdffffffff')
-        const {stockOuts, sOutId, pId, rId, outQ} = this.state;
 
-        let addModalClose =() => this.setState({addModalShow: false})
-        let editModalClose =() => this.setState({editModalShow: false})
-
-        this.columns = [
-            {
-                name: "StockOutID",
-                options: {
-                    filter: true
-                }
-            },
-            {
-                name: "Product Name",
-                options: {
-                    filter: true
-                }
-            },
-            {
-                name: "Requistion no.",
-                options: {
-                    filter: true
-                }
-            },
-            {
-                name: "OutQuantity",
-                options: {
-                    filter: true
-                }
-            },
-            {
-                name: "Actions",
-                options: {
-                    filter: false
-                }
-            }
-        ]
-        const options ={
-            selectableRows: 'none',
-            download: false,
-            responsive: 'scrollMaxHeight'
-
-        }
         return (
            <Row>
             <Col>
             <br/>
-            {/* <ButtonToolbar>
-                <Button 
-                variant="primary" 
-                onClick={()=> this.setState({addModalShow: true})}>
-                    Add StockOut
-                </Button>
-                
-            </ButtonToolbar> */}
             <AddStockOutModal/>
-            <br/>
-            {/* <MUIDataTable
-                title={"StockOut List"}
-                data={
-                    stockOuts.map(StockOut => {
-                        return [
-                            StockOut.id,
-                            StockOut.product.name,
-                            StockOut.requisition.number,
-                            StockOut.outQuantity,
-                            <ButtonToolbar>
-                            <Button className="mr-2" variant="info"
-                            onClick={()=> this.setState({editModalShow:true, sOutId:StockOut.id, pId: StockOut.product.id, rId:StockOut.requisition.id,  outQ:StockOut.outQuantity})}
-                            >
-                                Edit
-                            </Button>
-                            <Button className="mr-2" variant="danger"
-                            onClick={()=> this.delStockOut(StockOut.id)}
-                            >
-                                {this.state.alert}
-                                Delete
-                            </Button>
-                            <EditStockOutModal
-                                show= {this.state.editModalShow}
-                                onHide={editModalClose}
-                                getdata={this.getData}
-                                sid={sOutId}
-                                pid={pId}
-                                rid={rId}
-                                outq={outQ}
-                                
-
-                            />
-                            </ButtonToolbar>
-                        ]
-                    }
-                )
-                }
-                columns={this.columns}
-                options={options}
-                
-                /> */}
                 <br/>
+                <button  className="offset-10 btn btn-dark"  onClick={() => this.goRequisition()}>Back To Requistion</button>
             </Col>
             </Row>
         )

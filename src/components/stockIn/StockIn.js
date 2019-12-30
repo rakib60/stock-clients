@@ -1,29 +1,13 @@
 import React, {Component} from 'react'
 import stockApi from '../../api/StockApi'
 
-import {Button, ButtonToolbar} from 'react-bootstrap'
 import {AddStockInModal} from './AddStockInModal'
-import {EditStockInModal} from './EditStockInModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
 
-import MUIDataTable from "mui-datatables";
 
-import SignOutIcon from '@material-ui/icons/ExitToApp'
-import styled from 'styled-components';
-import { IconButton } from '@material-ui/core';
 import AuthService from '../../api/auth.service'
-// import { ProductQuantity } from './ProductQuantityComponent'
 
-
-
-// const SignOutIconContainer = styled.div`
-//   margin-left: 10px;
-  
-//   .signOutIcon {
-//     fill: #edf4ff;
-//   }
-// `;
 
 export class StockIn extends Component {
 
@@ -115,11 +99,6 @@ export class StockIn extends Component {
                 <br/>
                 <button  className="offset-10 btn btn-dark"  onClick={() => this.goVoucher()}>Back To Voucher</button>
             </Col>
-            {/* <SignOutIconContainer>
-              <IconButton onClick={this.handleSignOut}>
-                <SignOutIcon className="signOutIcon" />
-              </IconButton>
-            </SignOutIconContainer> */}
             </Row>
 
         )

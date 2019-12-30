@@ -3,7 +3,7 @@ import stockApi from '../../api/StockApi'
 
 import {Button, ButtonToolbar} from 'react-bootstrap'
 import {AddRequisitionModal} from './AddRequisitionModal'
-import {EditRequisitionModal} from './EditRequisitionModal'
+// import {EditRequisitionModal} from './EditRequisitionModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
 
@@ -13,7 +13,7 @@ export class Requisition extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {requisition: [], addModalShow: false, editModalShow: false,  alert: null}
+        this.state = {requisition: [], addModalShow: false,  alert: null}
         this.getData = this.getData.bind(this)
         this.columns = []
         this.data = []
@@ -27,6 +27,9 @@ export class Requisition extends Component {
         this.props.history.push(`/requisition/details/${id}`)
     }
 
+    onEdit = (id) => {
+        this.props.history.push(`/requisition/edit/${id}`)
+    }
     async refreshList () {
         const response =  await stockApi.get('/requisition');
         this.setState({requisition: response.data})
@@ -83,10 +86,9 @@ export class Requisition extends Component {
 
     render() {
 
-        const {requisition, rId, rNumber, rFile, rLoc} = this.state;
+        const {requisition} = this.state;
 
         let addModalClose =() => this.setState({addModalShow: false})
-        let editModalClose =() => this.setState({editModalShow: false})
 
         this.columns = [
             {
@@ -159,26 +161,14 @@ export class Requisition extends Component {
                             Details
                             </Button>
 
-                            <Button className="mr-2" variant="info"
-                            onClick={()=> this.setState({editModalShow:true, rId:requisition.id,rNumber:requisition.number, rFile: requisition.file, rLoc: requisition.location})}
-                            >
-                                Edit
+                            <Button className="mr-2" variant="primary" onClick={()=>this.onEdit(requisition.id)}>
+                            Edit
                             </Button>
                             <Button className="mr-2" variant="danger"
                             onClick={()=> this.delRequisition(requisition.id)}
                             >{this.state.alert}
                                 Delete
                             </Button>
-                            <EditRequisitionModal
-                                show= {this.state.editModalShow}
-                                onHide={editModalClose}
-                                getdata={this.getData}
-                                rid={rId}
-                                rnumber={rNumber}
-                                rloc={rLoc}
-                                rfile={rFile} 
-
-                            />
                         </ButtonToolbar>
                           
                         ]

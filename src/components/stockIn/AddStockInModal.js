@@ -43,7 +43,7 @@ export class AddStockInModal extends Component {
         var name = ""
         this.state.products.filter( (product) => {
             if(product.id === Number(id)) {
-                name = product.name
+               name = product.name
             }})
             return name
     }

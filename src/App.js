@@ -11,6 +11,7 @@ import { Requisition } from './components/requisition/Requisition'
 import { StockOut } from './components/stockOut/StockOut'
 import { DetailsVoucherModal } from './components/voucher/DetailVoucherModal' 
 import { UpdateVoucher } from './components/voucher/UpdateVoucher'
+import { UpdateRequisition } from './components/requisition/UpdateRequisition'
 import {Navigation } from './components/Navigation'
 import { DetailsRequisitionModal } from './components/requisition/DetailRequisitionModal';
 import { User } from './components/users/User';
@@ -46,6 +47,7 @@ function App(props) {
         <Route path="/stockin" component={StockIn} />
         <Route path="/requisition" exact component={Requisition} />
         <Route path="/requisition/details/:id" component={DetailsRequisitionModal} />
+        <Route path="/requisition/edit/:id" component={UpdateRequisition}/>
         <Route path="/stockout" component={StockOut} />
         {/* <Route path="/user" component={User}/> */}
         <Route path="/signout" render={Logout}/>

@@ -11,10 +11,10 @@ import { animateScroll as scroll } from 'react-scroll'
 
 
 
-export class AddStockInVoucher extends Component {
+export class AddStockOutRequisition extends Component {
     constructor(props) {
         super(props)
-        this.state = {products: [], voucher: [], snackBarOpen: false, snackBarMsg: '', addModalShow: false, editModalShow: false, productQuantity: [], categories: [], initialCategoryId: "", productId: "", quantity: "", productName: "", vnumber: ""}
+        this.state = {products: [], requisition: [], snackBarOpen: false, snackBarMsg: '', addModalShow: false, editModalShow: false, productQuantity: [], categories: [], initialCategoryId: "", productId: "", quantity: "", productName: "", vnumber: "", totalInQuantity: 0, totalOutQuantity: 0}
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getProduct = this.getProduct.bind(this);
 
@@ -22,20 +22,17 @@ export class AddStockInVoucher extends Component {
         this.handleInputValueChanged = this.handleInputValueChanged.bind(this)
         this.handleProductValueChanged = this.handleProductValueChanged.bind(this)
         this.handleProductQuantityRemove =  this.handleProductQuantityRemove.bind(this)
-        // this.handleDropdownChange = this.handleDropdownChange.bind(this);
-        // this.onChangeHandler = this.onChangeHandler.bind(this)
+      
     }
 
     async componentDidMount() {
-
-        // const data = await stockApi.get('/voucher');
-        // this.setState({voucher: data.data})
 
         const categories = await stockApi.get('/categories');
         this.setState({categories: categories.data, initialCategoryId: categories.data[0] ? categories.data[0].id : ''})
 
         const response = await stockApi.get(`/products?categoryId=${this.state.initialCategoryId}`);
-
+        let initialProductIdForShownQuantity = response.data && response.data.length > 0 ? response.data[0].id : ''
+        this.productQuantiyDetails(initialProductIdForShownQuantity)
         this.setState({products: response.data})
     }
 
@@ -55,17 +52,11 @@ export class AddStockInVoucher extends Component {
     }
 
     handleProductQuantityAdd() {
-        console.log(this.state.productId,'this.state.productId')
-        if(!this.state.productId) {
-            console.log(this.refs.defaultProduct,'werewrew')
-            console.log(this.refs.defaultProduct.value,'werewrew')
 
-        }
         let array = this.state.productQuantity
         var productName = this.showProductName(!this.state.productId ? this.refs.defaultProduct.value : this.state.productId)
         array.push({ id: array.length + 1, productId: !this.state.productId ? this.refs.defaultProduct.value : this.state.productId, quantity: this.state.quantity, productName: productName  })
-        // console.log(array)
-        this.props.callbackFromUpdateVoucher(array)
+        this.props.callbackFromUpdateRequisition(array)
  
         this.setState({productQuantity: array, productId: '', quantity: ''})
         scroll.scrollToBottom();
@@ -75,7 +66,7 @@ export class AddStockInVoucher extends Component {
     handleInputValueChanged(e, idx) {
         let nextData = this.state.productQuantity.slice();
         nextData[idx].quantity = e.target.value;
-        this.props.callbackFromUpdateVoucher(nextData)
+        this.props.callbackFromUpdateRequisition(nextData)
         this.setState({ productQuantity: nextData });
     }
 
@@ -88,7 +79,7 @@ export class AddStockInVoucher extends Component {
     handleProductQuantityRemove(idx) {
         let someArray = this.state.productQuantity;
         someArray.splice(idx, 1);
-        this.props.callbackFromUpdateVoucher(someArray)
+        this.props.callbackFromUpdateRequisition(someArray)
         this.setState({productQuantity: someArray})
     }
 
@@ -99,18 +90,20 @@ export class AddStockInVoucher extends Component {
     }
     async getProduct(cid) {
         const getProduct = await stockApi.get(`/products?categoryId=${cid}`);
+        let initialProductIdForShownQuantity = getProduct.data && getProduct.data.length > 0 ? getProduct.data[0].id : ''
+        this.productQuantiyDetails(initialProductIdForShownQuantity)
         this.setState({products: getProduct.data})
     }
 
-    getVoucherIdfromVoucherNumber(data, vnumber) {
-        var id = ""
-        data.filter( (voucher) => {
-            if(voucher.number === Number(vnumber)) {
-                id = voucher.id
-            }})
-            return id
-    }
-    
+    // getRequisitionIdfromRequisitionNumber(data, vnumber) {
+    //     var id = ""
+    //     data.filter( (requisition) => {
+    //         if(requisition.number === Number(vnumber)) {
+    //             id = requisition.id
+    //         }})
+    //         return id
+    // }
+
     async asyncForEach(array, callback) {
         for (let index = 0; index < array.length; index++) {
           await callback(array[index], index, array);
@@ -127,12 +120,11 @@ export class AddStockInVoucher extends Component {
                 let submittedData = {
                     id: null,
                     productId: productQuantity.productId,
-                    inQuantity: productQuantity.quantity,
-                    //voucherId: voucherId
+                    outQuantity: productQuantity.quantity,
                 }
     
                 try {
-                    const response = await stockApi.post('/stock-in', submittedData);
+                    const response = await stockApi.post('/stock-out', submittedData);
                     this.setState({snackBarOpen: true, snackBarMsg: response.data})
                 
                 } catch(error) {
@@ -145,6 +137,38 @@ export class AddStockInVoucher extends Component {
           
     }
 
+    async productQuantiyDetails(id) {
+        try {
+            // let productId = !this.state.productId ? this.refs.defaultProduct.value : this.state.productId
+            const response = await stockApi.get(`/products/${id}`)
+            let product = response.data;
+            
+            if ( !_.isEmpty(product.stockOuts)) {
+                var totalOutQuantity = 0;
+                var iterator = product.stockOuts.values()
+                    for(let key of iterator ) {
+                        totalOutQuantity += key.outQuantity
+                    }
+                    this.setState({totalOutQuantity: totalOutQuantity})
+            } else {
+                this.setState({totalOutQuantity: 0})
+            }
+
+            if ( !_.isEmpty(product.stockIns)) {
+                var totalInQuantity = 0;
+                var data = product.stockIns.values()
+                    for(let key of data ) {
+                        totalInQuantity += key.inQuantity
+                    }
+                this.setState({totalInQuantity: totalInQuantity})
+            } else {
+                this.setState({totalInQuantity: 0})
+            }
+        } catch (error) {
+            alert('This Product does not exist yet')
+        }
+    }
+
     render() {
 
         let handleDropdownChange =(e) => (
@@ -153,6 +177,9 @@ export class AddStockInVoucher extends Component {
         )
 
         let handleProductChange = (e) => (
+            // eslint-disable-next-line
+            this.inputId = e.target.value ? e.target.value : this.refs.defaultProduct.value,
+            this.productQuantiyDetails(this.inputId),
             this.setState({productId: e.target.value})
         )
         return(
@@ -239,7 +266,14 @@ export class AddStockInVoucher extends Component {
                         }
 
                                 <div className="col-md-12" style={{backgroundColor: 'beige'}}>
-                                    Add To Voucher: 
+                                <div className="col-md-offset-10" style={{float: 'right'}}>
+                                    <h6 >Product Quantity Summary:</h6>
+                                    <div style={{display: 'flex'}}>
+                                    <p>InQuantity: {this.state.totalInQuantity}; </p>
+                                    <p>OutQuantity: {this.state.totalOutQuantity}</p>
+                                    </div>
+                                </div>
+                                    Add To Requisition: 
                                     <br/>
                                     <Form  onSubmit={this.handleSubmit} className="col-md-12" style={{display: 'flex'}}>
 
@@ -272,13 +306,22 @@ export class AddStockInVoucher extends Component {
                                 
                                 
                                 }
-                                    <Form.Group controlId="InQuantity" className="col-md-2">
-                                            <Form.Label>InQuantity</Form.Label>
+                                    {this.state.totalInQuantity > this.state.totalOutQuantity ? 
+
+                                    <div className="col-md-2">
+                                    {this.state.totalInQuantity > this.state.totalOutQuantity + Number(this.state.quantity) ? '':
+                                    
+                                    <span style={{color:'red'}}>
+                                        stockout quantity must be less than stockin.
+                                    </span>
+                                    }
+                                    <Form.Group controlId="OutQuantity">
+                                            <Form.Label>OutQuantity</Form.Label>
                                             <Form.Control
                                                 type="number"
-                                                name="InQuantity"
+                                                name="OutQuantity"
                                                 required
-                                                placeholder="InQuantity"
+                                                placeholder="OutQuantity"
                                                 autoComplete="off"
                                                 value={this.state.quantity}
                                                 onChange={e => this.setState({ quantity: e.target.value })}
@@ -289,9 +332,31 @@ export class AddStockInVoucher extends Component {
                                                   }}
                                             />
                                     </Form.Group>
+
+                                    </div> :     
+                                                  
+                                            <div className="col-md-2">
+                                                <span style={{color: 'red'}}>This product has no Stock In Quantity </span>
+                                                {/* <Form.Group controlId="OutQuantity">
+                                                        <Form.Label>OutQuantity</Form.Label>
+                                                        <Form.Control
+                                                            type="number"
+                                                            name="OutQuantity"
+                                                            disabled
+                                                            placeholder="OutQuantity"
+                                                        />
+                                                </Form.Group> */}
+
+                                            </div> 
+                                
+                                
+                                
+                                
+                                
+                                }
                                     <div>
                                     {
-                                this.state.products.length > 0 && !_.isEmpty(this.state.quantity) ? 
+                                this.state.products.length > 0 && !_.isEmpty(this.state.quantity) && this.state.totalInQuantity > this.state.totalOutQuantity + Number(this.state.quantity) ? 
                             
                                 <button
                                 className="btn btn-primary" style={{marginTop: '2rem'}}

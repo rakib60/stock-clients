@@ -35,7 +35,6 @@ export class AddStockOutModal extends Component {
 
         const response = await stockApi.get(`/products?categoryId=${this.state.initialCategoryId}`);
         let initialProductIdForShownQuantity = response.data && response.data.length > 0 ? response.data[0].id : ''
-        console.log(initialProductIdForShownQuantity,'componentdidmount')
         this.productQuantiyDetails(initialProductIdForShownQuantity)
 
         this.setState({products: response.data})
@@ -53,24 +52,13 @@ export class AddStockOutModal extends Component {
 
 
     handleProductQuantityAdd() {
-        console.log(this.state.productId,'this.state.productId')
-        if(!this.state.productId) {
-            console.log(this.refs.defaultProduct,'werewrew')
-            console.log(this.refs.defaultProduct.value,'werewrew')
-
-        }
         let array = this.state.productQuantity
         var productName = this.showProductName(!this.state.productId ? this.refs.defaultProduct.value : this.state.productId)
         array.push({ id: array.length + 1, productId: !this.state.productId ? this.refs.defaultProduct.value : this.state.productId, quantity: this.state.quantity, productName: productName  })
-        console.log(array)
-        this.setState({productQuantity: array})
-        
-        // document.getElementById("submittedForm").reset()
-        this.setState({productId: ''})
-        this.setState({quantity: ''})
+        this.setState({productQuantity: array, productId: '', quantity: ''})
     }
 
-    handleInputValueChanged(e, idx) {
+    async handleInputValueChanged(e, idx) {
         let nextData = this.state.productQuantity.slice();
         nextData[idx].quantity = e.target.value;
         this.setState({ productQuantity: nextData });
@@ -169,7 +157,7 @@ export class AddStockOutModal extends Component {
                 
                 } catch(error) {
                     this.setState({snackBarOpen: true, snackBarMsg: 'Failed'})
-                    alert('Quantity Should not more than StockIn Quantity')
+                    alert('Quantity Should be less than StockIn Quantity')
                 }
             });
             console.log('Done');
@@ -182,11 +170,9 @@ export class AddStockOutModal extends Component {
 
     async productQuantiyDetails(id) {
         try {
-            // let productId = !this.state.productId ? this.refs.defaultProduct.value : this.state.productId
             const response = await stockApi.get(`/products/${id}`)
             let product = response.data;
             
-            console.log(product,'productsss')
             if ( !_.isEmpty(product.stockOuts)) {
                 var totalOutQuantity = 0;
                 var iterator = product.stockOuts.values()
@@ -215,14 +201,12 @@ export class AddStockOutModal extends Component {
 
     render() {
         let handleDropdownChange =(e) => (
-            console.log('jibon', e.target.value),
             this.getProduct(e.target.value)
 
         )
 
-        let handleProductChange = (e) => (
-            // console.log(e.target.value, 'id'),
-            
+        let handleProductChange = (e) => (            
+            // eslint-disable-next-line
             this.inputId = e.target.value ? e.target.value : this.refs.defaultProduct.value ,
             this.productQuantiyDetails(this.inputId),
             this.setState({productId: e.target.value})
@@ -398,12 +382,7 @@ export class AddStockOutModal extends Component {
 
                                         <tr key={idx} className="row">
                                             <td className="col-3 col-s-3 col-m-3">
-                                            {/* <div style={{display: 'flex'}} className="col-md-12">
-                                            <div className="col-md-9" style={{display: 'flex'}}> */}
                                             {productQuantity.productId}
-                                        
-                                            {/* </div>
-                                            </div> */}
                                             </td>
                                             <td className="col-5 col-s-5 col-m-5">
                                             <input

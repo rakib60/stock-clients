@@ -4,7 +4,6 @@ import stockApi from '../../api/StockApi'
 
 import {Button, ButtonToolbar} from 'react-bootstrap'
 import {AddVoucherModal} from './AddVoucherModal'
-import {EditVoucherModal} from './EditVoucherModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
 
@@ -15,7 +14,7 @@ export class Voucher extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {voucher: [], addModalShow: false, editModalShow: false, alert: null}
+        this.state = {voucher: [], addModalShow: false, alert: null}
         this.getData = this.getData.bind(this)
         this.columns = []
         this.data = []
@@ -88,10 +87,9 @@ export class Voucher extends Component {
 
     render() {
 
-        const {voucher, vId, vNumber, vFile} = this.state;
+        const {voucher} = this.state;
 
         let addModalClose =() => this.setState({addModalShow: false})
-        let editModalClose =() => this.setState({editModalShow: false})
 
         this.columns = [
             {
@@ -158,24 +156,12 @@ export class Voucher extends Component {
                             <Button className="mr-2" variant="primary" onClick={()=>this.onEdit(voucher.id)}>
                             Edit
                             </Button>
-                            {/* <Button className="mr-2" variant="info"
-                            onClick={()=> this.setState({editModalShow:true, vId:voucher.id, vNumber:voucher.number, vFile: voucher.file})}
-                            >
-                                Edit
-                            </Button> */}
                             <Button className="mr-2" variant="danger"
                             onClick={()=> this.delVoucher(voucher.id)}
                             >{this.state.alert}
                                 Delete
                             </Button>
-                            {/* <EditVoucherModal
-                                show= {this.state.editModalShow}
-                                onHide={editModalClose}
-                                getdata={this.getData}
-                                vid={vId}
-                                vnumber={vNumber}
-                                vfile={vFile}
-                            /> */}
+
                         </ButtonToolbar>
                           
                         ]
