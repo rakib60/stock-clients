@@ -110,6 +110,13 @@ export class Voucher extends Component {
                     filter: true
                 }
             },
+
+            {
+                name: "Status",
+                options: {
+                    filter: true
+                }
+            },
             
             {
                 name: "Actions",
@@ -149,18 +156,29 @@ export class Voucher extends Component {
                             voucher.id,
                             voucher.number,
                             voucher.file,
+                            voucher.status === 0 ? "Pending" : "Approved",
                           <ButtonToolbar>
                            <Button className="mr-2" variant="primary" onClick={()=>this.onDetails(voucher.id)}>
                             Details
                             </Button>
-                            <Button className="mr-2" variant="primary" onClick={()=>this.onEdit(voucher.id)}>
-                            Edit
-                            </Button>
+                            {localStorage.getItem('isAdmin')==="1" && voucher.status === 1 ? 
+                                <Button className="mr-2" variant="primary" disabled>
+                                    Edit
+                                </Button> : 
+                                <Button className="mr-2" variant="primary" onClick={()=>this.onEdit(voucher.id)}>
+                                     Edit
+                                </Button>
+                            }
+                            {localStorage.getItem('isAdmin')==="1" && voucher.status === 1 ? 
+                                <Button className="mr-2" variant="danger" disabled>
+                                    Delete
+                                </Button> : 
                             <Button className="mr-2" variant="danger"
-                            onClick={()=> this.delVoucher(voucher.id)}
-                            >{this.state.alert}
-                                Delete
-                            </Button>
+                                    onClick={()=> this.delVoucher(voucher.id)}
+                                    >{this.state.alert}
+                                        Delete
+                                    </Button>
+                            }
 
                         </ButtonToolbar>
                           

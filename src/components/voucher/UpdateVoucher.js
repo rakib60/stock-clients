@@ -19,16 +19,21 @@ import {Form } from  'react-bootstrap'
 
 import {AddStockInVoucher} from './AddStockInVoucher'
 
+const Status = {
+    pending: 0,
+    approved:1
+}
 
 export class UpdateVoucher extends Component {
     constructor(props) {
         super(props);
-        this.state = {voucher: [], productQuantity: [], newAddedProductQuantity: [], selectedFile: null, vNumber: '', updatedFileName: '', alert: null, snackBarOpen: false, snackBarMsg: '', forImageShow: '', imageShow: ''}
+        this.state = {voucher: [], productQuantity: [], newAddedProductQuantity: [], selectedFile: null, vNumber: '', updatedFileName: '', alert: null, snackBarOpen: false, snackBarMsg: '', forImageShow: '', imageShow: '', selectedStatus: null}
         this.refreshList = this.refreshList.bind(this)
         this.handleProductQuantityRemove =  this.handleProductQuantityRemove.bind(this)
         this.handleInputValueChanged = this.handleInputValueChanged.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
         this.forImageShow = this.forImageShow.bind(this);
+        this.handleOptionChange = this.handleOptionChange.bind(this);
         this.addStockInVoucher = React.createRef();
 
     }
@@ -101,6 +106,12 @@ export class UpdateVoucher extends Component {
        }
     }
     
+    handleOptionChange = changeEvent => {
+        console.log(changeEvent,'changeEvent')
+        this.setState({
+            selectedStatus: changeEvent.target.value
+        });
+      };
 
     async handleProductQuantityRemove(idx) {
         let {stockIns} = this.state.voucher;
@@ -141,11 +152,13 @@ export class UpdateVoucher extends Component {
         event.preventDefault()
         var productQuantityList= this.state.productQuantity
         let { match: { params } } = this.props;
-        const file = this.state.selectedFile ? this.state.selectedFile : this.state.voucher.file
+        const file = this.state.selectedFile ? this.state.selectedFile : this.state.voucher.file;
+        const status = this.state.selectedStatus ? this.state.selectedStatus : this.state.voucher.status;
         var data = new FormData()
         data.append('id', params.id)
         data.append('file', file)
         data.append('number', this.state.vNumber ? this.state.vNumber : this.state.voucher.number )
+        data.append('status', status)
         try {
             const response = await stockApi.patch(`/voucher/${params.id}`, data);
             this.setState({snackBarOpen: true, snackBarMsg: response.data})
@@ -262,7 +275,24 @@ export class UpdateVoucher extends Component {
               subheader={this.voucher_subtitle}
               
             />
-            
+            {
+                localStorage.getItem('isAdmin')==="2" ?
+                <Col xs={6}>
+                <Form.Group controlId="CategoryName" className="col-md-6" >
+                    <Form.Label>Status</Form.Label>
+                    <Form.Control as="select"
+                    onChange={this.handleOptionChange}
+                    >
+                        {Object.values(Status).map(status => 
+                            <option key={status} value={status}>
+                                {_.invert(Status)[status]}
+                            </option>       
+                    )}  
+                    </Form.Control>
+                </Form.Group>
+            </Col> : ''
+            }
+
             <Col xs={6}  style={imageStyle} id="printButton">
             {this.state.imageShow ? <a href={this.imageUrl} target="_blank" rel="noopener noreferrer">Save Image</a> : 'This voucher has no Image'}
             <ModalImage

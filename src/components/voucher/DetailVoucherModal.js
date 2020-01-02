@@ -81,7 +81,7 @@ export class DetailsVoucherModal extends Component {
               subheader={this.voucher_subtitle}
               
             />
-            
+        <Col xs={6}  id="printButton"> Status : {this.state.voucher && this.state.voucher.status === 0 ? 'Pending' : 'Approved' }</Col>
             <Col xs={6}  style={imageStyle} id="printButton">
             <ModalImage
                 small={this.imageUrl}

@@ -4,6 +4,11 @@ import stockApi from '../../api/StockApi'
 
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
+
+const Status = {
+    pending: 0,
+    approved:1
+}
 export class AddVoucherModal extends Component {
     constructor(props) {
         super(props)
@@ -34,6 +39,7 @@ export class AddVoucherModal extends Component {
         data.append('id',null)
         data.append('file',this.state.selectedFile);
         data.append('number', event.target.VoucherNumber.value)
+        data.append('status', Status.pending)
 
         try {
             const response = await stockApi.post('/voucher', data);
