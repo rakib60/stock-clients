@@ -41,7 +41,7 @@ export default class AuthService  {
             isAdmin: result.data.isAdmin
         }
         this.saveToken(data);
-
+        
         return result.data;
     }
 
@@ -50,6 +50,7 @@ export default class AuthService  {
 //   }
 
     async signout() {
-    this.removeToken();
+        await stockApi.get('/auth/logout')
+        this.removeToken();
     }
 }

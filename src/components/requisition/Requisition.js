@@ -116,6 +116,12 @@ export class Requisition extends Component {
                 }
             },
             {
+                name: "Status",
+                options: {
+                    filter: true
+                }
+            },
+            {
                 name: "Actions",
                 options: {
                     filter: false
@@ -154,21 +160,31 @@ export class Requisition extends Component {
                             requisition.number,
                             requisition.file,
                             requisition.location,
+                            requisition.status === 0 ? "Pending" : "Approved",
                           <ButtonToolbar>
                            <Button className="mr-2" variant="primary" onClick={()=>this.onDetails(requisition.id)}>
                             {/* // onClick={()=> this.setState({voucherDetailShow:true, vId:voucher.id,vNumber:voucher.number, vFile: voucher.file})} */}
 
                             Details
                             </Button>
-
-                            <Button className="mr-2" variant="primary" onClick={()=>this.onEdit(requisition.id)}>
-                            Edit
-                            </Button>
+                            {localStorage.getItem('isAdmin')==="1" && requisition.status === 1 ? 
+                                <Button className="mr-2" variant="primary" disabled>
+                                    Edit
+                                </Button> : 
+                                <Button className="mr-2" variant="primary" onClick={()=>this.onEdit(requisition.id)}>
+                                     Edit
+                                </Button>
+                            }
+                            {localStorage.getItem('isAdmin')==="1" && requisition.status === 1 ? 
+                                <Button className="mr-2" variant="danger" disabled>
+                                    Delete
+                                </Button> : 
                             <Button className="mr-2" variant="danger"
-                            onClick={()=> this.delRequisition(requisition.id)}
-                            >{this.state.alert}
-                                Delete
-                            </Button>
+                                    onClick={()=> this.delRequisition(requisition.id)}
+                                    >{this.state.alert}
+                                        Delete
+                                    </Button>
+                            }
                         </ButtonToolbar>
                           
                         ]

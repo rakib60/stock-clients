@@ -35,8 +35,8 @@ export class Category extends Component {
         this.setState({categories: response.data})
 
     }
-    
 
+    
     getData(data) {
         this.setState({categories: data})
     }
@@ -86,7 +86,7 @@ export class Category extends Component {
 
     // $('button[aria-label="Print"]').on('click', function(){});
     render() {
-        const {categories, cId, cName} = this.state;
+        const {categories, cId, cName, cStatus} = this.state;
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
 
@@ -115,27 +115,57 @@ export class Category extends Component {
         })
 
 
+        if(localStorage.getItem('isAdmin')==="2") {
+            this.columns = [
+                {
+                    name: "CategoryID",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "CategoryName",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "Status",
+                    options: {
+                        filter: true
+                    }
+                },
 
-        this.columns = [
-            {
-                name: "CategoryID",
-                options: {
-                    filter: true
+                {
+                    name: "Actions",
+                    options: {
+                        filter: false
+                    }
                 }
-            },
-            {
-                name: "DepartmentName",
-                options: {
-                    filter: true
+            ]
+        } else {
+            this.columns = [
+                {
+                    name: "CategoryID",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "CategoryName",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "Actions",
+                    options: {
+                        filter: false
+                    }
                 }
-            },
-            {
-                name: "Actions",
-                options: {
-                    filter: false
-                }
-            }
-        ]
+            ]
+        }
+         
         const options ={
             selectableRows: 'none',
             download: false,
@@ -159,42 +189,79 @@ export class Category extends Component {
                 />
             </ButtonToolbar>
             <br/>
-            <MUIDataTable
-                title={"Category List"}
-                data={
-                    categories.map(category => {
-                        return [
-                            category.id,
-                            category.name,
-                          <ButtonToolbar>
-                            <Button className="mr-2" variant="info"
-                            onClick={()=> this.setState({editModalShow:true, cId:category.id, cName:category.name})}
-                            >
-                                Edit
-                            </Button>
-                            <Button className="mr-2" variant="danger"
-                            onClick={()=> this.delCategory(category.id)}
-                            >{this.state.alert}
-                                Delete
-                            </Button>
-                            <EditCategoryModal
-                                show= {this.state.editModalShow}
-                                onHide={editModalClose}
-                                getdata={this.getData}
-                                cid={cId}
-                                cname={cName}
-                                
+            {localStorage.getItem('isAdmin')==="2" ? 
+        <MUIDataTable
+        title={"Category List"}
+        data={
+            categories.map(category => {
+                return [
+                    category.id,
+                    category.name,
+                    category.deleteStatus === 0 ? "InActive" : "Active",
+                  <ButtonToolbar>
+                    <Button className="mr-2" variant="info"
+                    onClick={()=> this.setState({editModalShow:true, cId:category.id, cName:category.name, cStatus:category.deleteStatus})}
+                    >
+                        Edit
+                    </Button>
+                    <Button className="mr-2" variant="danger"
+                    onClick={()=> this.delCategory(category.id)}
+                    >{this.state.alert}
+                        Delete
+                    </Button>
+                    <EditCategoryModal
+                        show= {this.state.editModalShow}
+                        onHide={editModalClose}
+                        getdata={this.getData}
+                        cid={cId}
+                        cname={cName}
+                        cstatus={cStatus}
+                        
 
-                            />
-                        </ButtonToolbar>
-                        ]
-                    }
-                )
-                }
-                columns={this.columns}
-                options={options}
-                
-                />
+                    />
+                </ButtonToolbar>
+                ]
+            }
+        )
+        }
+        columns={this.columns}
+        options={options}
+        
+        /> : <MUIDataTable
+        title={"Category List"}
+        data={
+            categories.map(category => {
+                return [
+                    category.id,
+                    category.name,
+                  <ButtonToolbar>
+                    <Button className="mr-2" variant="info"
+                    onClick={()=> this.setState({editModalShow:true, cId:category.id, cName:category.name})}
+                    >
+                        Edit
+                    </Button>
+                    <Button className="mr-2" variant="danger"
+                    onClick={()=> this.delCategory(category.id)}
+                    >{this.state.alert}
+                        Delete
+                    </Button>
+                    <EditCategoryModal
+                        show= {this.state.editModalShow}
+                        onHide={editModalClose}
+                        getdata={this.getData}
+                        cid={cId}
+                        cname={cName}
+                    />
+                </ButtonToolbar>
+                ]
+            }
+        )
+        }
+        columns={this.columns}
+        options={options}
+        
+        />    
+        }
                 <br/>
             </Col>
             </Row>

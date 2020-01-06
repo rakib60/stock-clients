@@ -19,11 +19,14 @@ import {Form } from  'react-bootstrap'
 
 import {AddStockOutRequisition} from './AddStockOutRequisition'
 
-
+const Status = {
+    pending: 0,
+    approved:1
+}
 export class UpdateRequisition extends Component {
     constructor(props) {
         super(props);
-        this.state = {requisition: [], productQuantity: [], newAddedProductQuantity: [], selectedFile: null, rNumber: '', updatedFileName: '', alert: null, snackBarOpen: false, snackBarMsg: '', forImageShow: '', imageShow: ''}
+        this.state = {requisition: [], productQuantity: [], newAddedProductQuantity: [], selectedFile: null, rNumber: '', updatedFileName: '', alert: null, snackBarOpen: false, snackBarMsg: '', forImageShow: '', imageShow: '', selectedStatus: null}
         this.refreshList = this.refreshList.bind(this)
         this.handleProductQuantityRemove =  this.handleProductQuantityRemove.bind(this)
         this.handleInputValueChanged = this.handleInputValueChanged.bind(this)
@@ -128,6 +131,11 @@ export class UpdateRequisition extends Component {
        }
     }
     
+    handleOptionChange = changeEvent => {
+        this.setState({
+            selectedStatus: changeEvent.target.value
+        });
+    };
 
     async handleProductQuantityRemove(idx) {
         let {stockOuts} = this.state.requisition;
@@ -168,12 +176,15 @@ export class UpdateRequisition extends Component {
         event.preventDefault()
         var productQuantityList= this.state.productQuantity
         let { match: { params } } = this.props;
-        const file = this.state.selectedFile ? this.state.selectedFile : this.state.requisition.file
+        const file = this.state.selectedFile ? this.state.selectedFile : this.state.requisition.file;
+        const status = this.state.selectedStatus ? this.state.selectedStatus : this.state.requisition.status;
         var data = new FormData()
         data.append('id', params.id)
         data.append('file', file)
         data.append('location', this.state.location ? this.state.location : this.state.requisition.location)
         data.append('number', this.state.rNumber ? this.state.rNumber : this.state.requisition.number )
+        data.append('status', status)
+
         try {
             const response = await stockApi.patch(`/requisition/${params.id}`, data);
             this.setState({snackBarOpen: true, snackBarMsg: response.data})
@@ -260,6 +271,7 @@ export class UpdateRequisition extends Component {
               })
         )
 
+        const defaultValue = this.state.requisition.status;
         return(
             
             <div id='printme'>
@@ -291,7 +303,29 @@ export class UpdateRequisition extends Component {
               subheader={this.requisition_subtitle}
               
             />
-            
+            {
+                
+                localStorage.getItem('isAdmin')==="2" ?
+                <Col xs={6}>
+                <h6>Current Status : {this.state.requisition.status === 0 ? 'Pending' : 'Approved'}</h6>
+                <Form.Group controlId="CategoryName" className="col-md-6" >
+                    <Form.Label>Status</Form.Label>
+                    <Form.Control as="select" 
+                    onChange={this.handleOptionChange}
+                    >
+                        {Object.values(Status).map(status => 
+                            <option 
+                            key={status} 
+                            value={status} 
+                            selected={defaultValue === status ? "selected": ""}>
+                                {_.invert(Status)[status]}
+                                
+                            </option>       
+                    )}  
+                    </Form.Control>
+                </Form.Group>
+            </Col> : ''
+            }
             <Col xs={6}  style={imageStyle} id="printButton">
             {this.state.imageShow ? <a href={this.imageUrl} target="_blank" rel="noopener noreferrer">Save Image</a> : 'This requisition has no Image'}
             <ModalImage

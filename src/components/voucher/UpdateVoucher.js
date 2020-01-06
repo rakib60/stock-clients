@@ -107,7 +107,6 @@ export class UpdateVoucher extends Component {
     }
     
     handleOptionChange = changeEvent => {
-        console.log(changeEvent,'changeEvent')
         this.setState({
             selectedStatus: changeEvent.target.value
         });
@@ -243,7 +242,7 @@ export class UpdateVoucher extends Component {
                 loaded: 0,
               })
         )
-
+        const defaultValue = this.state.voucher.status
         return(
             
             <div id='printme'>
@@ -276,16 +275,22 @@ export class UpdateVoucher extends Component {
               
             />
             {
+                
                 localStorage.getItem('isAdmin')==="2" ?
                 <Col xs={6}>
+                <h6>Current Status : {this.state.voucher.status === 0 ? 'Pending' : 'Approved'}</h6>
                 <Form.Group controlId="CategoryName" className="col-md-6" >
                     <Form.Label>Status</Form.Label>
-                    <Form.Control as="select"
+                    <Form.Control as="select" 
                     onChange={this.handleOptionChange}
                     >
                         {Object.values(Status).map(status => 
-                            <option key={status} value={status}>
+                            <option 
+                            key={status} 
+                            value={status} 
+                            selected={defaultValue === status ? "selected": ""}>
                                 {_.invert(Status)[status]}
+                                
                             </option>       
                     )}  
                     </Form.Control>

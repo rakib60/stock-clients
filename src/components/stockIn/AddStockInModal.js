@@ -50,16 +50,10 @@ export class AddStockInModal extends Component {
 
 
     handleProductQuantityAdd() {
-        console.log(this.state.productId,'this.state.productId')
-        if(!this.state.productId) {
-            console.log(this.refs.defaultProduct,'werewrew')
-            console.log(this.refs.defaultProduct.value,'werewrew')
 
-        }
         let array = this.state.productQuantity
         var productName = this.showProductName(!this.state.productId ? this.refs.defaultProduct.value : this.state.productId)
         array.push({ id: array.length + 1, productId: !this.state.productId ? this.refs.defaultProduct.value : this.state.productId, quantity: this.state.quantity, productName: productName  })
-        console.log(array)
         this.setState({productQuantity: array})
         
         // document.getElementById("submittedForm").reset()
@@ -126,7 +120,7 @@ export class AddStockInModal extends Component {
 
     async handleSubmit(event) {
         event.preventDefault()
-        console.log('sdlfjlsf', this.state.selectedFile)
+
         let file = this.state.selectedFile ? this.state.selectedFile : ''
         var formData = new FormData()
         formData.append('id', null)
