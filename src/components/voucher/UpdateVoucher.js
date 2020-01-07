@@ -160,7 +160,7 @@ export class UpdateVoucher extends Component {
         data.append('status', status)
         try {
             const response = await stockApi.patch(`/voucher/${params.id}`, data);
-            this.setState({snackBarOpen: true, snackBarMsg: response.data})
+            this.setState({snackBarOpen: true, snackBarMsg: response.data.loggedInfo})
             const getData = await stockApi.get(`/voucher/${params.id}/`);
             this.setState({updatedFileName: getData.data.file})
             if(this.props.getdata) {

@@ -81,43 +81,86 @@ export class Product extends Component {
 
     render() {
         // console.log(this.state,'sdffffffff')
-        const {products, pId, pName, pDes, cId} = this.state;
+        const {products, pId, pName, pDes, pStatus, cId} = this.state;
 
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
 
-        this.columns = [
-            {
-                name: "ProductID",
-                options: {
-                    filter: true
+        if(localStorage.getItem('isAdmin')==="2") {
+            this.columns = [
+                {
+                    name: "ProductID",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "ProductName",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "ProductDesc.",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "CategoryName",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "Status",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "Actions",
+                    options: {
+                        filter: false
+                    }
                 }
-            },
-            {
-                name: "ProductName",
-                options: {
-                    filter: true
+            ]
+            
+        } else {
+            this.columns = [
+                {
+                    name: "ProductID",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "ProductName",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "ProductDesc.",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "CategoryName",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "Actions",
+                    options: {
+                        filter: false
+                    }
                 }
-            },
-            {
-                name: "ProductDesc.",
-                options: {
-                    filter: true
-                }
-            },
-            {
-                name: "CategoryName",
-                options: {
-                    filter: true
-                }
-            },
-            {
-                name: "Actions",
-                options: {
-                    filter: false
-                }
-            }
-        ]
+            ]
+        }
+
         const options ={
             selectableRows: 'none',
             download: false,
@@ -141,47 +184,94 @@ export class Product extends Component {
                 />
             </ButtonToolbar>
             <br/>
+            {localStorage.getItem('isAdmin')==="2" ? 
+            
             <MUIDataTable
-                title={"Product List"}
-                data={
-                    products.map(Product => {
-                        return [
-                            Product.id,
-                            Product.name,
-                            Product.description,
-                            Product.category.name,
-                            <ButtonToolbar>
-                            <Button className="mr-2" variant="info"
-                            onClick={()=> this.setState({editModalShow:true, pId:Product.id, pName: Product.name, pDes:Product.description,  cId:Product.category.id})}
-                            >
-                                Edit
-                            </Button>
-                            <Button className="mr-2" variant="danger"
-                            onClick={()=> this.delProduct(Product.id)}
-                            >
-                                {this.state.alert}
-                                Delete
-                            </Button>
-                            <EditProductModal
-                                show= {this.state.editModalShow}
-                                onHide={editModalClose}
-                                getdata={this.getData}
-                                pid={pId}
-                                pname={pName}
-                                pdes={pDes}
-                                cid={cId}
-                                
+            title={"Product List"}
+            data={
+                products.map(Product => {
+                    return [
+                        Product.id,
+                        Product.name,
+                        Product.description,
+                        Product.category.name,
+                        Product.deleteStatus === 0 ? "InActive" : "Active",
+                        <ButtonToolbar>
+                        <Button className="mr-2" variant="info"
+                        onClick={()=> this.setState({editModalShow:true, pId:Product.id, pName: Product.name, pDes:Product.description, pStatus: Product.deleteStatus, cId:Product.category.id})}
+                        >
+                            Edit
+                        </Button>
+                        <Button className="mr-2" variant="danger"
+                        onClick={()=> this.delProduct(Product.id)}
+                        >
+                            {this.state.alert}
+                            Delete
+                        </Button>
+                        <EditProductModal
+                            show= {this.state.editModalShow}
+                            onHide={editModalClose}
+                            getdata={this.getData}
+                            pid={pId}
+                            pname={pName}
+                            pdes={pDes}
+                            pstatus={pStatus}
+                            cid={cId}
+                            
 
-                            />
-                            </ButtonToolbar>
-                        ]
-                    }
-                )
+                        />
+                        </ButtonToolbar>
+                    ]
                 }
-                columns={this.columns}
-                options={options}
-                
-                />
+            )
+            }
+            columns={this.columns}
+            options={options}
+            
+            /> :
+            <MUIDataTable
+            title={"Product List"}
+            data={
+                products.map(Product => {
+                    return [
+                        Product.id,
+                        Product.name,
+                        Product.description,
+                        Product.category.name,
+                        <ButtonToolbar>
+                        <Button className="mr-2" variant="info"
+                        onClick={()=> this.setState({editModalShow:true, pId:Product.id, pName: Product.name, pDes:Product.description, cId:Product.category.id})}
+                        >
+                            Edit
+                        </Button>
+                        <Button className="mr-2" variant="danger"
+                        onClick={()=> this.delProduct(Product.id)}
+                        >
+                            {this.state.alert}
+                            Delete
+                        </Button>
+                        <EditProductModal
+                            show= {this.state.editModalShow}
+                            onHide={editModalClose}
+                            getdata={this.getData}
+                            pid={pId}
+                            pname={pName}
+                            pdes={pDes}
+                            cid={cId}
+                            
+
+                        />
+                        </ButtonToolbar>
+                    ]
+                }
+            )
+            }
+            columns={this.columns}
+            options={options}
+            
+            />     
+        
+        }
                 <br/>
             </Col>
             </Row>

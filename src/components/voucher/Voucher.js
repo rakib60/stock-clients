@@ -41,9 +41,16 @@ export class Voucher extends Component {
         this.setState({voucher: data})
     }
 
-    async deleteFile(vid) {  
+    async deleteFile(vid) {
         try {
-                await stockApi.delete(`/voucher/${vid}`) 
+            const forImageDelete = await stockApi.get(`/voucher/${vid}`)
+            const fileName = forImageDelete.data.file
+            console.log(fileName,'bref')
+
+            if(fileName) {
+                await stockApi.delete(`/voucher/${vid}/${fileName}`)
+            }
+            await stockApi.delete(`/voucher/${vid}`) 
             } catch(error) {
                 alert('This Voucher is assocciated with StockIn')
             }
@@ -155,7 +162,7 @@ export class Voucher extends Component {
                         return [
                             voucher.id,
                             voucher.number,
-                            voucher.file,
+                            voucher.file ? voucher.file : '-',
                             voucher.status === 0 ? "Pending" : "Approved",
                           <ButtonToolbar>
                            <Button className="mr-2" variant="primary" onClick={()=>this.onDetails(voucher.id)}>

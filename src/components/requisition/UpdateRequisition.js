@@ -187,7 +187,7 @@ export class UpdateRequisition extends Component {
 
         try {
             const response = await stockApi.patch(`/requisition/${params.id}`, data);
-            this.setState({snackBarOpen: true, snackBarMsg: response.data})
+            this.setState({snackBarOpen: true, snackBarMsg: response.data.loggedInfo})
             const getData = await stockApi.get(`/requisition/${params.id}/`);
             this.setState({updatedFileName: getData.data.file})
             if(this.props.getdata) {

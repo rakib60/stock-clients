@@ -42,6 +42,13 @@ export class Requisition extends Component {
 
     async deleteFile(vid) {  
         try {
+            const forImageDelete = await stockApi.get(`/requisition/${vid}`)
+            const fileName = forImageDelete.data.file
+            console.log(fileName,'brefrequisition')
+
+            if(fileName) {
+                await stockApi.delete(`/requisition/${vid}/${fileName}`)
+            }
                 await stockApi.delete(`/requisition/${vid}`) 
             } catch(error) {
                 alert('This Requisition is assocciated with StockOut')
@@ -158,8 +165,8 @@ export class Requisition extends Component {
                         return [
                             requisition.id,
                             requisition.number,
-                            requisition.file,
-                            requisition.location,
+                            requisition.file ? requisition.file : '-',
+                            requisition.location ? requisition.location : '-',
                             requisition.status === 0 ? "Pending" : "Approved",
                           <ButtonToolbar>
                            <Button className="mr-2" variant="primary" onClick={()=>this.onDetails(requisition.id)}>
