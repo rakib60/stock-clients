@@ -6,7 +6,7 @@ import {AddCategoryModal} from './AddCategoryModal'
 import {EditCategoryModal} from './EditCategoryModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
-
+import CategoryListPrint from './CategoryToPrint'
 import MUIDataTable from "mui-datatables";
 
 export class Category extends Component {
@@ -95,6 +95,8 @@ export class Category extends Component {
 
             el.onclick = function(event) {
                 var main = document.querySelector('.MUIDataTableToolbar-actions-46');
+                var pagination = document.querySelector('.MuiTableFooter-root')
+                pagination.style.display="none"
                 main.style.display="none"
                 // window.print();
                 onafterprint()
@@ -187,7 +189,11 @@ export class Category extends Component {
                     onHide={addModalClose}
                     getdata={this.getData}
                 />
+                <span className="col-12" style={{textAlign: 'end'}}>
+                <CategoryListPrint/>
+                </span>
             </ButtonToolbar>
+            
             <br/>
             {localStorage.getItem('isAdmin')==="2" ? 
         <MUIDataTable

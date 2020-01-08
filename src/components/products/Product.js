@@ -6,7 +6,7 @@ import {AddProductModal} from './AddProductModal'
 import {EditProductModal} from './EditProductModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
-
+import ProductListPrint from './ProductToPrint'
 import MUIDataTable from "mui-datatables";
 
 export class Product extends Component {
@@ -182,6 +182,9 @@ export class Product extends Component {
                     onHide={addModalClose}
                     getdata={this.getData}
                 />
+                <span className="col-12" style={{textAlign: 'end'}}>
+                <ProductListPrint/>
+                </span>
             </ButtonToolbar>
             <br/>
             {localStorage.getItem('isAdmin')==="2" ? 

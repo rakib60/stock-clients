@@ -6,7 +6,8 @@ import {Button, ButtonToolbar} from 'react-bootstrap'
 import {AddVoucherModal} from './AddVoucherModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
-
+import VoucherListPendingPrint from './VoucherPendingToPrint'
+import VoucherApprovedListPrint from './VoucherToPrint'
 import MUIDataTable from "mui-datatables";
 
 export class Voucher extends Component {
@@ -135,7 +136,9 @@ export class Voucher extends Component {
         const options ={
             selectableRows: 'none',
             download: false,
-            responsive: 'scrollMaxHeight'
+            print: true,
+            // responsive: 'scrollMaxHeight',
+            responsive: 'scrollFullHeight'
 
         }
         return (
@@ -153,6 +156,15 @@ export class Voucher extends Component {
                     onHide={addModalClose}
                     getdata={this.getData}
                 />
+                <div className="col-md-12" style={{display: 'flex'}}>
+                <div className="col-md-10">
+                </div>
+                    <div className="col-md-2" style={{display: 'flex'}}>
+                    <VoucherListPendingPrint/>
+                    <VoucherApprovedListPrint/>
+                    </div>
+
+                </div>
             </ButtonToolbar>
             <br/>
             <MUIDataTable
