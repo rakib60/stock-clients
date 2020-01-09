@@ -7,6 +7,8 @@ import {AddRequisitionModal} from './AddRequisitionModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
 
+import RequisitionListPendingPrint from './RequisitionPendingToPrint'
+import RequisitionApprovedListPrint from './RequisitionToPrint'
 import MUIDataTable from "mui-datatables";
 
 export class Requisition extends Component {
@@ -138,9 +140,23 @@ export class Requisition extends Component {
         const options ={
             selectableRows: 'none',
             download: false,
+            print: false,
             responsive: 'scrollMaxHeight'
 
         }
+
+        // MUIDataTableToolbar-actions-66
+        // var div  = document.createElement("div")
+        //console.log()//.appendChild(
+
+        // )
+        console.log(document.getElementsByClassName("MUIDataTableToolbar-actions-66"),'ddd')
+        // // document.getElementsByClassName("MUIDataTableToolbar-actions-66")[0].appendChild(
+        //     `<div style={{display: 'flex'}}>
+        //     <RequisitionListPendingPrint/>
+        //     <RequisitionApprovedListPrint/>
+        //     </div>`
+        // )
         return (
            <Row>
             <Col>
@@ -156,6 +172,14 @@ export class Requisition extends Component {
                     onHide={addModalClose}
                     getdata={this.getData}
                 />
+                <div className="col-md-12" style={{display: 'flex'}}>
+                <div className="col-md-10"></div>
+                    <div className="col-md-2" style={{display: 'flex'}}>
+                    <RequisitionListPendingPrint/>
+                    <RequisitionApprovedListPrint/>
+                    </div>
+
+                </div>
             </ButtonToolbar>
             <br/>
             <MUIDataTable
