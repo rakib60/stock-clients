@@ -9,6 +9,7 @@ import {Col, Row } from  'react-bootstrap'
 
 import RequisitionListPendingPrint from './RequisitionPendingToPrint'
 import RequisitionApprovedListPrint from './RequisitionToPrint'
+import RequisitionDownloads from './RequisitionDownloads'
 import MUIDataTable from "mui-datatables";
 
 export class Requisition extends Component {
@@ -162,7 +163,7 @@ export class Requisition extends Component {
             <Col>
             <br/>
             <ButtonToolbar>
-                <Button 
+                {/* <Button 
                 variant="primary" 
                 onClick={()=> this.setState({addModalShow: true})}>
                     Add Requisition
@@ -171,12 +172,13 @@ export class Requisition extends Component {
                     show={this.state.addModalShow}
                     onHide={addModalClose}
                     getdata={this.getData}
-                />
+                /> */}
                 <div className="col-md-12" style={{display: 'flex'}}>
                 <div className="col-md-10"></div>
                     <div className="col-md-2" style={{display: 'flex'}}>
                     <RequisitionListPendingPrint/>
                     <RequisitionApprovedListPrint/>
+                    <RequisitionDownloads/>
                     </div>
 
                 </div>

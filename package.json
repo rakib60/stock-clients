@@ -13,6 +13,7 @@
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-bootstrap-sweetalert": "^5.1.7",
+    "react-csv": "^1.1.2",
     "react-dom": "^16.12.0",
     "react-iframe": "^1.8.0",
     "react-modal-image": "^2.5.0",

@@ -90,31 +90,31 @@ export class Category extends Component {
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
 
-        document.addEventListener('DOMContentLoaded', function() {
-            var el = document.querySelector('button[aria-label="Print"]')
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     var el = document.querySelector('button[aria-label="Print"]')
 
-            el.onclick = function(event) {
-                var main = document.querySelector('.MUIDataTableToolbar-actions-46');
-                var pagination = document.querySelector('.MuiTableFooter-root')
-                pagination.style.display="none"
-                main.style.display="none"
-                // window.print();
-                onafterprint()
-            };
-            onafterprint = () =>{
-                console.log('llllllllllllllllllllllll')
-                var main = document.querySelector('.MUIDataTableToolbar-actions-46');
-                main.style.display= "visible"
-            }
-            onafterprint()
-            // els.onclick = function(event) {
-            //     console.log('llllllllllllllllllllllll')
-            //     var main = document.querySelector('.MUIDataTableToolbar-actions-46');
-            //     main.style.display="visibile"
-            //     // window.location.reload();
-            // };
+        //     el.onclick = function(event) {
+        //         var main = document.querySelector('.MUIDataTableToolbar-actions-46');
+        //         var pagination = document.querySelector('.MuiTableFooter-root')
+        //         pagination.style.display="none"
+        //         main.style.display="none"
+        //         // window.print();
+        //         onafterprint()
+        //     };
+        //     onafterprint = () =>{
+        //         console.log('llllllllllllllllllllllll')
+        //         var main = document.querySelector('.MUIDataTableToolbar-actions-46');
+        //         main.style.display= "visible"
+        //     }
+        //     onafterprint()
+        //     // els.onclick = function(event) {
+        //     //     console.log('llllllllllllllllllllllll')
+        //     //     var main = document.querySelector('.MUIDataTableToolbar-actions-46');
+        //     //     main.style.display="visibile"
+        //     //     // window.location.reload();
+        //     // };
 
-        })
+        // })
 
 
         if(localStorage.getItem('isAdmin')==="2") {

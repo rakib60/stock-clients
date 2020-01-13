@@ -21,7 +21,6 @@ class VoucherToPrint extends Component {
 
     async refreshList () {
         const response =  await stockApi.get(`/voucher/?status=${Status.pending}`);
-        console.log(response.data, 'data-tata')
         this.setState({voucher: response.data})
 
     }

@@ -95,6 +95,7 @@ export class StockIn extends Component {
         return (
            <Row>
             <Col>
+            <br/>
             <AddStockInModal/>
                 <br/>
                 <button  className="offset-10 btn btn-dark"  onClick={() => this.goVoucher()}>Back To Voucher</button>

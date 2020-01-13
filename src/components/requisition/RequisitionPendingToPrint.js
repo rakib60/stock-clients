@@ -21,7 +21,6 @@ class RequisitionToPrint extends Component {
 
     async refreshList () {
         const response =  await stockApi.get(`/requisition/?status=${Status.pending}`);
-        console.log(response.data, 'data-tata')
         this.setState({requisition: response.data})
 
     }

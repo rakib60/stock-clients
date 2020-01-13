@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import stockApi from '../../api/StockApi'
+import StockListPrint from './StockToPrint'
 import * as _ from "lodash";
 
 import {Col, Row } from  'react-bootstrap'
@@ -83,7 +84,8 @@ export class Stocks extends Component {
         ]
         const options ={
             selectableRows: 'none',
-            download: false,
+            download: true,
+            print: false,
             responsive: 'scrollMaxHeight'
 
         }
@@ -93,6 +95,9 @@ export class Stocks extends Component {
             <br/>
             <h5>Stocks History</h5>
             <br/>
+            <span className="col-12" style={{textAlign: 'end'}}>
+                <StockListPrint/>
+            </span>
             <MUIDataTable
                 title={"Stocks"}
                 data={

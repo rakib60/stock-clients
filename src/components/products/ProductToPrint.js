@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import ReactToPrint from 'react-to-print';
 import stockApi from '../../api/StockApi'
 import {Button} from 'react-bootstrap'
-
+import PrintIcon from '@material-ui/icons/Print';
+import Tooltip from '@material-ui/core/Tooltip';
 class ProductToPrint extends Component {
     constructor(props) {
         super(props);
@@ -67,9 +68,12 @@ class ProductToPrint extends Component {
           <ReactToPrint
             // trigger={() => <a className="btn btn-secondary" href="#">Print All</a>}
             trigger={() => <Button 
-                variant="secondary" 
+                variant="secondarys" 
                 >
-                    Print All              </Button>}
+              <Tooltip title="Print All" aria-label="Print All">
+                    <PrintIcon/>
+                </Tooltip>
+            </Button>}
             content={() => this.componentRef}
           />
           <div style={{display: 'none'}}><ProductToPrint ref={el => (this.componentRef = el)} /></div>

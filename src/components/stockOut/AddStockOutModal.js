@@ -35,6 +35,7 @@ export class AddStockOutModal extends Component {
 
         const response = await stockApi.get(`/products?categoryId=${this.state.initialCategoryId}`);
         let initialProductIdForShownQuantity = response.data && response.data.length > 0 ? response.data[0].id : ''
+        console.log(initialProductIdForShownQuantity,'dddddddddd')
         this.productQuantiyDetails(initialProductIdForShownQuantity)
 
         this.setState({products: response.data})
@@ -91,6 +92,7 @@ export class AddStockOutModal extends Component {
     }
     async getProduct(cid) {
         const getProduct = await stockApi.get(`/products?categoryId=${cid}`);
+        console.log(getProduct.data,'sfsfsfsff')
 
         let initialProductIdForShownQuantity = getProduct.data && getProduct.data.length > 0 ? getProduct.data[0].id : ''
         this.productQuantiyDetails(initialProductIdForShownQuantity)
@@ -201,11 +203,12 @@ export class AddStockOutModal extends Component {
 
     render() {
         let handleDropdownChange =(e) => (
+            console.log(e.target.value,'sffffffffffffff'),
             this.getProduct(e.target.value)
 
         )
 
-        let handleProductChange = (e) => (            
+        let handleProductChange = (e) => (    
             // eslint-disable-next-line
             this.inputId = e.target.value ? e.target.value : this.refs.defaultProduct.value ,
             this.productQuantiyDetails(this.inputId),
