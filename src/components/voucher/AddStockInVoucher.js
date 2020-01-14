@@ -47,6 +47,7 @@ export class AddStockInVoucher extends Component {
 
     showProductName(id) {
         var name = ""
+        // eslint-disable-next-line
         this.state.products.filter( (product) => {
             if(product.id === Number(id)) {
                 name = product.name
@@ -104,6 +105,7 @@ export class AddStockInVoucher extends Component {
 
     getVoucherIdfromVoucherNumber(data, vnumber) {
         var id = ""
+        // eslint-disable-next-line
         data.filter( (voucher) => {
             if(voucher.number === Number(vnumber)) {
                 id = voucher.id

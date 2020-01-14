@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import stockApi from '../../api/StockApi'
 
 import {Button, ButtonToolbar} from 'react-bootstrap'
-import {AddVoucherModal} from './AddVoucherModal'
+// import {AddVoucherModal} from './AddVoucherModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
 import VoucherListPendingPrint from './VoucherPendingToPrint'
@@ -98,7 +98,7 @@ export class Voucher extends Component {
 
         const {voucher} = this.state;
 
-        let addModalClose =() => this.setState({addModalShow: false})
+        // let addModalClose =() => this.setState({addModalShow: false})
 
         this.columns = [
             {

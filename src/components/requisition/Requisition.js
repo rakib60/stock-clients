@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import stockApi from '../../api/StockApi'
 
 import {Button, ButtonToolbar} from 'react-bootstrap'
-import {AddRequisitionModal} from './AddRequisitionModal'
+// import {AddRequisitionModal} from './AddRequisitionModal'
 // import {EditRequisitionModal} from './EditRequisitionModal'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import {Col, Row } from  'react-bootstrap'
@@ -98,7 +98,7 @@ export class Requisition extends Component {
 
         const {requisition} = this.state;
 
-        let addModalClose =() => this.setState({addModalShow: false})
+        // let addModalClose =() => this.setState({addModalShow: false})
 
         this.columns = [
             {
@@ -146,23 +146,11 @@ export class Requisition extends Component {
 
         }
 
-        // MUIDataTableToolbar-actions-66
-        // var div  = document.createElement("div")
-        //console.log()//.appendChild(
-
-        // )
-        console.log(document.getElementsByClassName("MUIDataTableToolbar-actions-66"),'ddd')
-        // // document.getElementsByClassName("MUIDataTableToolbar-actions-66")[0].appendChild(
-        //     `<div style={{display: 'flex'}}>
-        //     <RequisitionListPendingPrint/>
-        //     <RequisitionApprovedListPrint/>
-        //     </div>`
-        // )
         return (
            <Row>
             <Col>
-            <br/>
-            <ButtonToolbar>
+            <br/>           
+             <ButtonToolbar>
                 {/* <Button 
                 variant="primary" 
                 onClick={()=> this.setState({addModalShow: true})}>
@@ -184,7 +172,7 @@ export class Requisition extends Component {
                 </div>
             </ButtonToolbar>
             <br/>
-            <MUIDataTable
+            <MUIDataTable 
                 title={"Requisition List"}
                 data={
                     requisition.map(requisition => {

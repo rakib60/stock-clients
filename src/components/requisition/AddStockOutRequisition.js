@@ -44,6 +44,7 @@ export class AddStockOutRequisition extends Component {
 
     showProductName(id) {
         var name = ""
+        // eslint-disable-next-line
         this.state.products.filter( (product) => {
             if(product.id === Number(id)) {
                 name = product.name
