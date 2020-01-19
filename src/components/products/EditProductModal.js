@@ -37,13 +37,13 @@ export class EditProductModal extends Component {
     };
 
     async handleSubmit(event) {
-        console.log(event.target.Status.value,'ggggggggg')
         const status = this.state.selectedStatus ? this.state.selectedStatus : event.target.Status.value;
         event.preventDefault()
         const data = {
             id: event.target.ProductId.value,
             name: event.target.ProductName.value,
             description: event.target.ProductDescription.value,
+            impCode: event.target.ImpCode.value,
             categoryId: event.target.CategoryName.value,
             deleteStatus: status,
         }
@@ -68,6 +68,7 @@ export class EditProductModal extends Component {
             id: event.target.ProductId.value,
             name: event.target.ProductName.value,
             description: event.target.ProductDescription.value,
+            impCode: event.target.ImpCode.value,
             categoryId: event.target.CategoryName.value,
         }
 
@@ -122,7 +123,7 @@ export class EditProductModal extends Component {
                             {localStorage.getItem('isAdmin')==="2" ?
                             
                             <Col sm={6}>
-                            <Form onSubmit={this.handleSubmit}>
+                            <Form onSubmit={this.handleSubmit}>        
                                 <Form.Group controlId="ProductId">
                                     <Form.Label>ProductId</Form.Label>
                                     <Form.Control
@@ -154,6 +155,15 @@ export class EditProductModal extends Component {
                                         placeholder="Product Description"
                                     />
                                 </Form.Group>
+                                <Form.Group controlId="ImpCode">
+                                    <Form.Label>ImpCode</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="ImpCode"
+                                        defaultValue = {this.props.impcode}
+                                        placeholder="Product Description"
+                                    />
+                                </Form.Group>
                                 <Form.Group controlId="CategoryName">
                                     <Form.Label>CategoryName</Form.Label>
                                     <Form.Control as="select" defaultValue = {this.props.cid}>
@@ -164,7 +174,7 @@ export class EditProductModal extends Component {
                                     )}  
                                     </Form.Control>
                                 </Form.Group>
-                        <Form.Group controlId="Status" className="col-md-8" >
+                        <Form.Group controlId="Status" >
                         <Form.Label>Status</Form.Label>
                         <Form.Control as="select" defaultValue = {this.props.pstatus}
                         onChange={this.handleOptionChange}
@@ -214,6 +224,15 @@ export class EditProductModal extends Component {
                                             placeholder="Product Description"
                                         />
                                     </Form.Group>
+                                    <Form.Group controlId="ImpCode">
+                                    <Form.Label>ImpCode</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="ImpCode"
+                                        defaultValue = {this.props.impcode}
+                                        placeholder="Product Description"
+                                    />
+                                </Form.Group>
                                     <Form.Group controlId="CategoryName">
                                         <Form.Label>CategoryName</Form.Label>
                                         <Form.Control as="select" defaultValue = {this.props.cid}>

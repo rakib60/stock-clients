@@ -134,7 +134,7 @@ export class EditCategoryModal extends Component {
                                     />
                                 </Form.Group>
                                 
-                                <Form.Group controlId="Status" className="col-md-8" >
+                                <Form.Group controlId="Status">
                                 <Form.Label>Status</Form.Label>
                                 <Form.Control as="select" defaultValue = {this.props.cstatus}
                                 onChange={this.handleOptionChange}

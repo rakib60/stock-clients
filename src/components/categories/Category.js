@@ -171,6 +171,7 @@ export class Category extends Component {
         const options ={
             selectableRows: 'none',
             download: false,
+            print: false,
             responsive: 'scrollMaxHeight'
 
         }
@@ -189,12 +190,8 @@ export class Category extends Component {
                     onHide={addModalClose}
                     getdata={this.getData}
                 />
-                <span className="col-12" style={{textAlign: 'end'}}>
                 <CategoryListPrint/>
-                </span>
             </ButtonToolbar>
-            
-            <br/>
             {localStorage.getItem('isAdmin')==="2" ? 
         <MUIDataTable
         title={"Category List"}

@@ -33,6 +33,7 @@ class ProductToPrint extends Component {
                       <th>ProductID</th>
                       <th>ProductName</th>
                       <th>ProductDesc</th>
+                      <th>ImpCode</th>
                       <th>CategoryName</th>
                       {/* <th>Status</th> */}
                     </thead>
@@ -46,6 +47,7 @@ class ProductToPrint extends Component {
                     <td>{Product.id}</td>
                     <td>{Product.name}</td>
                     <td>{Product.description}</td>
+                    <td>{Product.impCode ? Product.impCode : '-'}</td>
                     <td>{Product.category.name}</td>
                     </tr>
                 ))}            
@@ -64,7 +66,7 @@ class ProductToPrint extends Component {
   class ProductListPrint extends React.Component {
     render() {
       return (
-        <div>
+        <div className="col-12" style={{textAlign: 'end'}}>Print All
           <ReactToPrint
             // trigger={() => <a className="btn btn-secondary" href="#">Print All</a>}
             trigger={() => <Button 

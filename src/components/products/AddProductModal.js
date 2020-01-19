@@ -25,10 +25,10 @@ export class AddProductModal extends Component {
             id:null,
             name: event.target.ProductName.value,
             categoryId: event.target.CategoryName.value,
-            description: event.target.ProductDescription.value
+            description: event.target.ProductDescription.value,
+            impCode: event.target.ImpCode.value
             
         }
-        console.log(data,'dssfsfsfsfsfdsf')
         
         try {
             const response = await stockApi.post('/products', data);
@@ -98,6 +98,15 @@ export class AddProductModal extends Component {
                                                 name="ProductDescription"
                                                 required
                                                 placeholder="Product Description"
+                                                autoComplete="off"
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="ImpCode">
+                                            <Form.Label>ImpCode</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="ImpCode"
+                                                placeholder="ImpCode"
                                                 autoComplete="off"
                                             />
                                         </Form.Group>

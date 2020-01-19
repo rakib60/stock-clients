@@ -36,7 +36,7 @@ class SignInPage extends Component {
 
         try {
             await this.authservice.signin(email, password)
-            this.props.history.push('/stockin')
+            this.props.history.push('/stocks')
         } catch(error) {
             alert('Incorrect email or password.')
         }

@@ -81,7 +81,7 @@ export class Product extends Component {
 
     render() {
         // console.log(this.state,'sdffffffff')
-        const {products, pId, pName, pDes, pStatus, cId} = this.state;
+        const {products, pId, pName, pDes, impCode, pStatus, cId} = this.state;
 
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
@@ -102,6 +102,12 @@ export class Product extends Component {
                 },
                 {
                     name: "ProductDesc.",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
+                    name: "ImpCode.",
                     options: {
                         filter: true
                     }
@@ -147,6 +153,12 @@ export class Product extends Component {
                     }
                 },
                 {
+                    name: "ImpCode.",
+                    options: {
+                        filter: true
+                    }
+                },
+                {
                     name: "CategoryName",
                     options: {
                         filter: true
@@ -164,6 +176,7 @@ export class Product extends Component {
         const options ={
             selectableRows: 'none',
             download: false,
+            print: false,
             responsive: 'scrollMaxHeight'
 
         }
@@ -182,11 +195,8 @@ export class Product extends Component {
                     onHide={addModalClose}
                     getdata={this.getData}
                 />
-                <span className="col-12" style={{textAlign: 'end'}}>
                 <ProductListPrint/>
-                </span>
             </ButtonToolbar>
-            <br/>
             {localStorage.getItem('isAdmin')==="2" ? 
             
             <MUIDataTable
@@ -197,11 +207,12 @@ export class Product extends Component {
                         Product.id,
                         Product.name,
                         Product.description,
+                        Product.impCode ? Product.impCode: '-',
                         Product.category.name,
                         Product.deleteStatus === 0 ? "InActive" : "Active",
                         <ButtonToolbar>
                         <Button className="mr-2" variant="info"
-                        onClick={()=> this.setState({editModalShow:true, pId:Product.id, pName: Product.name, pDes:Product.description, pStatus: Product.deleteStatus, cId:Product.category.id})}
+                        onClick={()=> this.setState({editModalShow:true, pId:Product.id, pName: Product.name, pDes:Product.description, impCode:Product.impCode, pStatus: Product.deleteStatus, cId:Product.category.id})}
                         >
                             Edit
                         </Button>
@@ -218,6 +229,7 @@ export class Product extends Component {
                             pid={pId}
                             pname={pName}
                             pdes={pDes}
+                            impcode={impCode}
                             pstatus={pStatus}
                             cid={cId}
                             
@@ -240,10 +252,11 @@ export class Product extends Component {
                         Product.id,
                         Product.name,
                         Product.description,
+                        Product.impCode ? Product.impCode: '-',
                         Product.category.name,
                         <ButtonToolbar>
                         <Button className="mr-2" variant="info"
-                        onClick={()=> this.setState({editModalShow:true, pId:Product.id, pName: Product.name, pDes:Product.description, cId:Product.category.id})}
+                        onClick={()=> this.setState({editModalShow:true, pId:Product.id, pName: Product.name, pDes:Product.description, impCode:Product.impCode, cId:Product.category.id})}
                         >
                             Edit
                         </Button>
@@ -260,6 +273,7 @@ export class Product extends Component {
                             pid={pId}
                             pname={pName}
                             pdes={pDes}
+                            impcode={impCode}
                             cid={cId}
                             
 

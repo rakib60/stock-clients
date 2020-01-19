@@ -89,10 +89,10 @@ class StockToPrint extends Component {
   class StockListPrint extends React.Component {
     render() {
       return (
-        <div>
+        <div className="col-12" style={{textAlign: 'end'}}>Print All
           <ReactToPrint
             // trigger={() => <a className="btn btn-secondary" href="#">Print All</a>}
-            trigger={() => <Button 
+            trigger={() => <Button
                 variant="successs" 
                 >
                 <Tooltip title="Print List" aria-label="Print List">
@@ -104,7 +104,7 @@ class StockToPrint extends Component {
             }
             content={() => this.componentRef}
           />
-          <div style={{display: 'none'}}><StockToPrint ref={el => (this.componentRef = el)} /></div>
+          <div style={{ display: 'none'}}><StockToPrint ref={el => (this.componentRef = el)} /></div>
 
         </div>
       );

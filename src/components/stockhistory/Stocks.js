@@ -94,10 +94,7 @@ export class Stocks extends Component {
             <Col>
             <br/>
             <h5>Stocks History</h5>
-            <br/>
-            <span className="col-12" style={{textAlign: 'end'}}>
                 <StockListPrint/>
-            </span>
             <MUIDataTable
                 title={"Stocks"}
                 data={
