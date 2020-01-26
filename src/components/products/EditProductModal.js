@@ -248,12 +248,8 @@ export class EditProductModal extends Component {
                                     </Form.Group>
                                 </Form>
                             </Col>
-                        
-                        
-                        }
-                                
-                            </Row>
-                        
+                        }  
+                        </Row>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={this.props.onHide}>Close</Button>

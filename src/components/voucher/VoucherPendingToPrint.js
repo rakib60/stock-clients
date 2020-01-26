@@ -64,7 +64,6 @@ class VoucherToPrint extends Component {
       return (
         <div>
           <ReactToPrint
-            // trigger={() => <a className="btn btn-secondary" href="#">Print All</a>}
             trigger={() => <Button 
                 variant="secondarys" 
                >

@@ -19,12 +19,9 @@ class RequisitionToPrint extends Component {
         this.refreshList()
     }
 
-
-
     async refreshList () {
         const response =  await stockApi.get(`/requisition/?status=${Status.approved}`);
         this.setState({requisition: response.data})
-
     }
 
     render() {
@@ -35,13 +32,11 @@ class RequisitionToPrint extends Component {
             <h3 style={{textAlign: 'center', margin:'30px auto'}}>Requisition Approved List</h3>
                     <table style={{border: '1px solid black', width: '100%', margin:'50px auto'}}>
             { 
-                      <thead style={{border: '1px solid black'}}>
-                      <th>RequisitionID</th>
-                      <th>RequisitionNumber</th>
-                      <th>Location</th>
-
-                    </thead>
-        
+                <thead style={{border: '1px solid black'}}>
+                <th>RequisitionID</th>
+                <th>RequisitionNumber</th>
+                <th>Location</th>
+                </thead>
         }
 
           <tbody>
@@ -70,7 +65,6 @@ class RequisitionToPrint extends Component {
       return (
         <div>
           <ReactToPrint
-            // trigger={() => <a className="btn btn-secondary" href="#">Print All</a>}
             trigger={() => <Button 
                 variant="successs" 
                 >

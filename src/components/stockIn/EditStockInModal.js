@@ -24,7 +24,6 @@ export class EditStockInModal extends Component {
     }
 
     async handleSubmit(event) {
-        console.log(event.target.StockInId.value,'ggggggggg')
         event.preventDefault()
 
         const data = {
@@ -124,7 +123,6 @@ export class EditStockInModal extends Component {
                                                 required
                                                 defaultValue= { this.props.inq}
                                                 placeholder="InQuantity"
-                                                // autoComplete="off"
                                             />
                                         </Form.Group>
                                         <Form.Group>

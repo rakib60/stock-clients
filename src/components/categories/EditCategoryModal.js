@@ -17,8 +17,6 @@ export class EditCategoryModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSubmitForUser = this.handleSubmitForUser.bind(this)
         this.handleOptionChange = this.handleOptionChange.bind(this);
-
-
     }
 
     snackbarClose = (event) => {
@@ -51,6 +49,7 @@ export class EditCategoryModal extends Component {
             this.setState({snackBarOpen: true, snackBarMsg: 'Failed'})
          }
     }
+
     async handleSubmit(event) {
         event.preventDefault()
         const status = this.state.selectedStatus ? this.state.selectedStatus : event.target.Status.value;
@@ -178,12 +177,8 @@ export class EditCategoryModal extends Component {
                                     </Form.Group>
                                     </Form>
                                 </Col>
-                        
-                        
                         }
-
-                            </Row>
-                        
+                        </Row>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={this.props.onHide}>Close</Button>

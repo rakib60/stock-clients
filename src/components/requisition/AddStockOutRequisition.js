@@ -96,15 +96,6 @@ export class AddStockOutRequisition extends Component {
         this.setState({products: getProduct.data})
     }
 
-    // getRequisitionIdfromRequisitionNumber(data, vnumber) {
-    //     var id = ""
-    //     data.filter( (requisition) => {
-    //         if(requisition.number === Number(vnumber)) {
-    //             id = requisition.id
-    //         }})
-    //         return id
-    // }
-
     async asyncForEach(array, callback) {
         for (let index = 0; index < array.length; index++) {
           await callback(array[index], index, array);
@@ -140,7 +131,6 @@ export class AddStockOutRequisition extends Component {
 
     async productQuantiyDetails(id) {
         try {
-            // let productId = !this.state.productId ? this.refs.defaultProduct.value : this.state.productId
             const response = await stockApi.get(`/products/${id}`)
             let product = response.data;
             
@@ -338,16 +328,6 @@ export class AddStockOutRequisition extends Component {
                                                   
                                             <div className="col-md-2">
                                                 <span style={{color: 'red'}}>This product has no Stock In Quantity </span>
-                                                {/* <Form.Group controlId="OutQuantity">
-                                                        <Form.Label>OutQuantity</Form.Label>
-                                                        <Form.Control
-                                                            type="number"
-                                                            name="OutQuantity"
-                                                            disabled
-                                                            placeholder="OutQuantity"
-                                                        />
-                                                </Form.Group> */}
-
                                             </div> 
                                 
                                 

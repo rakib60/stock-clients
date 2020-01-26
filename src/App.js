@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
 import './App.css';
-
+import './Footer.css'
 import {Home} from './components/Home'
 import { Category } from './components/categories/Category'
 import { Product } from './components/products/Product'
@@ -22,7 +22,7 @@ import AuthService from './api/auth.service'
 
 function App(props) {
   const LoginContainer = () => (
-    <div className="container">
+    <div>
       <Route path="/" render={() => <Redirect to="/signin" />} />
     </div>
   )
@@ -33,7 +33,7 @@ function App(props) {
       props.history.push('/signin');
   }
   const DefaultContainer = () => (
-    <div className="container">
+    <div>
         <h5 className="m-3 d-flex justify-content-center">
           Welcome to Stock Management.
         </h5>
@@ -49,10 +49,11 @@ function App(props) {
         <Route path="/requisition/details/:id" component={DetailsRequisitionModal} />
         <Route path="/requisition/edit/:id" component={UpdateRequisition}/>
         <Route path="/stockout" component={StockOut} />
-        {/* <Route path="/user" component={User}/> */}
         <Route path="/signout" render={Logout}/>
         {localStorage.getItem('isAdmin')==="2" ? <Route path="/user" component={User}/> : null}
-
+        <div className="footer">
+          Copyright © 2020 All Rights Reserved by Ennvisio Digital Private Ltd.
+        </div>
     </div>
  )
 

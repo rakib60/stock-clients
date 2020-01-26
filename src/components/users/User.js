@@ -18,18 +18,11 @@ export class User extends Component {
         this.getData = this.getData.bind(this)
         this.columns = []
         this.data = []
-        // el.onclick = function() {
-        //     var main = document.querySelector('.MUIDataTableToolbar-actions-46');
-        //     console.log(main,'dskflsdf')
-        // }
-
-
     }
+
     componentDidMount() {
         this.refreshList()
     }
-
-
 
     async refreshList () {
         const response =  await stockApi.get('/users');
@@ -37,7 +30,6 @@ export class User extends Component {
 
     }
     
-
     getData(data) {
         this.setState({users: data})
     }

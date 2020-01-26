@@ -91,7 +91,6 @@ class StockToPrint extends Component {
       return (
         <div className="col-12" style={{textAlign: 'end'}}>Print All
           <ReactToPrint
-            // trigger={() => <a className="btn btn-secondary" href="#">Print All</a>}
             trigger={() => <Button
                 variant="successs" 
                 >

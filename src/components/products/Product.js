@@ -19,11 +19,10 @@ export class Product extends Component {
         this.columns = []
         this.data = []
     }
+
     componentDidMount() {
         this.refreshList()
     }
-
-
 
     async refreshList () {
         const response =  await stockApi.get('/products');
@@ -31,7 +30,6 @@ export class Product extends Component {
 
     }
     
-
     getData(data) {
         this.setState({products: data})
     }
@@ -76,11 +74,11 @@ export class Product extends Component {
         this.setState({
           alert: null
         });
-      }
+    }
 
 
     render() {
-        // console.log(this.state,'sdffffffff')
+
         const {products, pId, pName, pDes, impCode, pStatus, cId} = this.state;
 
         let addModalClose =() => this.setState({addModalShow: false})
@@ -133,6 +131,7 @@ export class Product extends Component {
             ]
             
         } else {
+
             this.columns = [
                 {
                     name: "ProductID",
@@ -275,8 +274,6 @@ export class Product extends Component {
                             pdes={pDes}
                             impcode={impCode}
                             cid={cId}
-                            
-
                         />
                         </ButtonToolbar>
                     ]
@@ -285,11 +282,9 @@ export class Product extends Component {
             }
             columns={this.columns}
             options={options}
-            
             />     
-        
         }
-                <br/>
+            <br/>
             </Col>
             </Row>
         )

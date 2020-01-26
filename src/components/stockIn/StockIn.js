@@ -19,10 +19,10 @@ export class StockIn extends Component {
         this.data = []
         this.authservice = new AuthService()
     }
+
     componentDidMount() {
         this.refreshList()
     }
-
 
     handleSignOut = () => {
         this.authservice.signout();

@@ -14,7 +14,6 @@ class ProductToPrint extends Component {
         this.refreshList()
     }
 
-
     async refreshList () {
         const response =  await stockApi.get('/products');
         this.setState({products: response.data})
@@ -35,14 +34,13 @@ class ProductToPrint extends Component {
                       <th>ProductDesc</th>
                       <th>ImpCode</th>
                       <th>CategoryName</th>
-                      {/* <th>Status</th> */}
                     </thead>
         
         }
 
           <tbody>
-              
-            {   products.map((Product, index) => (
+    
+            { products.map((Product, index) => (
                     <tr style={{border: '1px solid black'}} key={index}>
                     <td>{Product.id}</td>
                     <td>{Product.name}</td>
@@ -50,10 +48,7 @@ class ProductToPrint extends Component {
                     <td>{Product.impCode ? Product.impCode : '-'}</td>
                     <td>{Product.category.name}</td>
                     </tr>
-                ))}            
-                       
-            
-
+                ))}                 
           </tbody>
         </table>
             </div>
@@ -68,7 +63,6 @@ class ProductToPrint extends Component {
       return (
         <div className="col-12" style={{textAlign: 'end'}}>Print All
           <ReactToPrint
-            // trigger={() => <a className="btn btn-secondary" href="#">Print All</a>}
             trigger={() => <Button 
                 variant="secondarys" 
                 >

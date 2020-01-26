@@ -25,10 +25,6 @@ export class EditUserModal extends Component {
 
     async handleSubmit(event) {
         event.preventDefault()
-        // const data = {
-        //     id: event.target.UserId.value,
-        //     name: event.target.UserName.value
-        // }
         const password = event.target.Password.value
         const confrim_password = event.target.ConfrimPassword.value
         if(password !== confrim_password) {

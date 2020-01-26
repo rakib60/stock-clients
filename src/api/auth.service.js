@@ -45,10 +45,6 @@ export default class AuthService  {
         return result.data;
     }
 
-//   async signup(username, password) {
-//     await post(`${this.BASE_URL}/auth/signup`, { username, password });
-//   }
-
     async signout() {
         await stockApi.get('/auth/logout')
         this.removeToken();

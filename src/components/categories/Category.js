@@ -18,24 +18,15 @@ export class Category extends Component {
         this.getData = this.getData.bind(this)
         this.columns = []
         this.data = []
-        // el.onclick = function() {
-        //     var main = document.querySelector('.MUIDataTableToolbar-actions-46');
-        //     console.log(main,'dskflsdf')
-        // }
-
     }
     componentDidMount() {
         this.refreshList()
     }
 
-
-
     async refreshList () {
         const response =  await stockApi.get('/categories');
         this.setState({categories: response.data})
-
     }
-
     
     getData(data) {
         this.setState({categories: data})
@@ -84,38 +75,10 @@ export class Category extends Component {
         });
       }
 
-    // $('button[aria-label="Print"]').on('click', function(){});
     render() {
         const {categories, cId, cName, cStatus} = this.state;
         let addModalClose =() => this.setState({addModalShow: false})
         let editModalClose =() => this.setState({editModalShow: false})
-
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     var el = document.querySelector('button[aria-label="Print"]')
-
-        //     el.onclick = function(event) {
-        //         var main = document.querySelector('.MUIDataTableToolbar-actions-46');
-        //         var pagination = document.querySelector('.MuiTableFooter-root')
-        //         pagination.style.display="none"
-        //         main.style.display="none"
-        //         // window.print();
-        //         onafterprint()
-        //     };
-        //     onafterprint = () =>{
-        //         console.log('llllllllllllllllllllllll')
-        //         var main = document.querySelector('.MUIDataTableToolbar-actions-46');
-        //         main.style.display= "visible"
-        //     }
-        //     onafterprint()
-        //     // els.onclick = function(event) {
-        //     //     console.log('llllllllllllllllllllllll')
-        //     //     var main = document.querySelector('.MUIDataTableToolbar-actions-46');
-        //     //     main.style.display="visibile"
-        //     //     // window.location.reload();
-        //     // };
-
-        // })
-
 
         if(localStorage.getItem('isAdmin')==="2") {
             this.columns = [

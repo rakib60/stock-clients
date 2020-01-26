@@ -14,8 +14,6 @@ class CategoryToPrint extends Component {
         this.refreshList()
     }
 
-
-
     async refreshList () {
         const response =  await stockApi.get('/categories');
         this.setState({categories: response.data})
@@ -60,7 +58,6 @@ class CategoryToPrint extends Component {
       return (
         <div className="col-12" style={{textAlign: 'end'}}>Print All
           <ReactToPrint
-            // trigger={() => <a className="btn btn-secondary" href="#">Print All</a>}
             trigger={() => <Button 
               variant="secondarys" 
               >

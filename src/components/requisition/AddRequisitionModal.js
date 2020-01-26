@@ -10,14 +10,11 @@ export class AddRequisitionModal extends Component {
         this.state = { snackBarOpen: false, snackBarMsg: '', selectedFile: null}
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this)
-       
     }
-
 
     snackbarClose = (event) => {
         this.setState({snackBarOpen:false});
     }
-
 
     onChangeHandler(event) {
         event.preventDefault()

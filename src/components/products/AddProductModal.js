@@ -27,7 +27,6 @@ export class AddProductModal extends Component {
             categoryId: event.target.CategoryName.value,
             description: event.target.ProductDescription.value,
             impCode: event.target.ImpCode.value
-            
         }
         
         try {
@@ -78,54 +77,54 @@ export class AddProductModal extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         
-                            <Row>
-                                <Col sm={6}>
-                                    <Form onSubmit={this.handleSubmit}>
-                                        <Form.Group controlId="ProductName">
-                                            <Form.Label>ProductName</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="ProductName"
-                                                required
-                                                placeholder="Product Name"
-                                                autoComplete="off"
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="ProductDescription">
-                                            <Form.Label>ProductDescription</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="ProductDescription"
-                                                required
-                                                placeholder="Product Description"
-                                                autoComplete="off"
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="ImpCode">
-                                            <Form.Label>ImpCode</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="ImpCode"
-                                                placeholder="ImpCode"
-                                                autoComplete="off"
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="CategoryName">
-                                            <Form.Label>CategoryName</Form.Label>
-                                            <Form.Control as="select">
-                                              {this.state.categories.map(category => 
-                                                 <option key={category.id} value={category.id}>
-                                                     {category.name}
-                                                 </option>       
-                                            )}  
-                                            </Form.Control>
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Button variant="primary" type="submit">Add Product</Button>
-                                        </Form.Group>
-                                    </Form>
-                                </Col>
-                            </Row>
+                        <Row>
+                            <Col sm={6}>
+                                <Form onSubmit={this.handleSubmit}>
+                                    <Form.Group controlId="ProductName">
+                                        <Form.Label>ProductName</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="ProductName"
+                                            required
+                                            placeholder="Product Name"
+                                            autoComplete="off"
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="ProductDescription">
+                                        <Form.Label>ProductDescription</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="ProductDescription"
+                                            required
+                                            placeholder="Product Description"
+                                            autoComplete="off"
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="ImpCode">
+                                        <Form.Label>ImpCode</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="ImpCode"
+                                            placeholder="ImpCode"
+                                            autoComplete="off"
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="CategoryName">
+                                        <Form.Label>CategoryName</Form.Label>
+                                        <Form.Control as="select">
+                                            {this.state.categories.map(category => 
+                                                <option key={category.id} value={category.id}>
+                                                    {category.name}
+                                                </option>       
+                                        )}  
+                                        </Form.Control>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Button variant="primary" type="submit">Add Product</Button>
+                                    </Form.Group>
+                                </Form>
+                            </Col>
+                        </Row>
                         
                     </Modal.Body>
                     <Modal.Footer>

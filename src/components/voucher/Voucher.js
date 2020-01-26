@@ -139,8 +139,8 @@ export class Voucher extends Component {
             selectableRows: 'none',
             download: false,
             print: false,
-            // responsive: 'scrollMaxHeight',
-            responsive: 'scrollFullHeight'
+            responsive: 'scrollMaxHeight',
+            // responsive: 'scrollFullHeight'
 
         }
         return (

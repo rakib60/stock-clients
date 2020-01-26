@@ -16,8 +16,6 @@ const FormContainer = styled.div`
   border-radius: 5px;
 `;
 
-
-
 class SignInPage extends Component {
   
   constructor(props) {
@@ -87,12 +85,12 @@ class SignInPage extends Component {
           <Form.Group>
               <Button variant="primary" type="submit">SIGN IN</Button>
           </Form.Group>
-          {/* <Button fullWidth onClick={this.goToSignUp}>
-              Don't have an account? Sign up now!
-            </Button> */}
       </Form>
         </FormContainer>
       </div>
+      <div className="footer">
+          Copyright © 2020 All Rights Reserved by Ennvisio Digital Private Ltd.
+        </div>
      </div>
     );
   }

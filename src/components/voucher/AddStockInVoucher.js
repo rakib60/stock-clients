@@ -22,14 +22,9 @@ export class AddStockInVoucher extends Component {
         this.handleInputValueChanged = this.handleInputValueChanged.bind(this)
         this.handleProductValueChanged = this.handleProductValueChanged.bind(this)
         this.handleProductQuantityRemove =  this.handleProductQuantityRemove.bind(this)
-        // this.handleDropdownChange = this.handleDropdownChange.bind(this);
-        // this.onChangeHandler = this.onChangeHandler.bind(this)
     }
 
     async componentDidMount() {
-
-        // const data = await stockApi.get('/voucher');
-        // this.setState({voucher: data.data})
 
         const categories = await stockApi.get('/categories');
         this.setState({categories: categories.data, initialCategoryId: categories.data[0] ? categories.data[0].id : ''})
@@ -56,16 +51,9 @@ export class AddStockInVoucher extends Component {
     }
 
     handleProductQuantityAdd() {
-        console.log(this.state.productId,'this.state.productId')
-        if(!this.state.productId) {
-            console.log(this.refs.defaultProduct,'werewrew')
-            console.log(this.refs.defaultProduct.value,'werewrew')
-
-        }
         let array = this.state.productQuantity
         var productName = this.showProductName(!this.state.productId ? this.refs.defaultProduct.value : this.state.productId)
         array.push({ id: array.length + 1, productId: !this.state.productId ? this.refs.defaultProduct.value : this.state.productId, quantity: this.state.quantity, productName: productName  })
-        // console.log(array)
         this.props.callbackFromUpdateVoucher(array)
  
         this.setState({productQuantity: array, productId: '', quantity: ''})
@@ -130,7 +118,6 @@ export class AddStockInVoucher extends Component {
                     id: null,
                     productId: productQuantity.productId,
                     inQuantity: productQuantity.quantity,
-                    //voucherId: voucherId
                 }
     
                 try {

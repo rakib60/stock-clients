@@ -47,7 +47,6 @@ export class Requisition extends Component {
         try {
             const forImageDelete = await stockApi.get(`/requisition/${vid}`)
             const fileName = forImageDelete.data.file
-            console.log(fileName,'brefrequisition')
 
             if(fileName) {
                 await stockApi.delete(`/requisition/${vid}/${fileName}`)
@@ -97,9 +96,6 @@ export class Requisition extends Component {
     render() {
 
         const {requisition} = this.state;
-
-        // let addModalClose =() => this.setState({addModalShow: false})
-
         this.columns = [
             {
                 name: "RequisitionID",
@@ -151,16 +147,6 @@ export class Requisition extends Component {
             <Col>
             <br/>           
              <ButtonToolbar>
-                {/* <Button 
-                variant="primary" 
-                onClick={()=> this.setState({addModalShow: true})}>
-                    Add Requisition
-                </Button>
-                <AddRequisitionModal
-                    show={this.state.addModalShow}
-                    onHide={addModalClose}
-                    getdata={this.getData}
-                /> */}
                 <div className="col-md-12" style={{display: 'flex'}}>
                 <div className="col-md-10"></div>
                     <div className="col-md-2" style={{display: 'flex'}}>
@@ -184,8 +170,6 @@ export class Requisition extends Component {
                             requisition.status === 0 ? "Pending" : "Approved",
                           <ButtonToolbar>
                            <Button className="mr-2" variant="primary" onClick={()=>this.onDetails(requisition.id)}>
-                            {/* // onClick={()=> this.setState({voucherDetailShow:true, vId:voucher.id,vNumber:voucher.number, vFile: voucher.file})} */}
-
                             Details
                             </Button>
                             {localStorage.getItem('isAdmin')==="1" && requisition.status === 1 ? 

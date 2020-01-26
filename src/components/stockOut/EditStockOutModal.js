@@ -124,7 +124,6 @@ export class EditStockOutModal extends Component {
                                                 required
                                                 defaultValue= { this.props.outq}
                                                 placeholder="OutQuantity"
-                                                // autoComplete="off"
                                             />
                                         </Form.Group>
                                         <Form.Group>

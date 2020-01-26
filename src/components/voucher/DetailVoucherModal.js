@@ -52,7 +52,6 @@ export class DetailsVoucherModal extends Component {
     }
 
     closeLightbox = () => {
-        // this.state.open = true;
         this.setState({open: true})
       };
      

@@ -225,7 +225,6 @@ export class UpdateVoucher extends Component {
     render() {
         const { match: { params } } = this.props;
         const file = this.state.updatedFileName ? this.state.updatedFileName : this.state.voucher.file
-        // this.forImageShow()
         this.imageUrl = `http://localhost:3001/voucher/${params.id}/${file}` 
         
         const {stockIns}=this.state.voucher

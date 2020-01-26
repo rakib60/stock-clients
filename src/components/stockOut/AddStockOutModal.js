@@ -35,7 +35,6 @@ export class AddStockOutModal extends Component {
 
         const response = await stockApi.get(`/products?categoryId=${this.state.initialCategoryId}`);
         let initialProductIdForShownQuantity = response.data && response.data.length > 0 ? response.data[0].id : ''
-        console.log(initialProductIdForShownQuantity,'dddddddddd')
         this.productQuantiyDetails(initialProductIdForShownQuantity)
 
         this.setState({products: response.data})
@@ -93,7 +92,6 @@ export class AddStockOutModal extends Component {
     }
     async getProduct(cid) {
         const getProduct = await stockApi.get(`/products?categoryId=${cid}`);
-        console.log(getProduct.data,'sfsfsfsff')
 
         let initialProductIdForShownQuantity = getProduct.data && getProduct.data.length > 0 ? getProduct.data[0].id : ''
         this.productQuantiyDetails(initialProductIdForShownQuantity)
@@ -335,9 +333,6 @@ export class AddStockOutModal extends Component {
                                              OutQuantity: {this.state.totalOutQuantity}</p>
                                              </div>
                                     </div>
-                                    {/* <Form.Group>
-                                        <Button variant="primary" type="submit">Add StockIn</Button>
-                                    </Form.Group> */}
                                     </Form>
 
                                 

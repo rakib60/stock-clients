@@ -23,7 +23,6 @@ export class EditProductModal extends Component {
     }
 
     async handleSubmit(event) {
-        console.log(event.target.CategoryName.value,'ggggggggg')
         event.preventDefault()
         const data = {
             id: event.target.ProductId.value,

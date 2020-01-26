@@ -49,7 +49,6 @@ export class Product extends Component {
     }
 
     async delProduct(pId) {
-        console.log('sdflslfjskflsj')
         const getAlert = () => (
             
             <SweetAlert
@@ -81,7 +80,6 @@ export class Product extends Component {
 
 
     render() {
-        // console.log(this.state,'sdffffffff')
         const {products, pId, pName, pDes, cId} = this.state;
 
         let addModalClose =() => this.setState({addModalShow: false})
@@ -171,7 +169,6 @@ export class Product extends Component {
                                 pname={pName}
                                 pdes={pDes}
                                 cid={cId}
-                                
 
                             />
                             </ButtonToolbar>
@@ -181,7 +178,6 @@ export class Product extends Component {
                 }
                 columns={this.columns}
                 options={options}
-                
                 />
                 <br/>
             </Col>

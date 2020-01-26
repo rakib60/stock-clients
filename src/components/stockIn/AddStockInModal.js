@@ -21,7 +21,6 @@ export class AddStockInModal extends Component {
         this.handleInputValueChanged = this.handleInputValueChanged.bind(this)
         this.handleProductValueChanged = this.handleProductValueChanged.bind(this)
         this.handleProductQuantityRemove =  this.handleProductQuantityRemove.bind(this)
-        // this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this)
     }
 
@@ -56,8 +55,6 @@ export class AddStockInModal extends Component {
         var productName = this.showProductName(!this.state.productId ? this.refs.defaultProduct.value : this.state.productId)
         array.push({ id: array.length + 1, productId: !this.state.productId ? this.refs.defaultProduct.value : this.state.productId, quantity: this.state.quantity, productName: productName  })
         this.setState({productQuantity: array})
-        
-        // document.getElementById("submittedForm").reset()
         this.setState({productId: ''})
         this.setState({quantity: ''})
     }
@@ -79,14 +76,6 @@ export class AddStockInModal extends Component {
         someArray.splice(idx, 1);
         this.setState({productQuantity: someArray})
     }
-
-
-    // handleDropdownChange(e) {
-    //     console.log('sdfsfdsf')
-    //     this.setState({ selectValue: Number(e.target.value) });
-    //     console.log(this.state.selectValue,'ddd')
-    // }
-
 
     onChangeHandler(event) {
         event.preventDefault()
@@ -162,14 +151,10 @@ export class AddStockInModal extends Component {
                 try {
                     const response = await stockApi.post('/stock-in', submittedData);
                     this.setState({snackBarOpen: true, snackBarMsg: response.data})
-                    // const getData = await stockApi.get('/stock-in');
-                    // if(this.props.getdata) {
-                    //     this.props.getdata(getData.data)
-                    // }
+
                 
                 } catch(error) {
                     this.setState({snackBarOpen: true, snackBarMsg: 'Failed'})
-                    // alert('Failed')
                 }
             });
             console.log('Done');
@@ -268,9 +253,6 @@ export class AddStockInModal extends Component {
                                     </Form.Group>
                                     </div>
                                     </div>
-                                    {/* <Form.Group>
-                                        <Button variant="primary" type="submit">Add StockIn</Button>
-                                    </Form.Group> */}
                                     </Form>
 
                                 
@@ -320,12 +302,7 @@ export class AddStockInModal extends Component {
 
                                         <tr key={idx} className="row">
                                             <td className="col-3 col-s-3 col-m-3">
-                                            {/* <div style={{display: 'flex'}} className="col-md-12">
-                                            <div className="col-md-9" style={{display: 'flex'}}> */}
                                             {productQuantity.productId}
-                                        
-                                            {/* </div>
-                                            </div> */}
                                             </td>
                                             <td className="col-5 col-s-5 col-m-5">
                                             <input

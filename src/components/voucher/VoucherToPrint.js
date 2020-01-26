@@ -19,12 +19,9 @@ class VoucherToPrint extends Component {
         this.refreshList()
     }
 
-
-
     async refreshList () {
         const response =  await stockApi.get(`/voucher/?status=${Status.approved}`);
         this.setState({voucher: response.data})
-
     }
 
     render() {
@@ -35,11 +32,11 @@ class VoucherToPrint extends Component {
             <h3 style={{textAlign: 'center', margin:'30px auto'}}>Voucher Approved List</h3>
                     <table style={{border: '1px solid black', width: '100%', margin:'50px auto'}}>
             { 
-                      <thead style={{border: '1px solid black'}}>
-                      <th>VoucherID</th>
-                      <th>VoucherNumber</th>
+                  <thead style={{border: '1px solid black'}}>
+                  <th>VoucherID</th>
+                  <th>VoucherNumber</th>
 
-                    </thead>
+                </thead>
         
         }
 
@@ -52,8 +49,6 @@ class VoucherToPrint extends Component {
                     </tr>
                 ))}            
                        
-            
-
           </tbody>
         </table>
             </div>
@@ -68,7 +63,6 @@ class VoucherToPrint extends Component {
       return (
         <div>
           <ReactToPrint
-            // trigger={() => <a className="btn btn-secondary" href="#">Print All</a>}
             trigger={() => <Button 
                 variant="successs" 
                 >
