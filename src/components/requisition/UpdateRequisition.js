@@ -4,7 +4,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { Row, Button, Col } from  'react-bootstrap'
 import * as _ from "lodash";
-import stockApi from '../../api/StockApi'
+import stockApi, { baseURL } from '../../api/StockApi'
 
 
 import SweetAlert from 'react-bootstrap-sweetalert';
@@ -254,7 +254,7 @@ export class UpdateRequisition extends Component {
     render() {
         const { match: { params } } = this.props;
         const file = this.state.updatedFileName ? this.state.updatedFileName : this.state.requisition.file
-        this.imageUrl = `http://localhost:3001/requisition/${params.id}/${file}` 
+        this.imageUrl = `${baseURL}/requisition/${params.id}/${file}` 
         
         const {stockOuts}=this.state.requisition
         var imageStyle = {

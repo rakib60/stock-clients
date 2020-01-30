@@ -4,7 +4,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { Row, Button, Col } from  'react-bootstrap'
 import * as _ from "lodash";
-import stockApi from '../../api/StockApi'
+import stockApi, { baseURL } from '../../api/StockApi'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -61,7 +61,7 @@ export class DetailsRequisitionModal extends Component {
     render() {
         const { match: { params } } = this.props;
 
-        this.imageUrl = `http://localhost:3001/requisition/${params.id}/${this.state.requisition.file}` 
+        this.imageUrl = `${baseURL}/requisition/${params.id}/${this.state.requisition.file}` 
         const {stockOuts}=this.state.requisition
         var imageStyle = {
             maxWidth: 250,

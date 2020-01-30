@@ -4,7 +4,8 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { Row, Button, Col } from  'react-bootstrap'
 import * as _ from "lodash";
-import stockApi from '../../api/StockApi'
+import stockApi, { baseURL } from '../../api/StockApi'
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -59,7 +60,7 @@ export class DetailsVoucherModal extends Component {
 
     render() {
         const { match: { params } } = this.props;
-        this.imageUrl = `http://localhost:3001/voucher/${params.id}/${this.state.voucher.file}` 
+        this.imageUrl = `${baseURL}/voucher/${params.id}/${this.state.voucher.file}` 
         const {stockIns}=this.state.voucher
         var imageStyle = {
             maxWidth: 250,
